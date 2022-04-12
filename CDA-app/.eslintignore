@@ -1,0 +1,13 @@
+*.css
+*.svg
+.docz
+build
+public
+configs
+coverage
+express.js
+node_modules
+genComponent.js
+postcss.config.js
+tailwind.config.js
+scripts/workshop-setup.js

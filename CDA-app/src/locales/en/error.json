@@ -1,0 +1,6 @@
+{
+    "bad_credentials": "Wrong mail or password",
+    "required_email": "Email is required",
+    "valid_email":"Must be a valid email",
+    "required_password":"Password is required"
+}

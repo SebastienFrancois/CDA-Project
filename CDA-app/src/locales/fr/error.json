@@ -1,0 +1,7 @@
+{
+    "bad_credentials": "Votre email ou mot de passe est incorrect",
+    "required_email":"Veuillez renseigner une adresse mail",
+    "valid_email":"Cette email ne semble pas valide (example@email.com)",
+    "required_password":"Veuillez renseigner votre mot de passe"
+
+}
