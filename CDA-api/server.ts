@@ -3,7 +3,7 @@ import morgan from 'morgan'
 import cors from 'cors'
 import connect from './utils/connect'
 import errorHandler from './utils/errorHandler'
-import WilderRouter from './src/wilder/wilder.router'
+import Router from './src/router'
 
 const app = express()
 
@@ -16,13 +16,13 @@ const log = (req: Request, res: Response, next: NextFunction) => {
 }
 // Middleware
 app.use(cors())
-// app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(log)
 app.use(morgan('dev'))
 
 // Routes
-app.use('/api/wilder', WilderRouter)
+app.use('/api', Router)
 
 // Error handler
 app.use(errorHandler)

@@ -7,9 +7,9 @@
   "license": "ISC",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:watch": "tsc -w",
-    "start:run": "nodemon build/server.js",
-    "serve": "nodemon server.ts"
+    "build": "tsc -w",
+    "server": "nodemon server.ts",
+    "start:build": "nodemon build/server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
