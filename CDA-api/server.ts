@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import express, { Request, Response, NextFunction } from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
