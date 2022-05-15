@@ -7,7 +7,7 @@ import { appContainer } from '../../App.style';
 interface AppAuthenticatedProps {}
 
 const AppAuthenticated: FC<AppAuthenticatedProps> = () => {
-  axios.defaults.baseURL = 'http://api.local.morio.co/v1';
+  axios.defaults.baseURL = 'http://localhost:5000/api/';
 
   return (
     <div className={appContainer}>

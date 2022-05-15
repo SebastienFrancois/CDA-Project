@@ -1,23 +1,19 @@
-import { use } from 'i18next';
+import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
+import en from './translation/en.json';
+import fr from './translation/fr.json';
 
-import config from './locales/config.json';
+const ressources = {
+  en,
+  fr,
+};
 
-const resources = { fr: {}, en: {} };
-config.localeFiles.forEach((local) => {
-  try {
-    resources.fr[local] = require(`./locales/fr/${local}.json`); // eslint-disable-line
-    resources.en[local] = require(`./locales/en/${local}.json`); // eslint-disable-line
-  } catch (e) {
-    throw new Error(`i18n Error, the module ${local} is not found or can not be imported !: ${e}`);
-  }
-});
+export const availableLanguages = Object.keys(ressources);
 
-export default use(initReactI18next).init({
-  resources,
+i18n.use(initReactI18next).use(LanguageDetector).init({
+  ressources,
   lng: 'fr',
-
-  interpolation: {
-    escapeValue: false,
-  },
+  defaultNS: 'common',
+  fallbackLng: 'fr',
 });
