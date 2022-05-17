@@ -6,10 +6,10 @@
   "author": "Avengers",
   "license": "ISC",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc -w",
-    "server": "nodemon server.ts",
-    "start:build": "nodemon build/server.js"
+    "screw-u": "echo \"Error: no test specified\" && exit 1",
+    "doggy-style": "tsc -w",
+    "kiss": "nodemon server.ts",
+    "kiss:ass": "nodemon build/server.js"
   },
   "dependencies": {
     "apollo-server-express": "^3.6.7",

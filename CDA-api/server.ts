@@ -5,11 +5,16 @@ import cors from 'cors'
 import connect from './utils/connect'
 import errorHandler from './utils/errorHandler'
 import Router from './src/router'
+import { startServer } from './appolo-server'
+
 
 const app = express()
 
+
 // Database connection
 connect()
+// Start 
+startServer(app)
 
 const log = (req: Request, res: Response, next: NextFunction) => {
   console.log("You've just logged in !")
@@ -26,6 +31,6 @@ app.use(morgan('dev'))
 app.use('/api', Router)
 
 // Error handler
-app.use(errorHandler)
+// app.use(errorHandler)
 
 app.listen(5000, () => console.log('Server started on 5000'))
