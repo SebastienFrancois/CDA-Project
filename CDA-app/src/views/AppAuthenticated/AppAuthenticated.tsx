@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import React, { FC } from 'react';
 import { Routes, Route } from 'react-router-dom';
 // import axios from 'axios';
@@ -18,7 +19,25 @@ const AppAuthenticated: FC<AppAuthenticatedProps> = () => {
           path="/"
           element={
             <div className="w-8/12 h-full flex justify-center items-center">
-              <ProjectCard />
+              <div className="flex space-x-4">
+                <ProjectCard
+                  name="1st Project"
+                  status="not started"
+                  dueDate={dayjs().unix().toString()}
+                />
+                <ProjectCard
+                  name="2nd Project"
+                  status="not started"
+                  dueDate={dayjs().unix().toString()}
+                />
+                <ProjectCard
+                  name="3rd Project"
+                  status="in progress"
+                  dueDate={dayjs().unix().toString()}
+                />
+                <ProjectCard name="4th Project" status="late" dueDate={dayjs().unix().toString()} />
+                <ProjectCard name="5th Project" status="done" dueDate={dayjs().unix().toString()} />
+              </div>
             </div>
           }
         ></Route>
