@@ -1,6 +1,5 @@
 import { gql } from 'apollo-server-express';
-import { ProjectModel } from '../schemas/project.schemas';
-import { Project as project} from '../schemas/project.schemas';
+import { ProjectModel } from '../schemas/project.schemas'; 
 
 const typeDefs = gql`
     type Project {

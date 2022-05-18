@@ -7,7 +7,7 @@ export enum Status {
     done,
 }
 
-export interface Project extends Document {
+interface Project extends Document {
     name: String,
     description: String,
     status?: Status,
