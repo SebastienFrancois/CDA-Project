@@ -1,5 +1,9 @@
 {
   "common": {
     "test": "This is a next !"
+  },
+  "project": {
+    "due": "due",
+    "archived": "archived"
   }
 }

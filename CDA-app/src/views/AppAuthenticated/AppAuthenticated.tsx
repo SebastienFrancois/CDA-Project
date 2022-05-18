@@ -12,8 +12,16 @@ const AppAuthenticated: FC<AppAuthenticatedProps> = () => {
 
   return (
     <div className={appContainer}>
+      <div className="w-2/12 h-full"></div>
       <Routes>
-        <Route path="/" element={<ProjectCard />}></Route>
+        <Route
+          path="/"
+          element={
+            <div className="w-8/12 h-full flex justify-center items-center">
+              <ProjectCard />
+            </div>
+          }
+        ></Route>
       </Routes>
     </div>
   );

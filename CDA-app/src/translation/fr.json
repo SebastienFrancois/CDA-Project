@@ -1,5 +1,9 @@
 {
   "common": {
     "test": "Ceci est un test !"
+  },
+  "project": {
+    "due": "livraison",
+    "archived": "archivé"
   }
 }
