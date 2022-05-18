@@ -1,5 +1,5 @@
 import { ApolloServer } from "apollo-server-express";
-import { typeDefs, resolvers } from "../graphql/params";
+import { typeDefs, resolvers } from "../graphql/typedefs";
 
 it.skip('should return a list of projects', async  () => {
     const testServer = new ApolloServer({

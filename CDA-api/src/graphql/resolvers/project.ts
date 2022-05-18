@@ -1,27 +1,7 @@
-import { gql } from 'apollo-server-express';
-import { IProject, ProjectModel } from '../schemas/project.schemas';
 
-const typeDefs = gql`
-    type Project {
-        _id: ID
-        name: String!
-        description: String
-        status: String,
-        dueDate: String!
-        createdAt: String
-        updatedAt: String
-    }
-    type Query {
-        getProjects: [Project],
-        getProject(id: ID!): Project
-    }
-    type Mutation {
-        addProject(name: String!, description: String, status: String,dueDate: String!): Project
-        deleteProject(id: ID!): String!
-        updateProject(id: ID!, name: String, description: String, status: String,dueDate: String): Project
-    }
-`
-const resolvers = {
+import { IProject, ProjectModel } from '../../schemas/project.schemas';
+
+export default {
     Query: {
         getProjects: async () => await ProjectModel.find({}),
         getProject: async (_:ParentNode, args: {id: String}) => await ProjectModel.findById({_id: args.id}) 
@@ -55,6 +35,3 @@ const resolvers = {
         },
     }
 }
-
-
-export {typeDefs, resolvers };

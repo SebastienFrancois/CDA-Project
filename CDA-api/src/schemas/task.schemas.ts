@@ -7,30 +7,28 @@ export enum Status {
     done,
 }
 
-export interface IProject extends Document {
+export interface ITask extends Document {
     name: String,
     description: String,
     status?: Status,
     dueDate: Date,
     createdAt: Date,
     updatedAt: Date,
-    tasks?: [Types.ObjectId],
-    team: {
-      projectManager?: Types.ObjectId,
-      developpers?: [Types.ObjectId],
-    }
+    labels: [Types.ObjectId],
+    assignTo: [Types.ObjectId],
+    project: Types.ObjectId,
+    comments: [Types.ObjectId]
 }
 
-const ProjectSchema = new Schema<IProject>({
+const TaskSchema = new Schema<ITask>({
   name: {type: String, unique: true, maxlength: 255},
   description: {type: String, maxlength: 255},
   status: {type: String, enum: ['not started','in progress','late', 'done', ], default: 'not started'},
   dueDate: Date,
-  tasks: [{type: Schema.Types.ObjectId, ref:'Task'}],
-  team: {
-    projectManager: {type: Schema.Types.ObjectId, ref:'User'},
-    developpers: [{type: Schema.Types.ObjectId, ref:'User'}]
-  }
+  labels: [{type: Schema.Types.ObjectId, ref:'Label'}],
+  assignTo: [{type: Schema.Types.ObjectId, ref:'User'}],
+  project: {type: Schema.Types.ObjectId, ref:'Project'},
+  comments: [{type: Schema.Types.ObjectId, ref:'Comment'}]
 }, {timestamps: true})
 
-export const ProjectModel = model<IProject>('Project', ProjectSchema)
+export const TaskModel = model<ITask>('Task', TaskSchema)
