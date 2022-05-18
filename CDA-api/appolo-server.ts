@@ -1,6 +1,6 @@
 import { gql, ApolloServer } from 'apollo-server-express'
 import { Express } from 'express';
-import {typeDefs, resolvers } from './src/graphql/types'
+import {typeDefs, resolvers } from './src/graphql/params'
   
   const server = new ApolloServer({ typeDefs, resolvers })
   
