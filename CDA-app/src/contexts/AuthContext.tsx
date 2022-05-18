@@ -35,7 +35,7 @@ const getToken = () => {
 export const AuthContext = React.createContext<AuthContextInterface>(AuthContextDefaultValue);
 
 export function AuthContextProvider({ children }: { children: ReactChild }) {
-  const [isLogged, setIsLogged] = React.useState<boolean>(false);
+  const [isLogged, setIsLogged] = React.useState<boolean>(true);
   const [token, setToken] = React.useState(getToken());
 
   const onLogout = () => {

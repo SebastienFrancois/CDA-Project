@@ -10,8 +10,7 @@ function App() {
 
   return (
     <div className="overflow-hidden h-screen ">
-      {/* {isLogged ? <AppAuthenticated /> : <AppUnauthenticated />} */}
-      {isLogged ? <h1>{t('common:test')}</h1> : <h1>{t('common:test')}</h1>}
+      {isLogged ? <AppAuthenticated /> : <AppUnauthenticated />}
     </div>
   );
 }

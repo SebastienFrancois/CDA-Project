@@ -19,7 +19,7 @@
 } */
 
 html {
-  @apply text-dark-base;
+  @apply text-gray-700;
 }
 body {
   margin: 0;
