@@ -1,5 +1,5 @@
 import { gql } from 'apollo-server-express';
-import { ProjectModel } from '../schemas/project.schemas'; 
+import { IProject, ProjectModel } from '../schemas/project.schemas';
 
 const typeDefs = gql`
     type Project {
@@ -15,15 +15,28 @@ const typeDefs = gql`
         getProjects: [Project]
     }
     type Mutation {
-        addProject: Project
-        deleteProject: Project
-        updateProject: Project
+        addProject(name: String!, description: String, status: String,dueDate: String!): Project
+        deleteProject(id: ID!): Boolean!
+        updateProject(id: ID!, name: String!, description: String, status: String,dueDate: String!): Project!
     }
 `
 const resolvers = {
     Query: {
         getProjects: async () => await ProjectModel.find({}),
+    },
+    Mutation: {
+        addProject: async ( _ :ParentNode, args: IProject ) => {
+            const newProject = await ProjectModel.create({
+            name: args.name,
+            description: args.description,
+            status: args.status,
+            dueDate: args.dueDate
+        })
+        newProject.save()
+        return newProject
+    }
     }
 }
+
 
 export {typeDefs, resolvers };

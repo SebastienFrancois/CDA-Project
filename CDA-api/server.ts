@@ -3,9 +3,9 @@ import express, { Request, Response, NextFunction } from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
 import connect from './utils/connect'
-import errorHandler from './utils/errorHandler'
+// import errorHandler from './utils/errorHandler'
 import Router from './src/router'
-import { startServer } from './appolo-server'
+import { appoloLaunch } from './appolo-server'
 
 
 const app = express()
@@ -14,7 +14,7 @@ const app = express()
 // Database connection
 connect()
 // Start 
-startServer(app)
+appoloLaunch(app)
 
 const log = (req: Request, res: Response, next: NextFunction) => {
   console.log("You've just logged in !")
@@ -33,4 +33,4 @@ app.use('/api', Router)
 // Error handler
 // app.use(errorHandler)
 
-app.listen(5000, () => console.log('Server started on 5000'))
+app.listen(5000, () => console.log('Server started on localhost:5000'))

@@ -7,7 +7,7 @@ export enum Status {
     done,
 }
 
-interface Project extends Document {
+export interface IProject extends Document {
     name: String,
     description: String,
     status?: Status,
@@ -16,11 +16,11 @@ interface Project extends Document {
     updatedAt: Date,
 }
 
-const ProjectSchema = new Schema<Project>({
+const ProjectSchema = new Schema<IProject>({
   name: {type: String, unique: true, maxlength: 255},
   description: {type: String, maxlength: 255},
   status: {type: String, enum: ['not started','in progress','late', 'done', ], default: 'not started'},
   dueDate: Date
 }, {timestamps: true})
 
-export const ProjectModel = model<Project>('Project', ProjectSchema)
+export const ProjectModel = model<IProject>('Project', ProjectSchema)
