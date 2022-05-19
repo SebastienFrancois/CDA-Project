@@ -1,5 +1,6 @@
 
 import { IProject, ProjectModel } from '../../schemas/project.schemas';
+import { TaskModel } from '../../schemas/task.schemas';
 
 export default {
     Query: {
@@ -33,5 +34,12 @@ export default {
                 return JSON.stringify(`Instance "${args.id}" wasn't updated !`)
             }
         },
+    },
+    Project: {
+        tasks: async (project: IProject, _:ParentNode) => {
+            console.log("coucou",project);
+            const result = await TaskModel.find({project: project._id})
+            return result
+        }
     }
 }

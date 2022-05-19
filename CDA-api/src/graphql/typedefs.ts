@@ -9,6 +9,7 @@ const typeDefs = gql`
         dueDate: String!
         createdAt: String
         updatedAt: String
+        tasks: [Task]
         
     }
     type Task {
@@ -20,6 +21,7 @@ const typeDefs = gql`
         createdAt: String
         updatedAt: String
         labels: [Label]
+        project: Project
     }
     type Label {
         _id: ID
@@ -56,9 +58,9 @@ const typeDefs = gql`
         addLabel(name: String, color: String): Label
         deleteLabel(id: ID!): String!
         updateLabel(id: ID!, name: String, color: String): Label
-        addTask(name: String!, description: String, status: String, dueDate: String!, labels: [String]): Task
+        addTask(name: String!, description: String, status: String, dueDate: String!, labels: [String], project: String!): Task
         deleteTask(id: ID!): String!
-        updateTask(id: ID!, name: String, description: String, status: String, dueDate: String, labels: [String]): Task
+        updateTask(id: ID!, name: String, description: String, status: String, dueDate: String, labels: [String], project: String!): Task
         addComment(message: String!): Comment
         deleteComment(id: ID!): String!
         updateComment(id: ID!, message: String!): Comment

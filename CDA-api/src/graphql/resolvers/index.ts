@@ -21,5 +21,8 @@ export default {
   },
   Task : {
     ...taskResolvers.Task
+  },
+  Project: {
+    ...projectResolvers.Project
   }
 };

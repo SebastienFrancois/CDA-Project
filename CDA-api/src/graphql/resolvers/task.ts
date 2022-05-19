@@ -1,6 +1,7 @@
 
 import { Types } from 'mongoose';
 import { LabelModel } from '../../schemas/label.schemas';
+import { ProjectModel } from '../../schemas/project.schemas';
 import { ITask, TaskModel } from '../../schemas/task.schemas';
 
 export default {
@@ -15,7 +16,8 @@ export default {
                 description: args.description,
                 status: args.status,
                 dueDate: args.dueDate,
-                labels: args.labels
+                labels: args.labels,
+                project: args.project
             })
             newTask.save()
             return newTask
@@ -43,6 +45,9 @@ export default {
                 console.log(labelId);
                 return await LabelModel.findById({_id: labelId})
             })
+        },
+        project: async (task: ITask, _: ParentNode) => {
+            return await ProjectModel.findById(task.project)
         }
     }
 }

@@ -17,7 +17,7 @@ export interface ITask extends Document {
     updatedAt: Date,
     labels: [Types.ObjectId],
     // assignTo: [Types.ObjectId],
-    // project: Types.ObjectId,
+    project: Types.ObjectId | undefined,
     // comments: [Types.ObjectId]
 }
 
@@ -27,6 +27,7 @@ const TaskSchema = new Schema<ITask>({
   status: {type: String, enum: ['not started','in progress','late', 'done', ], default: 'not started'},
   dueDate: Date,
   labels: [{type: Types.ObjectId, ref:'labels'}],
+  project: {type: Types.ObjectId, ref:'projects'}
   // assignTo: [{type: Types.ObjectId, ref:'users'}],
   // comments: [{type: Types.ObjectId, ref:'comments'}]
 }, {timestamps: true})
