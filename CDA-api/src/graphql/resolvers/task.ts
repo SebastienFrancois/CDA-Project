@@ -1,4 +1,6 @@
 
+import { Types } from 'mongoose';
+import { LabelModel } from '../../schemas/label.schemas';
 import { ITask, TaskModel } from '../../schemas/task.schemas';
 
 export default {
@@ -34,5 +36,13 @@ export default {
                 return JSON.stringify(`Instance "${args.id}" wasn't updated !`)
             }
         },
+    },
+    Task: {
+        labels: async (task: ITask, _: ParentNode) => {
+            return task.labels.map(async (labelId : Types.ObjectId) => {
+                console.log(labelId);
+                return await LabelModel.findById({_id: labelId})
+            })
+        }
     }
 }

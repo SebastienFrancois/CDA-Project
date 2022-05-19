@@ -18,5 +18,8 @@ export default {
     ...labelResolvers.Mutation,
     ...notificationResolvers.Mutation,
     ...commentResolvers.Mutation,
+  },
+  Task : {
+    ...taskResolvers.Task
   }
 };

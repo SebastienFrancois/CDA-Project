@@ -11,11 +11,6 @@ const typeDefs = gql`
         updatedAt: String
         
     }
-    type Label {
-        _id: ID
-        name: String
-        color: String
-    }
     type Task {
         _id: ID
         name: String!
@@ -24,7 +19,12 @@ const typeDefs = gql`
         dueDate: String!
         createdAt: String
         updatedAt: String
-        Labels: [Label]
+        labels: [Label]
+    }
+    type Label {
+        _id: ID
+        name: String
+        color: String
     }
     type Comment {
         _id: ID
@@ -56,9 +56,9 @@ const typeDefs = gql`
         addLabel(name: String, color: String): Label
         deleteLabel(id: ID!): String!
         updateLabel(id: ID!, name: String, color: String): Label
-        addTask(name: String!, description: String, status: String,dueDate: String!, labels: [String]): Task
+        addTask(name: String!, description: String, status: String, dueDate: String!, labels: [String]): Task
         deleteTask(id: ID!): String!
-        updateTask(id: ID!, name: String, description: String, status: String, dueDate: String): Task
+        updateTask(id: ID!, name: String, description: String, status: String, dueDate: String, labels: [String]): Task
         addComment(message: String!): Comment
         deleteComment(id: ID!): String!
         updateComment(id: ID!, message: String!): Comment
