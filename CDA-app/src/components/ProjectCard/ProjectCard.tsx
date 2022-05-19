@@ -45,7 +45,7 @@ const ProjectCard: FC<ProjectCardProps> = ({
 
   return (
     <div
-      className={`ProjectCard cursor-pointer bg-white  w-44 h-36 flex justify-center items-center p-3 rounded-lg drop-shadow-xl border-2 flex-col hover:scale-105 transition-all ease-in-out ${colorStatus[status].border}`}
+      className={`ProjectCard cursor-pointer bg-white w-48 h-36 flex justify-center items-center p-3 rounded-lg drop-shadow-xl border-2 flex-col hover:scale-105 transition-all ease-in-out ${colorStatus[status].border}`}
     >
       <div className="w-full flex justify-end">
         <PencilIcon className="w-4 h-auto opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer" />
