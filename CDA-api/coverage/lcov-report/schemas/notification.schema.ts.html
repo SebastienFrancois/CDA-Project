@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for schemas/project.schemas.ts</title>
+    <title>Code coverage report for schemas/notification.schema.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">schemas</a> project.schemas.ts</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">schemas</a> notification.schema.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>36/36</span>
+                <span class='fraction'>21/21</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>36/36</span>
+                <span class='fraction'>21/21</span>
             </div>
         
             
@@ -83,23 +83,7 @@
 <a name='L18'></a><a href='#L18'>18</a>
 <a name='L19'></a><a href='#L19'>19</a>
 <a name='L20'></a><a href='#L20'>20</a>
-<a name='L21'></a><a href='#L21'>21</a>
-<a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a>
-<a name='L37'></a><a href='#L37'>37</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L21'></a><a href='#L21'>21</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -119,59 +103,27 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Schema, model, Document, Types } from 'mongoose';
+<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">import {Schema, model, Document, Types} from 'mongoose'
 &nbsp;
-export enum Status {
-    not_started,
-    in_progress,
-    late,
-    done,
-}
-&nbsp;
-export interface IProject extends Document {
-    name: String,
-    description: String,
-    status?: Status,
-    dueDate: Date,
+export interface INotification extends Document {
+    message: String,
     createdAt: Date,
-    updatedAt: Date,
-    tasks?: [Types.ObjectId],
-    team: {
-      projectManager?: Types.ObjectId,
-      developpers?: [Types.ObjectId],
-    }
+    typeOfNotif: String
+    task?:Types.ObjectId,
+    project?:Types.ObjectId,
+    notified?:[Types.ObjectId],
 }
 &nbsp;
-const ProjectSchema = new Schema&lt;IProject&gt;({
-  name: {type: String, unique: true, maxlength: 255},
-  description: {type: String, maxlength: 255},
-  status: {type: String, enum: ['not started','in progress','late', 'done', ], default: 'not started'},
-  dueDate: Date,
-  tasks: [{type: Schema.Types.ObjectId, ref:'Task'}],
-  team: {
-    projectManager: {type: Schema.Types.ObjectId, ref:'User'},
-    developpers: [{type: Schema.Types.ObjectId, ref:'User'}]
-  }
-}, {timestamps: true})
+const NotificationSchema = new Schema&lt;INotification&gt; ({
+    message: {type: String},
+    createdAt: Date,
+    typeOfNotif: {type: String},
+    task: {type: Schema.Types.ObjectId, ref:'Task'},
+    project: {type: Schema.Types.ObjectId, ref:'Project'},
+    notified: [{type: Schema.Types.ObjectId, ref:'User'}],
+}, {timestamps: true}) //a-t-on besoin de createdAt et updatedAt ??
 &nbsp;
-export const ProjectModel = model&lt;IProject&gt;('Project', ProjectSchema)
-&nbsp;</pre></td></tr></table></pre>
+export const NotificationModel = model&lt;INotification&gt;('Notification', NotificationSchema)</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->

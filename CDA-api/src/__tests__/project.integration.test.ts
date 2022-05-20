@@ -1,18 +1,26 @@
 import { ApolloServer } from "apollo-server-express";
-import { typeDefs, resolvers } from "../graphql/typedefs";
+import { typeDefs } from "../graphql/typedefs";
+import resolvers from "../graphql/resolvers/index";
 
-it.skip('should return a list of projects', async  () => {
+it('should return one project', async () => {
     const testServer = new ApolloServer({
         typeDefs,
-        resolvers
-      });
+        resolvers,
+    });
     const result = await testServer.executeOperation({
-        query: "query  getProject(id: $getProjectId) {_id name description status dueDate createdAt updatedAt }}",
-        variables: {getProjectId: "6284b401b35b2fe64838c09e"}
-    })
-    expect(result.data).toBeDefined();
-
+        query: 'query GetProject($getProjectId: ID!) { getProject(id: $getProjectId) { _id name }}',
+        variables: { "getProjectId": "6284ba5ab61dd793c48603ad" }
+    });
+    // console.log(result);
+  
+    expect(result.data).toBe(
+        {
+            _id: "6284ba5ab61dd793c48603ad",
+            name: "An Othe one"
+        }
+    );
 })
+
 describe.skip('Integration PROJECT instance', () => {
 
 })

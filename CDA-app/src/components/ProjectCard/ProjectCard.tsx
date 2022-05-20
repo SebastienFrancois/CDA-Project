@@ -57,7 +57,7 @@ const ProjectCard: FC<ProjectCardProps> = ({
       <div className="w-full text-right">
         <p className="text-sm first-letter:capitalize">{`${
           status !== 'archived' ? t('project:due') : t('project:archived')
-        } : ${dayjs.unix(Number(dueDate)).format('DD/MM/YYYY')}`}</p>
+        } : ${dayjs(Number(dueDate)).format('DD/MM/YYYY')}`}</p>
       </div>
     </div>
   );
