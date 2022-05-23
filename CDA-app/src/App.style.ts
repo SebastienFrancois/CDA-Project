@@ -4,6 +4,6 @@ export const appContainer = tailwindClass([
   'flex',
   'flex-row',
   'h-full',
-  'bg-light-base',
+  'bg-white-200',
   'font-body',
 ]);
