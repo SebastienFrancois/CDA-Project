@@ -32,7 +32,6 @@ const AppAuthenticated: FC<AppAuthenticatedProps> = () => {
 
   return (
     <div className={appContainer}>
-      <div className="h-full"></div>
       <Routes>
         <Route
           path="/"
@@ -42,6 +41,7 @@ const AppAuthenticated: FC<AppAuthenticatedProps> = () => {
                 <Sidebar projects={data} />
               </div>
               <div className="w-10/12 p-6 h-full flex flex-col justify-start items-start">
+                <h1 className=" text-3xl my-4 text-primary font-medium flex">My dashboard</h1>
                 <h1 className=" text-3xl my-4 text-primary font-medium flex">
                   <span className=" h-full flex place-items-end pr-2">
                     <FolderIcon className="w-8 h-auto text-primary" />
