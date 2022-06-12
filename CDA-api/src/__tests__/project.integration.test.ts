@@ -66,7 +66,15 @@ describe('Test Connection', () => {
           dueDate: "1653659092"
         }
 
-        const response = await testServer.executeOperation({query: addProjectMutation, variables})
+        let time
+
+        const request =  () => {
+          const res = testServer.executeOperation({query: addProjectMutation, variables})
+          time = new Date().getTime().toString();
+          return res
+        }
+
+        const response = await request()
 
         if (response.data) {
           console.log(response.data)
@@ -80,7 +88,7 @@ describe('Test Connection', () => {
             "description": null,
             "status": "not started",
             "dueDate": "1653659092",
-            "createdAt": new Date().getTime().toString(),
+            "createdAt": time,
           }})
     })
 
