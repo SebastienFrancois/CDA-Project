@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { FolderIcon, PlusIcon } from '@heroicons/react/solid';
+import { ArchiveIcon, ChartBarIcon, FolderIcon, PlusIcon } from '@heroicons/react/solid';
 import ProjectCard from 'components/ProjectCard/ProjectCard.lazy';
 import Sidebar from 'components/Sidebar/Sidebar.lazy';
 import './Dashboard.scss';
@@ -23,7 +23,6 @@ const PROJECTS = gql`
 
 const Dashboard: FC<DashboardProps> = () => {
   const { loading, error, data } = useQuery(PROJECTS);
-  // console.log(data);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error</p>;
@@ -34,6 +33,13 @@ const Dashboard: FC<DashboardProps> = () => {
       </div>
       <div className="w-10/12 p-6 h-full flex flex-col justify-start items-start">
         <h1 className=" text-3xl my-4 text-primary font-medium flex">My dashboard</h1>
+        <h1 className=" text-3xl my-4 text-primary font-medium flex">
+          <span className=" h-full flex place-items-end pr-2">
+            <ChartBarIcon className="w-8 h-auto text-primary" />
+          </span>
+          Stats :
+        </h1>
+        <p className=" text-base font-normal text-slate-500">No content yet</p>
         <h1 className=" text-3xl my-4 text-primary font-medium flex">
           <span className=" h-full flex place-items-end pr-2">
             <FolderIcon className="w-8 h-auto text-primary" />
@@ -59,6 +65,13 @@ const Dashboard: FC<DashboardProps> = () => {
             </button>
           </aside>
         </div>
+        <h1 className=" text-3xl my-4 text-primary font-medium flex">
+          <span className=" h-full flex place-items-end pr-2">
+            <ArchiveIcon className="w-8 h-auto text-primary" />
+          </span>
+          Archived :
+        </h1>
+        <p className=" text-base font-normal text-slate-500">No content yet</p>
       </div>
     </>
   );
