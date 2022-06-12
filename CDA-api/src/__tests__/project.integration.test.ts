@@ -8,6 +8,7 @@ const env = 'test'
 
 describe('Test Connection', () => {
     const testServer = new ApolloServer({ typeDefs, resolvers})
+    let id: string | number;
     
     beforeAll(async () => {
         await testServer.start()
@@ -25,8 +26,8 @@ describe('Test Connection', () => {
         await testServer.stop()
     })
 
-    it('Connection ...', async () => {
-        const ExampleQuery = `
+    it('should connect ... And getProjects[]...', async () => {
+        const queryProjects = `
             query Query {
                 getProjects {
                 _id
@@ -39,12 +40,75 @@ describe('Test Connection', () => {
                 }
             }
         `
-        const response = await testServer.executeOperation({query: ExampleQuery})
+        const response = await testServer.executeOperation({query: queryProjects})
 
         expect(response.data).toEqual({
             "getProjects": []
         })
 
+    })
+
+    it.skip('should create a new project', async () => {
+        const addProjectMutation = `
+        mutation AddProject($name: String!, $dueDate: String!) {
+            addProject(name: $name, dueDate: $dueDate) {
+              _id
+              name
+              description
+              status
+              dueDate
+              createdAt
+            }
+          }
+        `
+        const variables = {
+          name: 'projectTest',
+          dueDate: "1653659092"
+        }
+
+        const response = await testServer.executeOperation({query: addProjectMutation, variables})
+
+        if (response.data) {
+          console.log(response.data)
+            id = response.data.addProject._id
+        }
+
+        expect(response.data).toEqual({
+          "addProject": {
+            "_id": id,
+            "name": "projectTest",
+            "description": null,
+            "status": "not started",
+            "dueDate": "1653659092",
+            "createdAt": new Date().getTime().toString(),
+          }})
+    })
+
+    it('should return projectTest', async () => {
+          const queryProjects = `
+          query Query {
+              getProjects {
+              _id
+              name
+              description
+              status
+              dueDate
+              }
+          }
+      `
+      const response = await testServer.executeOperation({query: queryProjects})
+
+      expect(response.data).toEqual({
+          "getProjects": [
+            {
+              "_id": id,
+              "name": "projectTest",
+              "description": null,
+              "status": "not started",
+              "dueDate": "1653659092",
+            }
+          ]
+      })
     })
 
 })
