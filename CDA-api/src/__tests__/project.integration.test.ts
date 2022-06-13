@@ -48,7 +48,7 @@ describe('Test Connection', () => {
 
     })
 
-    it.skip('should create a new project', async () => {
+    it('should create a new project', async () => {
         const addProjectMutation = `
         mutation AddProject($name: String!, $dueDate: String!) {
             addProject(name: $name, dueDate: $dueDate) {
@@ -57,7 +57,6 @@ describe('Test Connection', () => {
               description
               status
               dueDate
-              createdAt
             }
           }
         `
@@ -66,18 +65,9 @@ describe('Test Connection', () => {
           dueDate: "1653659092"
         }
 
-        let time
-
-        const request =  () => {
-          const res = testServer.executeOperation({query: addProjectMutation, variables})
-          time = new Date().getTime().toString();
-          return res
-        }
-
-        const response = await request()
+        const response = await testServer.executeOperation({query: addProjectMutation, variables})
 
         if (response.data) {
-          console.log(response.data)
             id = response.data.addProject._id
         }
 
@@ -88,7 +78,6 @@ describe('Test Connection', () => {
             "description": null,
             "status": "not started",
             "dueDate": "1653659092",
-            "createdAt": time,
           }})
     })
 
@@ -117,6 +106,48 @@ describe('Test Connection', () => {
             }
           ]
       })
+    })
+
+    it('should update projectTest', async () => {
+        const updateProjectMutation = `
+        mutation UpdateProject($updateProjectId: ID!, $name: String) {
+          updateProject(id: $updateProjectId, name: $name) {
+            _id
+            name
+            description
+            status
+            dueDate
+          }
+        }
+        `
+        const variables = { "updateProjectId": id, "name": "projectTestUpdated" }
+
+        const response = await testServer.executeOperation({query: updateProjectMutation, variables})
+
+        expect(response.data).toEqual({
+          "updateProject": {
+            "_id": id,
+            "name": "projectTestUpdated",
+            "description": null,
+            "status": "not started",
+            "dueDate": "1653659092"          
+          }
+        })
+
+    })
+
+    it("should delete projectTest", async () => {
+        const deleteProjectMutation = `
+        mutation DeleteProject($deleteProjectId: ID!) {
+          deleteProject(id: $deleteProjectId)
+        }`
+        const variables = { "deleteProjectId": id }
+
+        const response = await testServer.executeOperation({query: deleteProjectMutation, variables})
+
+        expect(response.data).toEqual({
+          "deleteProject": JSON.stringify({message:`Instance "${id}" has been deleted successfully !`})
+        })
     })
 
 })
