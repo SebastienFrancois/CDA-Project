@@ -69,7 +69,7 @@ const Dashboard: FC<DashboardProps> = () => {
           <span className=" h-full flex place-items-end pr-2">
             <ArchiveIcon className="w-8 h-auto text-primary" />
           </span>
-          Archived :
+          Archived piou piou :
         </h1>
         <p className=" text-base font-normal text-slate-500">No content yet</p>
       </div>

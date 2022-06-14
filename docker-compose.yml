@@ -1,30 +1,27 @@
 services:
   api:
-    build:
-      context: ./CDA-api
-      dockerfile: Dockerfile
+    build: ./CDA-api
     environment:
       - WDS_SOCKET_PORT=5000
       - WATCHPACK_POLLING=true
+    env_file:
+      - ./CDA-api/.env
     ports:
       - 5000:5000
     command: npm run kiss
     volumes:
-      - ./CDA-api:/app
+      - ./CDA-api/src:/app/src
+      - ./CDA-api/utils:/app/utils
   app:
-    build:
-      context: ./CDA-app
-      dockerfile: Dockerfile
+    build: ./CDA-app
     environment:
       - WDS_SOCKET_PORT=8080
       - WATCHPACK_POLLING=true
     ports:
       - 8080:8080
-    env_file:
-      - ./CDA-api/.env
     command: yarn start
     volumes:
-      - ./CDA-app:/app
+      - ./CDA-app/src:/app/src
     depends_on: [api]
   mongodb:
     image: mongo
