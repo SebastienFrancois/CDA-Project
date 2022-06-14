@@ -20,6 +20,6 @@ export const environment: IEnvironnement = {
   },
   test: {
     serverURL: '',
-    dbString: 'mongodb://localhost:27017/localTest',
+    dbString: 'mongodb://mongodb:27017/localTest',
   }
 }
