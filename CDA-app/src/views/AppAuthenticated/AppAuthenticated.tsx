@@ -1,11 +1,12 @@
 import React, { FC } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { appContainer } from '../../App.style';
 import { useQuery } from '@apollo/client';
+import { PROJECTS } from 'api/query';
 
+import ProjectForm from 'components/ProjectForm/ProjectForm.lazy';
 import Dashboard from 'components/Dashboard/Dashboard.lazy';
 import Sidebar from 'components/Sidebar/Sidebar.lazy';
-import { PROJECTS } from 'api/query';
+import { appContainer } from '../../App.style';
 
 interface AppAuthenticatedProps {}
 
@@ -22,7 +23,7 @@ const AppAuthenticated: FC<AppAuthenticatedProps> = () => {
       </div>
       <Routes>
         <Route path="/" element={<Dashboard projects={data} />}></Route>
-        <Route path="/create-project" element={<>CREATE PROJECT</>} />
+        <Route path="/create-project" element={<ProjectForm />} />
       </Routes>
     </div>
   );
