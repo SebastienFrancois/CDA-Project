@@ -240,18 +240,17 @@ describe('TASKS', () => {
 
     it('should update taskTest', async () => {
         const updateTaskMutation = `
-        mutation UpdateTask($updateTaskId: ID!, $name: String, $project: String) {
-          updateTask(id: $updateTaskId, name: $name, project: $project) {
+        mutation UpdateTask($updateTaskId: ID!, $name: String) {
+          updateTask(id: $updateTaskId, name: $name) {
             _id
             name
             description
             status
             dueDate
-            project
           }
         }
         `
-        const variables = { "updateTaskId": id, "name": "taskTestUpdated", "project": projectId }
+        const variables = { "updateTaskId": id, "name": "taskTestUpdated" }
 
         const response = await testServer.executeOperation({query: updateTaskMutation, variables})
 
