@@ -29,13 +29,8 @@ const Dashboard: FC<DashboardProps> = ({ projects }) => {
         My projects :
       </h1>
       <div className="flex flex-wrap gap-5">
-        {projects.getProjects.map((project: any, _key: any) => (
-          <ProjectCard
-            key={project._id}
-            name={project.name}
-            status={project.status}
-            dueDate={project.dueDate}
-          />
+        {projects.getProjects.map((project: any) => (
+          <ProjectCard key={project._id} data={project} />
         ))}
         <aside className="flex items-center">
           <Link to={'create-project'}>

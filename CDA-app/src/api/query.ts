@@ -25,4 +25,20 @@ export const PROJECTS = {
       }
     }
   `,
+  delete: gql`
+    mutation DeleteProject($deleteProjectId: ID!) {
+      deleteProject(id: $deleteProjectId)
+    }
+  `,
+  update: gql`
+    mutation UpdateProject($updateProjectId: ID!, $name: String) {
+      updateProject(id: $updateProjectId, name: $name) {
+        _id
+        name
+        description
+        status
+        dueDate
+      }
+    }
+  `,
 };
