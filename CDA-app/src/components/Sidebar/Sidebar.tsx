@@ -16,7 +16,6 @@ interface SidebarProps {
 }
 
 const Sidebar: FC<SidebarProps> = (props) => {
-  console.log(props);
   return (
     <nav className="Sidebar bg-primary h-full flex flex-col justify-between p-3">
       <div>
