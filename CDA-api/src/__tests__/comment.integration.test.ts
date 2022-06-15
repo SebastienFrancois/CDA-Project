@@ -6,7 +6,7 @@ import resolvers from '../graphql/resolvers/index';
 
 const env = 'test'
 
-describe('LABELS', () => {
+describe('COMMENTS', () => {
     const testServer = new ApolloServer({ typeDefs, resolvers})
     let id: string | number;//mongoose.ObjectId ??
     
