@@ -60,7 +60,7 @@ const typeDefs = gql`
         updateLabel(id: ID!, name: String, color: String): Label
         addTask(name: String!, description: String, status: String, dueDate: String!, labels: [String], project: String!): Task
         deleteTask(id: ID!): String!
-        updateTask(id: ID!, name: String, description: String, status: String, dueDate: String, labels: [String], project: String!): Task
+        updateTask(id: ID!, name: String, description: String, status: String, dueDate: String, labels: [String], project: String): Task
         addComment(message: String!): Comment
         deleteComment(id: ID!): String!
         updateComment(id: ID!, message: String!): Comment
