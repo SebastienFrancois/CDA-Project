@@ -238,6 +238,47 @@ describe('TASKS', () => {
       })
     })
 
+    it('should return AllTaskWithoutLabel', async () => {
+        const queryTasks = `
+        query Query {
+          getTasks {
+              _id
+              name
+              description
+              status
+              dueDate
+              project {
+                _id
+                name
+                description
+                status
+                dueDate
+              }
+            }
+        }
+    `
+    const response = await testServer.executeOperation({query: queryTasks})
+
+    expect(response.data).toEqual({
+        "getTasks": [
+          {
+              "_id": id,
+              "name": "TaskTest",
+              "description": null,
+              "status": "not started",
+              "dueDate": "1653659092",
+              "project": {
+                  "_id": projectId,
+                  "name": "projectTest",
+                  "description": null,
+                  "status": "not started",
+                  "dueDate": "1653659092",
+                  }
+          }
+        ]
+    })
+  })
+
     it('should update taskTest', async () => {
         const updateTaskMutation = `
         mutation UpdateTask($updateTaskId: ID!, $name: String) {
