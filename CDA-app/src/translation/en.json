@@ -5,5 +5,8 @@
   "project": {
     "due": "due",
     "archived": "archived"
+  },
+  "form": {
+    "projectInfo": "Project Informations"
   }
 }
