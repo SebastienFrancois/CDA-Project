@@ -1,4 +1,6 @@
+import errorHandler from '../../../utils/errorHandler';
 import { ILabel, LabelModel } from '../../schemas/label.schemas';
+import { validateLabel } from '../../schemas/label.schemas';
 
 export default {
     Query: {
@@ -7,6 +9,9 @@ export default {
     },
     Mutation: {
         addLabel: async ( _ :ParentNode, args: ILabel ) => {
+            const err = await validateLabel(args);
+            if (err.error) throw errorHandler({status: 400, message: new ErrorEvent("error"), stack: ""}, err, {message: `${err.error.message}. Label not created...`});
+
             const newLabel = await LabelModel.create({
                 name: args.name,
                 color: args.color,
