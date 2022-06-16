@@ -6,13 +6,14 @@ import { PencilIcon, TrashIcon } from '@heroicons/react/solid';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import './ProjectCard.scss';
+import { useNavigate } from 'react-router-dom';
 
 interface StatusBadgeProps {
-  status: string;
+  status: Status;
 }
 
-interface ProjectCardProps {
-  data: { [key: string]: string };
+export interface ProjectCardProps {
+  data: IProject;
 }
 const colorStatus: { [key: string]: { text: string; bg: string; border: string } } = {
   'not started': { text: 'text-gray-600', bg: 'bg-gray-200', border: 'border-gray-500' },
@@ -39,13 +40,18 @@ const StatusBadge: FC<StatusBadgeProps> = ({ status }) => {
 
 const ProjectCard: FC<ProjectCardProps> = ({ data }) => {
   const [t] = useTranslation();
+  const navigate = useNavigate();
   const { _id, name, status, description, dueDate } = data;
   const [deleteProject] = useMutation(PROJECTS.delete);
-
   const onDelete = () => {
     const variables = { deleteProjectId: _id };
     deleteProject({ variables, refetchQueries: 'active' }).then().catch();
   };
+
+  const onUpdate = () => {
+    navigate('/update-project', { state: { item: data, update: true } });
+  };
+
   return (
     <div
       className={`ProjectCard cursor-pointer bg-white w-48 h-36 flex justify-center items-center p-3 rounded-lg drop-shadow-xl border-2 flex-col hover:scale-105 transition-all ease-in-out ${colorStatus[status].border}`}
@@ -55,7 +61,10 @@ const ProjectCard: FC<ProjectCardProps> = ({ data }) => {
           className="w-4 h-auto opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer"
           onClick={onDelete}
         />
-        <PencilIcon className="w-4 h-auto opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer" />
+        <PencilIcon
+          className="w-4 h-auto opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer"
+          onClick={onUpdate}
+        />
       </div>
       <h1 className="w-full text-left text-2xl my-1 truncate">{name}</h1>
       <div className="w-full flex justify-end">

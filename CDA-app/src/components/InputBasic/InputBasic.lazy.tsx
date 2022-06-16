@@ -1,17 +1,9 @@
 import React, { lazy, Suspense } from 'react';
+import { InputBasicProps } from './InputBasic';
 
 const LazyInputBasic = lazy(() => import('./InputBasic'));
 
-const InputBasic = (
-  props: JSX.IntrinsicAttributes & {
-    children?: React.ReactNode;
-    type: string;
-    label: string;
-    required: boolean;
-    placeholder?: string;
-    error?: string;
-  },
-) => (
+const InputBasic = (props: JSX.IntrinsicAttributes & InputBasicProps) => (
   <Suspense fallback={null}>
     <LazyInputBasic {...props} />
   </Suspense>

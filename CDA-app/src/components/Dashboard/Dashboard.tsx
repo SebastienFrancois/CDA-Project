@@ -7,8 +7,8 @@ import ProjectCard from 'components/ProjectCard/ProjectCard.lazy';
 import './Dashboard.scss';
 import HeaderMain from 'components/HeaderMain/HeaderMain';
 
-interface DashboardProps {
-  projects: any;
+export interface DashboardProps {
+  projects: { getProjects: [IProject] };
 }
 
 const Dashboard: FC<DashboardProps> = ({ projects }) => {
@@ -29,11 +29,11 @@ const Dashboard: FC<DashboardProps> = ({ projects }) => {
         My projects :
       </h1>
       <div className="flex flex-wrap gap-5">
-        {projects.getProjects.map((project: any) => (
+        {projects.getProjects.map((project: IProject) => (
           <ProjectCard key={project._id} data={project} />
         ))}
         <aside className="flex items-center">
-          <Link to={'create-project'}>
+          <Link to={'create-project'} state={{ update: false }}>
             <AddButton onClick={() => console.log('navigate to create project')} />
           </Link>
         </aside>

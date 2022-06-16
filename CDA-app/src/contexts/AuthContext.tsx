@@ -50,7 +50,7 @@ export function AuthContextProvider({ children }: { children: ReactChild }) {
     localStorage.setItem('refresh', JSON.stringify(userToken.refresh));
     localStorage.setItem('access', JSON.stringify(userToken.access));
     axios.defaults.headers.common.Authorization = `Bearer ${userToken.access}`;
-    setRequestInterceptor(userToken);
+    setRequestInterceptor();
     setToken(userToken);
     setIsLogged(true);
   };

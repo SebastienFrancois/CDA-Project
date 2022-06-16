@@ -1,15 +1,17 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { FC } from 'react';
+// eslint-disable-next-line import/named
+import { UseFormRegister } from 'react-hook-form';
 import './InputBasic.scss';
 
-interface InputBasicProps {
+export interface InputBasicProps {
   type: string;
   label: string;
   name: string;
   required?: boolean;
   placeholder?: string;
   error?: string;
-  register: any;
+  register: UseFormRegister<any>;
 }
 
 const InputBasic: FC<InputBasicProps> = ({

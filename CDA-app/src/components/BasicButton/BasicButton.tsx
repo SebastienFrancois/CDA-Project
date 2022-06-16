@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import './BasicButton.scss';
 
-interface BasicButtonProps {
+export interface BasicButtonProps {
   content: string | JSX.Element;
   type?: 'button' | 'submit' | 'reset';
   onClick: (e: React.SyntheticEvent) => void;
