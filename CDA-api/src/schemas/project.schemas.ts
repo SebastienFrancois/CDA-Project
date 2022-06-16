@@ -1,4 +1,5 @@
 import { Schema, model, Document, Types } from 'mongoose';
+import Joi from 'joi';
 
 export enum Status {
     not_started,
@@ -34,3 +35,22 @@ const ProjectSchema = new Schema<IProject>({
 }, {timestamps: true})
 
 export const ProjectModel = model<IProject>('Project', ProjectSchema)
+
+export const validateProject = (project: IProject) => {
+  var schema = Joi.object().keys({
+    name: Joi.string().trim().max(255).required().messages({
+      'string.empty': `"name" ne peut etre vide`,
+      'string.max': `"name" ne peut etre plus grand que {#limit} caractères`,
+      'any.required': `"name" est requis`
+    }),
+    description: Joi.string().trim().max(255).required().messages({
+      'string.empty': `"description" ne peut etre vide`,
+      'string.max': `"description" ne peut etre plus grand que {#limit} caractères`,
+      'any.required': `"description" est requis`
+    }),
+    dueDate: Joi.date().required().messages({
+      'any.required': `"dueDate" ne peut etre vide`
+    }),
+  });
+  return schema.validate(project, {abortEarly:false});
+};

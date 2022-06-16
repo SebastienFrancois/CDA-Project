@@ -17,14 +17,14 @@ export const LabelModel = model<ILabel>('Label', LabelSchema)
 export const validateLabel = (label: ILabel) => {
   var schema = Joi.object().keys({
     name: Joi.string().trim().max(255).required().messages({
-        'string.empty': `"name" ne peut etre vide`,
-        'string.max': `"name" ne peut etre plus grand que {#limit} caractères`,
-        'any.required': `"name" est requis`
-      }),
+      'string.empty': `"name" ne peut etre vide`,
+      'string.max': `"name" ne peut etre plus grand que {#limit} caractères`,
+      'any.required': `"name" est requis`
+    }),
     color: Joi.string().trim().required().messages({
-      'string.empty': `"description" ne peut etre vide`,
-      'any.required': `"description" est requis`
+      'string.empty': `"color" ne peut etre vide`,
+      'any.required': `"color" est requis`
     }),
   });
-  return schema.validate(label);
+  return schema.validate(label, {abortEarly:false});
 };

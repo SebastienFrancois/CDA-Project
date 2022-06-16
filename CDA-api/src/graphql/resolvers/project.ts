@@ -1,6 +1,7 @@
 
-import { IProject, ProjectModel } from '../../schemas/project.schemas';
+import { IProject, ProjectModel, validateProject } from '../../schemas/project.schemas';
 import { TaskModel } from '../../schemas/task.schemas';
+import Joi from 'joi';
 
 export default {
     Query: {
@@ -9,6 +10,9 @@ export default {
     },
     Mutation: {
         addProject: async ( _ :ParentNode, args: IProject ) => {
+            const err = await validateProject(args);
+            if (err.error) return err.error
+
             const newProject = await ProjectModel.create({
                 name: args.name,
                 description: args.description,
@@ -26,7 +30,10 @@ export default {
                 return JSON.stringify({message:` Instance "${args.id}" wasn't deleted !`})
             }
         },
-        updateProject: async (_:ParentNode, args: {id: String}) => {
+        updateProject: async (_:ParentNode, args: IProject) => {
+            const err = await validateProject(args);
+            if (err.error) return err.error
+
             try {
                 const newProject = await ProjectModel.findByIdAndUpdate({_id: args.id}, args, {new: true});
                 return newProject

@@ -1,4 +1,5 @@
-import { IComment, CommentModel } from '../../schemas/comment.schemas';
+import { IComment, CommentModel, validateComment } from '../../schemas/comment.schemas';
+import Joi from 'joi';
 
 export default {
     Query: {
@@ -7,11 +8,14 @@ export default {
     },
     Mutation: {
         addComment: async ( _ :ParentNode, args: IComment ) => {
+            const err = await validateComment(args);
+            if (err.error) return err.error
+
             const newComment = await CommentModel.create({
                 message: args.message,
                 sentAt: new Date(),
                 // sentBy: ,
-                // Task: ,
+                Task: args.task,
             })
             newComment.save()
             return newComment
@@ -24,7 +28,10 @@ export default {
                 return JSON.stringify({message:` Instance "${args.id}" wasn't deleted !`})
             }
         },
-        updateComment: async (_:ParentNode, args: {id: String}) => {
+        updateComment: async (_:ParentNode, args: IComment) => {
+            const err = await validateComment(args);
+            if (err.error) return err.error
+
             try {
                 const updatedComment = await CommentModel.findByIdAndUpdate({_id: args.id}, args, {new: true});
                 return updatedComment
