@@ -33,7 +33,7 @@ const Dashboard: FC<DashboardProps> = ({ projects }) => {
           <ProjectCard key={project._id} data={project} />
         ))}
         <aside className="flex items-center">
-          <Link to={'create-project'}>
+          <Link to={'create-project'} state={{ update: false }}>
             <AddButton onClick={() => console.log('navigate to create project')} />
           </Link>
         </aside>

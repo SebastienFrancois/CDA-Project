@@ -31,8 +31,20 @@ export const PROJECTS = {
     }
   `,
   update: gql`
-    mutation UpdateProject($updateProjectId: ID!, $name: String) {
-      updateProject(id: $updateProjectId, name: $name) {
+    mutation UpdateProject(
+      $updateProjectId: ID!
+      $name: String
+      $description: String
+      $status: String
+      $dueDate: String
+    ) {
+      updateProject(
+        id: $updateProjectId
+        name: $name
+        description: $description
+        status: $status
+        dueDate: $dueDate
+      ) {
         _id
         name
         description

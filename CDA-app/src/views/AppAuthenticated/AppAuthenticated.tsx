@@ -24,6 +24,7 @@ const AppAuthenticated: FC<AppAuthenticatedProps> = () => {
       <Routes>
         <Route path="/" element={<Dashboard projects={data} />}></Route>
         <Route path="/create-project" element={<ProjectForm />} />
+        <Route path="/update-project" element={<ProjectForm />} />
       </Routes>
     </div>
   );

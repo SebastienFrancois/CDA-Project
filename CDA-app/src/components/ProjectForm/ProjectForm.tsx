@@ -1,31 +1,53 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { FC, useState } from 'react';
 // eslint-disable-next-line import/named
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import HeaderMain from 'components/HeaderMain/HeaderMain';
 import './ProjectForm.scss';
 import InputBasic from 'components/InputBasic/InputBasic';
 import BasicButton from 'components/BasicButton/BasicButton';
 import { PROJECTS } from 'api/query';
-import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 interface ProjectFormProps {}
 
 type FormValues = {
   name: string;
   description: string;
-  dueDate: string;
+  dueDate: string | number;
 };
 const ProjectForm: FC<ProjectFormProps> = () => {
-  const { register, handleSubmit } = useForm<FormValues>();
   const navigate = useNavigate();
+  const location: any = useLocation();
+  const { update, item } = location.state;
+  const { register, handleSubmit } = useForm<FormValues>({
+    defaultValues:
+      update && item
+        ? {
+            name: item.name,
+            description: item.description,
+            dueDate: dayjs(Number(item.dueDate)).format('YYYY-MM-DD'),
+          }
+        : {},
+  });
   const [gError, setgError] = useState<string>('');
-  const [addProject, { error }] = useMutation(PROJECTS.add);
-  if (error) setgError(error.message);
+  const [addProject] = useMutation(PROJECTS.add);
+  const [updateProject] = useMutation(PROJECTS.update);
 
   const onSubmit: SubmitHandler<FormValues> = (formState) => {
-    addProject({ variables: formState, refetchQueries: 'active' })
+    if (update && item._id) {
+      return updateProject({
+        variables: { updateProjectId: item._id, ...formState },
+        refetchQueries: 'active',
+      })
+        .then(() => {
+          navigate('/');
+        })
+        .catch((err) => alert(JSON.stringify(err)));
+    }
+    return addProject({ variables: formState, refetchQueries: 'active' })
       .then(() => {
         navigate('/');
       })
@@ -59,7 +81,7 @@ const ProjectForm: FC<ProjectFormProps> = () => {
         </section>
         <section id="right"></section>
         <span className="w-full h-auto m-8 flex justify-center align-middle">
-          <BasicButton content="Create" type="submit" onClick={() => null} />
+          <BasicButton content={update ? 'Update' : 'Create'} type="submit" onClick={() => null} />
         </span>
       </form>
     </div>

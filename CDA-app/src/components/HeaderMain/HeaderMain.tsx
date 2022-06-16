@@ -12,6 +12,8 @@ const HeaderMain: FC<HeaderMainProps> = () => {
         return 'My Dashboard';
       case '/create-project':
         return 'Create new project';
+      case '/update-project':
+        return 'Update your project';
       default:
         return '';
     }
