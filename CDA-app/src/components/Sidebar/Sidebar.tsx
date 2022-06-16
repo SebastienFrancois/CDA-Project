@@ -2,17 +2,9 @@ import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Sidebar.scss';
 
-interface SidebarProps {
+export interface SidebarProps {
   projects: {
-    getProjects: {
-      _id: string;
-      name: string;
-      description: string;
-      status: string;
-      dueDate: string;
-      createdAt: string;
-      updatedAt: string;
-    }[];
+    getProjects: [IProject];
   };
 }
 
@@ -31,7 +23,7 @@ const Sidebar: FC<SidebarProps> = (props) => {
         <div className="mb-5">
           <h2 className="text-secondary text-2xl font-bold my-4">Projects</h2>
           <ul>
-            {props.projects.getProjects.map((project: any, key: any) => {
+            {props.projects.getProjects.map((project) => {
               return (
                 <li className="my-2" key={project._id}>
                   <a className="text-white text-lg" href="#">

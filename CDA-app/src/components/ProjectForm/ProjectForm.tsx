@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { FC, useState } from 'react';
 // eslint-disable-next-line import/named
-import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import HeaderMain from 'components/HeaderMain/HeaderMain';
@@ -18,9 +18,17 @@ type FormValues = {
   description: string;
   dueDate: string | number;
 };
+export interface LocationParams<R> {
+  pathname: string;
+  state: R;
+  search: string;
+  hash: string;
+  key: string;
+}
+
 const ProjectForm: FC<ProjectFormProps> = () => {
   const navigate = useNavigate();
-  const location: any = useLocation();
+  const location: LocationParams<any> = useLocation();
   const { update, item } = location.state;
   const { register, handleSubmit } = useForm<FormValues>({
     defaultValues:

@@ -9,11 +9,11 @@ import './ProjectCard.scss';
 import { useNavigate } from 'react-router-dom';
 
 interface StatusBadgeProps {
-  status: string;
+  status: Status;
 }
 
-interface ProjectCardProps {
-  data: { [key: string]: string };
+export interface ProjectCardProps {
+  data: IProject;
 }
 const colorStatus: { [key: string]: { text: string; bg: string; border: string } } = {
   'not started': { text: 'text-gray-600', bg: 'bg-gray-200', border: 'border-gray-500' },
