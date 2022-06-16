@@ -1,4 +1,6 @@
-import { ILabel, LabelModel } from '../../schemas/label.schemas';
+import errorHandler from '../../../utils/errorHandler';
+import { ILabel, LabelModel, validateLabel } from '../../schemas/label.schemas';
+import Joi from 'joi';
 
 export default {
     Query: {
@@ -7,6 +9,9 @@ export default {
     },
     Mutation: {
         addLabel: async ( _ :ParentNode, args: ILabel ) => {
+            const err = await validateLabel(args);
+            if (err.error) return err.error
+
             const newLabel = await LabelModel.create({
                 name: args.name,
                 color: args.color,
@@ -22,7 +27,9 @@ export default {
                 return JSON.stringify({message:` Instance "${args.id}" wasn't deleted !`})
             }
         },
-        updateLabel: async (_:ParentNode, args: {id: String}) => {
+        updateLabel: async (_:ParentNode, args: ILabel )   => {
+            const err = await validateLabel(args);
+            if (err.error) return err.error
             try {
                 const updatedLabel = await LabelModel.findByIdAndUpdate({_id: args.id}, args, {new: true});
                 return updatedLabel

@@ -2,7 +2,8 @@
 import { Types } from 'mongoose';
 import { LabelModel } from '../../schemas/label.schemas';
 import { ProjectModel } from '../../schemas/project.schemas';
-import { ITask, TaskModel } from '../../schemas/task.schemas';
+import { ITask, TaskModel, validateTask } from '../../schemas/task.schemas';
+import Joi from 'joi';
 
 export default {
     Query: {
@@ -11,6 +12,9 @@ export default {
     },
     Mutation: {
         addTask: async ( _ :ParentNode, args: ITask ) => {
+            const err = await validateTask(args);
+            if (err.error) return err.error
+
             const newTask = await TaskModel.create({
                 name: args.name,
                 description: args.description,
@@ -30,7 +34,10 @@ export default {
                 return JSON.stringify({message:` Instance "${args.id}" wasn't deleted !`})
             }
         },
-        updateTask: async (_:ParentNode, args: {id: String}) => {
+        updateTask: async (_:ParentNode, args: ITask) => {
+            const err = await validateTask(args);
+            if (err.error) return err.error
+
             try {
                 const updatedTask = await TaskModel.findByIdAndUpdate({_id: args.id}, args, {new: true});
                 return updatedTask
