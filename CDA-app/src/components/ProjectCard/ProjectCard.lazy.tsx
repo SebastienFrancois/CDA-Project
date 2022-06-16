@@ -4,9 +4,7 @@ const LazyProjectCard = lazy(() => import('./ProjectCard'));
 
 const ProjectCard = (
   props: JSX.IntrinsicAttributes & {
-    name: string;
-    status: string;
-    dueDate: string;
+    [key: string]: string;
   },
 ) => (
   <Suspense fallback={null}>

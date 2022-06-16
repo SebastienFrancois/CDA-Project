@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { NavLink } from 'react-router-dom';
 import './Sidebar.scss';
 
 interface SidebarProps {
@@ -16,7 +17,6 @@ interface SidebarProps {
 }
 
 const Sidebar: FC<SidebarProps> = (props) => {
-  console.log(props);
   return (
     <nav className="Sidebar bg-primary h-full flex flex-col justify-between p-3">
       <div>
@@ -24,7 +24,7 @@ const Sidebar: FC<SidebarProps> = (props) => {
         <hr className="border-0 h-0.5 max-h-px bg-secondary" />
         <div>
           <h2 className="text-secondary text-2xl font-bold my-4">
-            <a href="#">Dashboard</a>
+            <NavLink to="/">Dashboard</NavLink>
           </h2>
         </div>
         <hr className="border-0 h-0.5 max-h-px bg-secondary" />
