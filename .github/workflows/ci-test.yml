@@ -15,6 +15,7 @@ jobs:
         node-version: [12.x, 14.x, 16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
+      - name: setup
         uses: actions/checkout@v2
       - name: Build the stack
         run: docker-compose up --build -d
