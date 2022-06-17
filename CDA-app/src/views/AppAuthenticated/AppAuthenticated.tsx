@@ -21,11 +21,13 @@ const AppAuthenticated: FC<AppAuthenticatedProps> = () => {
       <div className="w-2/12 h-full">
         <Sidebar projects={data} />
       </div>
-      <Routes>
-        <Route path="/" element={<Dashboard projects={data} />}></Route>
-        <Route path="/create-project" element={<ProjectForm />} />
-        <Route path="/update-project" element={<ProjectForm />} />
-      </Routes>
+      <div className="w-10/12 p-6 h-full flex flex-col justify-start items-start overflow-y-scroll overflow-x-hidden scroll-auto">
+        <Routes>
+          <Route path="/" element={<Dashboard projects={data} />}></Route>
+          <Route path="/create-project" element={<ProjectForm />} />
+          <Route path="/update-project" element={<ProjectForm />} />
+        </Routes>
+      </div>
     </div>
   );
 };

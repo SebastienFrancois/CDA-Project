@@ -63,7 +63,7 @@ const ProjectForm: FC<ProjectFormProps> = () => {
   };
 
   return (
-    <div className="w-10/12 p-6 max-h-screen flex flex-col justify-start items-start">
+    <>
       <HeaderMain />
       <h1 className=" text-3xl my-4 text-primary font-medium flex">Project informations</h1>
       {gError && <span className="w-full text-left text-red-600 my-2 ">{gError}</span>}
@@ -92,7 +92,7 @@ const ProjectForm: FC<ProjectFormProps> = () => {
           <BasicButton content={update ? 'Update' : 'Create'} type="submit" onClick={() => null} />
         </span>
       </form>
-    </div>
+    </>
   );
 };
 

@@ -13,7 +13,7 @@ export interface DashboardProps {
 
 const Dashboard: FC<DashboardProps> = ({ projects }) => {
   return projects.getProjects ? (
-    <div className="w-10/12 p-6 h-full flex flex-col justify-start items-start">
+    <>
       <HeaderMain />
       <h1 className=" text-3xl my-4 text-primary font-medium flex">
         <span className=" h-full flex place-items-end pr-2">
@@ -45,7 +45,7 @@ const Dashboard: FC<DashboardProps> = ({ projects }) => {
         Archived :
       </h1>
       <p className=" text-base font-normal text-slate-500">No content yet</p>
-    </div>
+    </>
   ) : (
     <>No projects to show</>
   );
