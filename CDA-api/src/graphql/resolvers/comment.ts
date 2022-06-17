@@ -1,7 +1,6 @@
 import { IComment, CommentModel, validateComment } from '../../schemas/comment.schemas';
 import Joi from 'joi';
 
-//commentaire a suppr
 export default {
     Query: {
         getComments: async () => await CommentModel.find({}),
