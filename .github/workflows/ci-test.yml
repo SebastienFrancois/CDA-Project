@@ -32,9 +32,18 @@ jobs:
 
       - name: build api
         run: docker compose exec cda-project-api-1 npm ci
+        env:
+            ENV: "dev"
+            DB_PASS: "avenger123"
 
       - name: run build
         run: docker compose exec cda-project-api-1 npm run build --if-present
+        env:
+            ENV: "dev"
+            DB_PASS: "avenger123"
 
       - name: run tests
         run: docker compose exec cda-project-api-1 npm test
+        env:
+            ENV: "dev"
+            DB_PASS: "avenger123"
