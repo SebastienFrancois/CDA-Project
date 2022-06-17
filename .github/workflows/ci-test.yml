@@ -24,11 +24,11 @@ jobs:
             ENV: "dev"
             DB_PASS: "avenger123"
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+     # - name: Use Node.js ${{ matrix.node-version }}
+      #  uses: actions/setup-node@v3
+       # with:
+        #  node-version: ${{ matrix.node-version }}
+         # cache: 'npm'
 
       - name: build api
         run: docker compose exec cda-project-api-1 npm ci
