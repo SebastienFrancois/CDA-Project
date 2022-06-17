@@ -62,36 +62,6 @@ describe('LABELS', () => {
               "dueDate": "1653659092",
             }})
       })
-  
-      it('should create a new label', async () => {
-          const addLabelMutation = `
-          mutation addLabel($name: String!, $color: String!) {
-              addLabel(name: $name, color: $color) {
-                _id
-                name
-                color
-              }
-            }
-          `
-          const variables = {
-            name: 'labelTest',
-            color: "#ff0011"
-          }
-  
-          const response = await testServer.executeOperation({query: addLabelMutation, variables})
-  
-          if (response.data) {
-              labelId = response.data.addLabel._id
-          }
-  
-          expect(response.data).toEqual({
-            "addLabel": {
-              "_id": labelId,
-              "name": "labelTest",
-              "color": "#ff0011"
-            }})
-      })
-  
 
     it('should connect ... And getLabels[]...', async () => {
         const queryLabels = `
@@ -200,5 +170,19 @@ describe('LABELS', () => {
           "deleteLabel": JSON.stringify({message:`Instance "${id}" has been deleted successfully !`})
         })
     })
+    
+    it("should delete projectTest", async () => {
+      const deleteProjectMutation = `
+      mutation DeleteProject($deleteProjectId: ID!) {
+        deleteProject(id: $deleteProjectId)
+      }`
+      const variables = { "deleteProjectId": projectId }
+
+      const response = await testServer.executeOperation({query: deleteProjectMutation, variables})
+
+      expect(response.data).toEqual({
+        "deleteProject": JSON.stringify({message:`Instance "${projectId}" has been deleted successfully !`})
+      })
+  })
 
 })
