@@ -25,6 +25,73 @@ describe('LABELS', () => {
     afterAll(async () => {
         await testServer.stop()
     })
+      //first create a project and a label
+      let projectId = ""
+      let labelId = ""
+    
+      it('should create a new project', async () => {
+        const addProjectMutation = `
+        mutation AddProject($name: String!, $description: String!, $dueDate: String!) {
+            addProject(name: $name, description: $description, dueDate: $dueDate) {
+              _id
+              name
+              description
+              status
+              dueDate
+            }
+          }
+        `
+        const variables = {
+          name: 'projectTest',
+          dueDate: "1653659092",
+          description: "This is a test project",
+        }
+  
+          const response = await testServer.executeOperation({query: addProjectMutation, variables})
+  
+          if (response.data) {
+              projectId = response.data.addProject._id
+          }
+  
+          expect(response.data).toEqual({
+            "addProject": {
+              "_id": projectId,
+              "name": "projectTest",
+              "description": "This is a test project",
+              "status": "not started",
+              "dueDate": "1653659092",
+            }})
+      })
+  
+      it('should create a new label', async () => {
+          const addLabelMutation = `
+          mutation addLabel($name: String!, $color: String!) {
+              addLabel(name: $name, color: $color) {
+                _id
+                name
+                color
+              }
+            }
+          `
+          const variables = {
+            name: 'labelTest',
+            color: "#ff0011"
+          }
+  
+          const response = await testServer.executeOperation({query: addLabelMutation, variables})
+  
+          if (response.data) {
+              labelId = response.data.addLabel._id
+          }
+  
+          expect(response.data).toEqual({
+            "addLabel": {
+              "_id": labelId,
+              "name": "labelTest",
+              "color": "#ff0011"
+            }})
+      })
+  
 
     it('should connect ... And getLabels[]...', async () => {
         const queryLabels = `

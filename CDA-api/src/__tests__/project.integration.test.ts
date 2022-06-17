@@ -50,8 +50,8 @@ describe('PROJECTS', () => {
 
     it('should create a new project', async () => {
         const addProjectMutation = `
-        mutation AddProject($name: String!, $dueDate: String!) {
-            addProject(name: $name, dueDate: $dueDate) {
+        mutation AddProject($name: String!, $description: String!, $dueDate: String!) {
+            addProject(name: $name, description: $description, dueDate: $dueDate) {
               _id
               name
               description
@@ -62,7 +62,8 @@ describe('PROJECTS', () => {
         `
         const variables = {
           name: 'projectTest',
-          dueDate: "1653659092"
+          dueDate: "1653659092",
+          description: "This is a test project",
         }
 
         const response = await testServer.executeOperation({query: addProjectMutation, variables})
@@ -75,7 +76,7 @@ describe('PROJECTS', () => {
           "addProject": {
             "_id": id,
             "name": "projectTest",
-            "description": null,
+            "description": "This is a test project",
             "status": "not started",
             "dueDate": "1653659092",
           }})
@@ -100,7 +101,7 @@ describe('PROJECTS', () => {
             {
               "_id": id,
               "name": "projectTest",
-              "description": null,
+              "description": "This is a test project",
               "status": "not started",
               "dueDate": "1653659092",
             }
@@ -110,8 +111,8 @@ describe('PROJECTS', () => {
 
     it('should update projectTest', async () => {
         const updateProjectMutation = `
-        mutation UpdateProject($updateProjectId: ID!, $name: String) {
-          updateProject(id: $updateProjectId, name: $name) {
+        mutation UpdateProject($updateProjectId: ID!, $name: String, $description: String, $dueDate: String) {
+          updateProject(id: $updateProjectId, name: $name, description: $description, dueDate: $dueDate) {
             _id
             name
             description
@@ -120,7 +121,7 @@ describe('PROJECTS', () => {
           }
         }
         `
-        const variables = { "updateProjectId": id, "name": "projectTestUpdated" }
+        const variables = { "updateProjectId": id, "name": "projectTestUpdated","description": "This is a test project", "dueDate": "1653659092" }
 
         const response = await testServer.executeOperation({query: updateProjectMutation, variables})
 
@@ -128,7 +129,7 @@ describe('PROJECTS', () => {
           "updateProject": {
             "_id": id,
             "name": "projectTestUpdated",
-            "description": null,
+            "description": "This is a test project",
             "status": "not started",
             "dueDate": "1653659092"          
           }

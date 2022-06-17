@@ -31,8 +31,6 @@ export default {
             }
         },
         updateProject: async (_:ParentNode, args: IProject) => {
-            const err = await validateProject(args);
-            if (err.error) return err.error
 
             try {
                 const newProject = await ProjectModel.findByIdAndUpdate({_id: args.id}, args, {new: true});

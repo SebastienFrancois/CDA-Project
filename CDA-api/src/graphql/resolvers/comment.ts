@@ -8,8 +8,8 @@ export default {
     },
     Mutation: {
         addComment: async ( _ :ParentNode, args: IComment ) => {
-            const err = await validateComment(args);
-            if (err.error) return err.error
+            // const err = await validateComment(args);
+            // if (err.error) return err.error
 
             const newComment = await CommentModel.create({
                 message: args.message,
@@ -29,8 +29,8 @@ export default {
             }
         },
         updateComment: async (_:ParentNode, args: IComment) => {
-            const err = await validateComment(args);
-            if (err.error) return err.error
+            // const err = await validateComment(args);
+            // if (err.error) return err.error
 
             try {
                 const updatedComment = await CommentModel.findByIdAndUpdate({_id: args.id}, args, {new: true});

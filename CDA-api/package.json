@@ -7,6 +7,7 @@
   "license": "ISC",
   "scripts": {
     "test": "jest",
+    "test:i": "jest --runInBand",
     "screw-u": "echo \"Error: no test specified\" && exit 1",
     "doggy-style": "tsc -w",
     "kiss": "nodemon server.ts",

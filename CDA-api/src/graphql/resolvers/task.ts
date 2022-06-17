@@ -12,8 +12,8 @@ export default {
     },
     Mutation: {
         addTask: async ( _ :ParentNode, args: ITask ) => {
-            const err = await validateTask(args);
-            if (err.error) return err.error
+            // const err = await validateTask(args);
+            // if (err.error) return err.error
 
             const newTask = await TaskModel.create({
                 name: args.name,
@@ -35,8 +35,6 @@ export default {
             }
         },
         updateTask: async (_:ParentNode, args: ITask) => {
-            const err = await validateTask(args);
-            if (err.error) return err.error
 
             try {
                 const updatedTask = await TaskModel.findByIdAndUpdate({_id: args.id}, args, {new: true});

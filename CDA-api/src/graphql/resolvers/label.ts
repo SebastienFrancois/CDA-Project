@@ -28,8 +28,6 @@ export default {
             }
         },
         updateLabel: async (_:ParentNode, args: ILabel )   => {
-            const err = await validateLabel(args);
-            if (err.error) return err.error
             try {
                 const updatedLabel = await LabelModel.findByIdAndUpdate({_id: args.id}, args, {new: true});
                 return updatedLabel
