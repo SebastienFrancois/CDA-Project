@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build the stack
-        run: docker-compose up --build -d
+        run: docker-compose -t docker-compose.test.yml up --build -d
         env:
             ENV: "dev"
             DB_PASS: "avenger123"

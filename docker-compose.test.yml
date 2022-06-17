@@ -1,0 +1,16 @@
+services:
+  api:
+    build: ./CDA-api
+    environment:
+      - WDS_SOCKET_PORT=5000
+      - WATCHPACK_POLLING=true
+    ports:
+      - 5000:5000
+    command: npm run kiss
+    volumes:
+      - ./CDA-api/src:/app/src
+      - ./CDA-api/utils:/app/utils
+  mongodb:
+    image: mongo
+    volumes:
+      - ./CDA-api/mongo:/data/mongo
