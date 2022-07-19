@@ -81,7 +81,7 @@ const ProjectForm: FC<ProjectFormProps> = () => {
             type="textarea"
             name="description"
             placeholder="Describe your project"
-            label="description"
+            label="Description"
             required
             register={register}
           />

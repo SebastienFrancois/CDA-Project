@@ -37,7 +37,7 @@ const ProjectSchema = new Schema<IProject>({
 export const ProjectModel = model<IProject>('Project', ProjectSchema)
 
 export const validateProject = (project: IProject) => {
-  var schema = Joi.object().keys({
+  const schema = Joi.object().keys({
     name: Joi.string().trim().max(255).required().messages({
       'string.empty': `"name" ne peut etre vide`,
       'string.max': `"name" ne peut etre plus grand que {#limit} caractères`,

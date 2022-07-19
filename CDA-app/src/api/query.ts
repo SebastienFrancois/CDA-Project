@@ -15,8 +15,8 @@ export const PROJECTS = {
     }
   `,
   add: gql`
-    mutation AddProject($name: String!, $dueDate: String!) {
-      addProject(name: $name, dueDate: $dueDate) {
+    mutation AddProject($name: String!, $description: String!, $dueDate: String!) {
+      addProject(name: $name, description: $description, dueDate: $dueDate) {
         _id
         name
         description
