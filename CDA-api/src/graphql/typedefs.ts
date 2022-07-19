@@ -1,6 +1,14 @@
 import { gql } from 'apollo-server-express';
 
 const typeDefs = gql`
+    type User {
+        _id: ID,
+        email: String!,
+        username: String!,
+        password: String!,
+        picture: String,
+        preferred_language: String
+    }
     type Project {
         _id: ID
         name: String!
@@ -10,7 +18,6 @@ const typeDefs = gql`
         createdAt: String
         updatedAt: String
         tasks: [Task]
-        
     }
     type Task {
         _id: ID
@@ -41,33 +48,39 @@ const typeDefs = gql`
         typeOfNotif: String,
     }
     type Query {
-        getProjects: [Project],
-        getProject(id: ID!): Project,
-        getLabels: [Label],
-        getLabel(id: ID!): Label,
-        getTasks: [Task],
-        getTask(id: ID!): Task,
-        getComments: [Comment],
         getComment(id: ID!): Comment,
-        getNotifications: [Notification],
+        getComments: [Comment],
+        getLabel(id: ID!): Label,
+        getLabels: [Label],
         getNotification(id: ID!): Notification,
+        getNotifications: [Notification],
+        getProject(id: ID!): Project,
+        getProjects: [Project],
+        getTask(id: ID!): Task,
+        getTasks: [Task],
+        getUser(id: ID!): User,
+        getUsers: [User],
     }
     type Mutation {
-        addProject(name: String!, description: String, status: String,dueDate: String!): Project
-        deleteProject(id: ID!): String!
-        updateProject(id: ID!, name: String, description: String, status: String, dueDate: String): Project
-        addLabel(name: String, color: String): Label
-        deleteLabel(id: ID!): String!
-        updateLabel(id: ID!, name: String, color: String): Label
-        addTask(name: String!, description: String, status: String, dueDate: String!, labels: [String], project: String!): Task
-        deleteTask(id: ID!): String!
-        updateTask(id: ID!, name: String, description: String, status: String, dueDate: String, labels: [String], project: String): Task
         addComment(message: String!, task: String!): Comment
-        deleteComment(id: ID!): String!
-        updateComment(id: ID!, message: String!): Comment
+        addLabel(name: String, color: String): Label
         addNotification(message: String!, createdAt: String, typeOfNotif: String): Notification
+        addProject(name: String!, description: String, status: String,dueDate: String!): Project
+        addTask(name: String!, description: String, status: String, dueDate: String!, labels: [String], project: String!): Task
+        addUser(email: String!, username: String!, password: String!, picture: String, preferred_language: String): User
+        deleteComment(id: ID!): String!
+        deleteLabel(id: ID!): String!
         deleteNotification(id: ID!): String!
+        deleteProject(id: ID!): String!
+        deleteTask(id: ID!): String!
+        deleteUser(id: ID!): String!
+        updateComment(id: ID!, message: String!): Comment
+        updateLabel(id: ID!, name: String, color: String): Label
         updateNotification(id: ID!, message: String!, createdAt: String, typeOfNotif: String): Notification
+        updateProject(id: ID!, name: String, description: String, status: String, dueDate: String): Project
+        updateTask(id: ID!, name: String, description: String, status: String, dueDate: String, labels: [String], project: String): Task
+        updateUser(id: ID!, email: String!, username: String!, password: String!, picture: String, preferred_language: String): User
+        login(email: String!, password: String!): String
     }
 `
 export { typeDefs };

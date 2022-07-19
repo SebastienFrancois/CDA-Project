@@ -1,4 +1,4 @@
-import { boolean } from 'joi';
+import Joi from 'joi';
 import { Schema, model, Document } from 'mongoose';
 
 export enum Role {
@@ -8,11 +8,11 @@ export enum Role {
 }
 
 export interface IUser extends Document {
-    mail: String,
+    email: String,
     username: String,
     password: String,
     role?: Role,
-    workspace_settings: {
+    workspace_settings?: {
         notification: {
             all: boolean,
             status: boolean,
@@ -30,7 +30,7 @@ export interface IUser extends Document {
 }
 
 const UserSchema = new Schema<IUser>({
-  mail: {type: String, unique: true, maxlength: 255},
+  email: {type: String, unique: true, maxlength: 255},
   username: {type: String, maxlength: 255},
   password: {type: String, maxlength: 255},
   role: {type: String, enum: ['ADMIN','CO','DEV']},
@@ -52,3 +52,24 @@ const UserSchema = new Schema<IUser>({
 })
 
 export const UserModel = model<IUser>('User', UserSchema)
+
+export const validateUser = (user: IUser) => {
+    var schema = Joi.object().keys({
+      email: Joi.string().trim().max(255).email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'fr'] } }).required().messages({
+        'string.empty': `"email" ne peut etre vide`,
+        'string.max': `"email" ne peut etre plus grand que {#limit} caractères`,
+        'any.required': `"email" est requis`
+      }),
+      username: Joi.string().trim().max(255).required().messages({
+        'string.empty': `"username" ne peut etre vide`,
+        'string.max': `"username" ne peut etre plus grand que {#limit} caractères`,
+        'any.required': `"username" est requis`
+      }),
+      password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required().messages({
+        'any.required': `"password" ne peut etre vide`
+      }),
+      picture: Joi.string(),
+      preferred_language: Joi.string(),
+    });
+    return schema.validate(user, {abortEarly:false});
+  };
