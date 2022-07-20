@@ -1,3 +1,4 @@
+import userResolvers from './user';
 import projectResolvers from "./project";
 import taskResolvers from './task'
 import labelResolvers from './label'
@@ -6,6 +7,7 @@ import commentResolvers from './comment'
 
 export default {
   Query: {
+    ...userResolvers.Query,
     ...projectResolvers.Query,
     ...taskResolvers.Query,
     ...labelResolvers.Query,
@@ -13,6 +15,7 @@ export default {
     ...commentResolvers.Query,
   },
   Mutation: {
+    ...userResolvers.Mutation,
     ...projectResolvers.Mutation,
     ...taskResolvers.Mutation,
     ...labelResolvers.Mutation,

@@ -8,7 +8,6 @@ services:
       - ./CDA-api/.env
     ports:
       - 5000:5000
-    command: npm run kiss
     volumes:
       - ./CDA-api/src:/app/src
       - ./CDA-api/utils:/app/utils
