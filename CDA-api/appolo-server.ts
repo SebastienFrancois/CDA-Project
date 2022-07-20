@@ -17,7 +17,7 @@ const server = new ApolloServer({
     if (token) {
       const isValid = verifyToken(token);
       if (!isValid) return new AuthenticationError("Token invalid");
-      ctx.user = isValid.data.email;
+      ctx.user = isValid.data.id;
     }
     return ctx;
   }

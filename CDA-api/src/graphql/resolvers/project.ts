@@ -7,6 +7,7 @@ export default {
     Query: {
         getProjects: async (_:ParentNode, _args: any, context: any) => {
             const {user} = context;
+            console.log("id user " + user)
             if (!user) return new AuthenticationError("Invalid auth");
             return await ProjectModel.find({})
         },
