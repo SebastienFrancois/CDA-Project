@@ -1,11 +1,15 @@
 
 import { IProject, ProjectModel, validateProject } from '../../schemas/project.schemas';
 import { TaskModel } from '../../schemas/task.schemas';
-import Joi from 'joi';
+import { AuthenticationError } from 'apollo-server-express';
 
 export default {
     Query: {
-        getProjects: async () => await ProjectModel.find({}),
+        getProjects: async (_:ParentNode, _args: any, context: any) => {
+            const {user} = context;
+            if (!user) return new AuthenticationError("Invalid auth");
+            return await ProjectModel.find({})
+        },
         getProject: async (_:ParentNode, args: {id: String}) => await ProjectModel.findById({_id: args.id}) 
     },
     Mutation: {

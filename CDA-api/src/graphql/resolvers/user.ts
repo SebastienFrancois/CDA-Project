@@ -1,6 +1,5 @@
 
 import { IUser, UserModel, validateUser } from '../../schemas/user.schemas';
-import bcrypt from 'bcrypt';
 import { hashPassword, verifyPassword } from '../../../utils/pwd';
 import { generateToken } from '../../../utils/token';
 
