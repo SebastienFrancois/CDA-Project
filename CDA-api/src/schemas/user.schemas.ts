@@ -8,9 +8,9 @@ export enum Role {
 }
 
 export interface IUser extends Document {
-    email: String,
-    username: String,
-    password: String,
+    email: string,
+    username: string,
+    password: string,
     role?: Role,
     workspace_settings?: {
         notification: {

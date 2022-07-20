@@ -9,6 +9,10 @@ const typeDefs = gql`
         picture: String,
         preferred_language: String
     }
+    type UserResponse {
+        token: String, 
+        email: String
+    }
     type Project {
         _id: ID
         name: String!
@@ -67,7 +71,7 @@ const typeDefs = gql`
         addNotification(message: String!, createdAt: String, typeOfNotif: String): Notification
         addProject(name: String!, description: String, status: String,dueDate: String!): Project
         addTask(name: String!, description: String, status: String, dueDate: String!, labels: [String], project: String!): Task
-        addUser(email: String!, username: String!, password: String!, picture: String, preferred_language: String): User
+        addUser(email: String!, username: String!, password: String!, picture: String, preferred_language: String): UserResponse
         deleteComment(id: ID!): String!
         deleteLabel(id: ID!): String!
         deleteNotification(id: ID!): String!
