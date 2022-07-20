@@ -1,7 +1,8 @@
 
 import { IUser, UserModel, validateUser } from '../../schemas/user.schemas';
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { hashPassword, verifyPassword } from '../../../utils/pwd';
+import { generateToken } from '../../../utils/token';
 
 
 export default{
@@ -11,7 +12,7 @@ export default{
     },
     Mutation: {
         addUser: async ( _ :ParentNode, args: IUser ) => {
-            const err = await validateUser(args);
+            const err = validateUser(args);
             if (err.error) return err.error
 
             const userExist = await UserModel.findOne({email: args.email});
@@ -20,10 +21,8 @@ export default{
                 console.log(userExist); 
                 return new Error('User already exist');
             } 
-
-            const salt = await bcrypt.genSalt(10);
             
-            const hash = await bcrypt.hash(args.password, salt);
+            const hash = await hashPassword(args.password);
 
             if (!hash) return new Error("Problem occured while hashing password")
 
@@ -31,7 +30,7 @@ export default{
                 const newUser: IUser = await UserModel.create({
                     username: args.username,
                     email: args.email,
-                    password: hash,	
+                    password: hash,
                     picture: args.picture,
                     preferred_language: args.preferred_language,
                 });
@@ -64,22 +63,14 @@ export default{
             if (!currentUser) {
                 return new Error('Invalid email or password');
             }
-            const isValid = await bcrypt.compare( password, currentUser.password);
+            const isValid = await verifyPassword(password, currentUser.password);
 
-            if (isValid) {
-                return generateToken(currentUser);
+            if (!isValid) {
+                return new Error('Invalid email or password');
             }
-
-            return new Error('Invalid email or password');
+            
+            return generateToken(currentUser);
           }
     },
 }
 
-const generateToken =  (user: IUser) => {
-    const secret_key : string = (process.env.PRIVATE_KEY as string);
-    return jwt.sign(
-      { data: {username: user.username, email: user.email, preferred_language: user.preferred_language} },
-      secret_key,
-      { algorithm: "HS256", expiresIn: "1d" }
-    );
-}

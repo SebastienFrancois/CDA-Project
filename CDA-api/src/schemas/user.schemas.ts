@@ -54,7 +54,7 @@ const UserSchema = new Schema<IUser>({
 export const UserModel = model<IUser>('User', UserSchema)
 
 export const validateUser = (user: IUser) => {
-    var schema = Joi.object().keys({
+    const schema = Joi.object().keys({
       email: Joi.string().trim().max(255).email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'fr'] } }).required().messages({
         'string.empty': `"email" ne peut etre vide`,
         'string.max': `"email" ne peut etre plus grand que {#limit} caractères`,
