@@ -13,14 +13,11 @@ interface AppAuthenticatedProps {}
 const AppAuthenticated: FC<AppAuthenticatedProps> = () => {
   const { loading, error, data } = useQuery(PROJECTS.get);
 
-  if (loading) return <p>Loading...</p>;
-  // if (error) return <p>Error</p>;
-
   return (
     <div className={appContainer}>
       <Routes>
         <Route path="/" element={<Sidebar projects={data} />}>
-          <Route path="/dashboard" element={<Dashboard projects={data} />} />
+          <Route path="/dashboard" element={<Dashboard projects={data} isLoading={loading} />} />
           <Route path="/create-project" element={<ProjectForm />} />
           <Route path="/update-project" element={<ProjectForm />} />
           <Route path="*" element={<Navigate to="/dashboard" />} />

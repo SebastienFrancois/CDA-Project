@@ -3,7 +3,7 @@ import { USERS } from 'api/query';
 import { useMutation } from '@apollo/client';
 import Logo from '../../assets/png/SimplePlan.png';
 import { AuthContext } from 'contexts/AuthContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import React, { FC, useContext, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import SpinLoader from 'components/SpinLoader/SpinLoader';
@@ -18,7 +18,6 @@ type FormValues = {
 interface LoginProps {}
 export const Login: FC<LoginProps> = () => {
   const { register, handleSubmit } = useForm<FormValues>({});
-  const navigate = useNavigate();
   const { onLogin } = useContext(AuthContext);
   const [login, { loading }] = useMutation(USERS.login);
   const [gError, setgError] = useState<string>('');
