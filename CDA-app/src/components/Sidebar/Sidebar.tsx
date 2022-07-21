@@ -1,7 +1,8 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import Logo from '../../assets/png/SimplePlan.png';
 import './Sidebar.scss';
+import { AuthContext } from 'contexts/AuthContext';
 
 export interface SidebarProps {
   projects: {
@@ -10,6 +11,8 @@ export interface SidebarProps {
 }
 
 const Sidebar: FC<SidebarProps> = (props) => {
+  const { onLogout } = useContext(AuthContext);
+
   return (
     <>
       <div className="w-2/12 h-full">
@@ -53,7 +56,7 @@ const Sidebar: FC<SidebarProps> = (props) => {
             </div>
           </div>
           <div>
-            <a href="#" className="text-white">
+            <a href="#" className="text-white" onClick={onLogout}>
               Logout
             </a>
           </div>
