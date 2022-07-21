@@ -35,7 +35,6 @@ export function AuthContextProvider({ children }: { children: ReactChild }) {
 
   const onLogin = (userToken: string) => {
     localStorage.setItem('access-token', userToken);
-    setRequestInterceptor();
     setToken(userToken);
     setIsLogged(true);
   };
