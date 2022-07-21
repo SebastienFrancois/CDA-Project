@@ -1,15 +1,14 @@
-import React, { FC, useContext, useState } from 'react';
-import BasicButton from 'components/BasicButton/BasicButton.lazy';
-import InputBasic from 'components/InputBasic/InputBasic.lazy';
-import Logo from '../../assets/png/SimplePlan.png';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
-
 import './Login.scss';
-import { useMutation } from '@apollo/client';
 import { USERS } from 'api/query';
-import SpinLoader from 'components/SpinLoader/SpinLoader';
+import { useMutation } from '@apollo/client';
+import Logo from '../../assets/png/SimplePlan.png';
 import { AuthContext } from 'contexts/AuthContext';
+import { Link, useNavigate } from 'react-router-dom';
+import React, { FC, useContext, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import SpinLoader from 'components/SpinLoader/SpinLoader';
+import InputBasic from 'components/InputBasic/InputBasic.lazy';
+import BasicButton from 'components/BasicButton/BasicButton.lazy';
 
 type FormValues = {
   email: string;
