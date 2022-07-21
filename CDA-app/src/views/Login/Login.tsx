@@ -33,7 +33,7 @@ export const Login: FC<LoginProps> = () => {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row justify-center w-2/3 sm:w-3/4 h-2/3 bg-primary p-4 space-y-4 sm:space-y-0 sm:space-x-4 rounded-md shadow-lg bg-opacity-70">
+    <div className="flex flex-col sm:flex-row justify-center w-2/3 sm:w-3/4 h-2/3 bg-primary p-8 space-y-4 sm:space-y-0 sm:space-x-4 rounded-md shadow-lg bg-opacity-70">
       {loading ? (
         <SpinLoader />
       ) : (
