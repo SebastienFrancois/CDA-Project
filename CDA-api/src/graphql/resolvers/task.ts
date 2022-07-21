@@ -4,14 +4,28 @@ import { LabelModel } from '../../schemas/label.schemas';
 import { ProjectModel } from '../../schemas/project.schemas';
 import { ITask, TaskModel, validateTask } from '../../schemas/task.schemas';
 import Joi from 'joi';
+import { AuthenticationError } from 'apollo-server-express';
 
 export default {
     Query: {
-        getTasks: async () => await TaskModel.find({}),
-        getTask: async (_:ParentNode, args: {id: String}) => await TaskModel.findById({_id: args.id}) 
+        getTasks: async (context: {user: {id: string}}) => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
+            //verifie que l'utilisateur et bien assigné au project rattacher a cette tache.
+            //if(project.team.!includes(context.user.id)) throw new AuthenticationError('Invalid role');
+            return await TaskModel.find({})
+        },   
+        getTask: async (_:ParentNode, args: {id: String}, context: {user: {id: string}}) => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
+            //verifie que l'utilisateur et bien assigné au project rattacher a cette tache.
+            //if(project.team.!includes(context.user.id)) throw new AuthenticationError('Invalid role');
+            return await TaskModel.findById({_id: args.id})
+        }
     },
     Mutation: {
-        addTask: async ( _ :ParentNode, args: ITask ) => {
+        addTask: async ( _ :ParentNode, args: ITask, context: {user: {id: string}}) => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
+            // verifier permission chef de projet ??
+
             // const err = await validateTask(args);
             // if (err.error) return err.error
 
@@ -26,7 +40,10 @@ export default {
             newTask.save()
             return newTask
         },
-        deleteTask : async (_:ParentNode, args: {id: String}) => {
+        deleteTask : async (_:ParentNode, args: {id: String}, context: {user: {id: string}}) => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
+            // verifier permission chef de projet ??
+
             try {
                 await TaskModel.findOneAndDelete({_id: args.id})
                 return JSON.stringify({message:`Instance "${args.id}" has been deleted successfully !`})
@@ -34,7 +51,8 @@ export default {
                 return JSON.stringify({message:` Instance "${args.id}" wasn't deleted !`})
             }
         },
-        updateTask: async (_:ParentNode, args: ITask) => {
+        updateTask: async (_:ParentNode, args: ITask, context: {user: {id: string}}) => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
 
             try {
                 const updatedTask = await TaskModel.findByIdAndUpdate({_id: args.id}, args, {new: true});
