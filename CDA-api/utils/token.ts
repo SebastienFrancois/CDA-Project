@@ -6,14 +6,15 @@ export interface tokenPayload extends jwt.JwtPayload {
     id: string,
     username: string,
     email: string,
-    preferred_language: string
+    preferred_language: string,
+    role: string
   }
 }
 
 export const generateToken =  (user: IUser) => {
     const secret_key : string = (process.env.PRIVATE_KEY as string);
     return jwt.sign(
-      { data: {id: user._id, username: user.username, email: user.email, preferred_language: user.preferred_language} },
+      { data: {id: user._id, username: user.username, email: user.email, preferred_language: user.preferred_language, role: user.role} },
       secret_key,
       { algorithm: "HS256", expiresIn: "1d" }
     );
