@@ -1,15 +1,29 @@
 
 import { IProject, ProjectModel, validateProject } from '../../schemas/project.schemas';
 import { TaskModel } from '../../schemas/task.schemas';
-import Joi from 'joi';
 import { AuthenticationError } from 'apollo-server-express';
-import { retrieveUser } from '../../../utils/userInfos';
+import { Types } from 'mongoose';
 
+// { $or: [
+//     {team: { developpers: [context.user.id]}},
+//     {team: { projectManager: context.user.id}}
+// ]} 
 export default {
     Query: {
-        getProjects: async (_:ParentNode, args: any, context: {user: {id: string}}) => {
-            if(!context.user) throw new AuthenticationError('Invalid token');
-            return await ProjectModel.find({})  
+        getProjects: async (_:ParentNode, __: any, context: {user: {id: Types.ObjectId, role: string}}) => {
+            if (!context.user) throw new AuthenticationError('Invalid token');
+            let projects = await ProjectModel.find({});
+            if (context.user && context.user.role == "ADMIN") {
+                return projects;
+            }
+            if (projects.length > 0 ){
+                projects = projects.filter(project =>  {
+                     const devs = project.team.developpers;
+                     const pm = project.team.projectManager;
+                     return devs && devs.includes(context.user.id) ||  pm === context.user.id
+                 })
+             }
+            return projects
         } ,
         getProject: async (_:ParentNode, args: {id: String}) => await ProjectModel.findById({_id: args.id}) 
     },

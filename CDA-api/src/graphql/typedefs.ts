@@ -22,7 +22,11 @@ const typeDefs = gql`
         createdAt: String
         updatedAt: String
         tasks: [Task]
-        
+        team: Team
+    }
+    type Team {
+        projectManager: User
+        developpers: [User]
     }
     type Task {
         _id: ID
