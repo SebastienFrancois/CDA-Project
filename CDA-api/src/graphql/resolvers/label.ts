@@ -4,7 +4,7 @@ import { AuthenticationError } from 'apollo-server-express';
 
 export default {
     Query: {
-        getLabels: async (context: {user: {id: string}}) => {
+        getLabels: async (_:ParentNode, args: any,context: {user: {id: string}}) => {
             if(!context.user) throw new AuthenticationError('Invalid token');
             await LabelModel.find({})
         },
