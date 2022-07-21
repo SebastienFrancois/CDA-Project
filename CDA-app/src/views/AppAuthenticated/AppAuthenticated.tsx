@@ -14,20 +14,17 @@ const AppAuthenticated: FC<AppAuthenticatedProps> = () => {
   const { loading, error, data } = useQuery(PROJECTS.get);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error</p>;
+  // if (error) return <p>Error</p>;
 
   return (
     <div className={appContainer}>
-      <div className="w-2/12 h-full">
-        <Sidebar projects={data} />
-      </div>
-      <div className="w-10/12 p-6 h-full flex flex-col justify-start items-start overflow-y-scroll overflow-x-hidden scroll-auto">
-        <Routes>
-          <Route path="/" element={<Dashboard projects={data} />}></Route>
+      <Routes>
+        <Route path="/" element={<Sidebar projects={data} />}>
+          <Route path="/dashboard" element={<Dashboard projects={data} />} />
           <Route path="/create-project" element={<ProjectForm />} />
           <Route path="/update-project" element={<ProjectForm />} />
-        </Routes>
-      </div>
+        </Route>
+      </Routes>
     </div>
   );
 };

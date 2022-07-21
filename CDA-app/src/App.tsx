@@ -6,7 +6,7 @@ import AppUnauthenticated from 'views/AppUnauthenticated/AppUnauthenticated';
 
 function App() {
   // const [t] = useTranslation();
-  const { isLogged } = React.useContext(AuthContext);
+  const isLogged = false;
 
   return (
     <div className="overflow-hidden h-screen ">

@@ -12,7 +12,7 @@ export interface DashboardProps {
 }
 
 const Dashboard: FC<DashboardProps> = ({ projects }) => {
-  return projects.getProjects ? (
+  return (
     <>
       <HeaderMain />
       <h1 className=" text-3xl my-4 text-primary font-medium flex">
@@ -29,11 +29,13 @@ const Dashboard: FC<DashboardProps> = ({ projects }) => {
         My projects :
       </h1>
       <div className="flex flex-wrap gap-5">
-        {projects.getProjects.map((project: IProject) => (
-          <ProjectCard key={project._id} data={project} />
-        ))}
+        {projects && projects.getProjects
+          ? projects.getProjects.map((project: IProject) => (
+              <ProjectCard key={project._id} data={project} />
+            ))
+          : ''}
         <aside className="flex items-center">
-          <Link to={'create-project'} state={{ update: false }}>
+          <Link to={'/create-project'} state={{ update: false }}>
             <AddButton onClick={() => console.log('navigate to create project')} />
           </Link>
         </aside>
@@ -46,8 +48,6 @@ const Dashboard: FC<DashboardProps> = ({ projects }) => {
       </h1>
       <p className=" text-base font-normal text-slate-500">No content yet</p>
     </>
-  ) : (
-    <>No projects to show</>
   );
 };
 
