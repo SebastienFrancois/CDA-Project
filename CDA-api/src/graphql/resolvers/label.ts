@@ -1,13 +1,22 @@
 import errorHandler from '../../../utils/errorHandler';
 import { ILabel, LabelModel, validateLabel } from '../../schemas/label.schemas';
+import { AuthenticationError } from 'apollo-server-express';
 
 export default {
     Query: {
-        getLabels: async () => await LabelModel.find({}),
-        getLabel: async (_:ParentNode, args: {id: String}) => await LabelModel.findById({_id: args.id}) 
+        getLabels: async (context: {user: {id: string}}) => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
+            await LabelModel.find({})
+        },
+        getLabel: async (_:ParentNode, args: {id: String}, context: {user: {id: string}}) => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
+            await LabelModel.findById({_id: args.id})
+        }
     },
     Mutation: {
-        addLabel: async ( _ :ParentNode, args: ILabel ) => {
+        addLabel: async ( _ :ParentNode, args: ILabel, context: {user: {id: string}} ) => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
+
             const err = validateLabel(args);
             if (err.error) return err.error
 
@@ -18,7 +27,9 @@ export default {
             newLabel.save()
             return newLabel
         },
-        deleteLabel : async (_:ParentNode, args: {id: String}) => {
+        deleteLabel : async (_:ParentNode, args: {id: String}, context: {user: {id: string}}) => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
+
             try {
                 await LabelModel.findOneAndDelete({_id: args.id})
                 return JSON.stringify({message:`Instance "${args.id}" has been deleted successfully !`})
@@ -26,7 +37,9 @@ export default {
                 return JSON.stringify({message:` Instance "${args.id}" wasn't deleted !`})
             }
         },
-        updateLabel: async (_:ParentNode, args: ILabel )   => {
+        updateLabel: async (_:ParentNode, args: ILabel, context: {user: {id: string}})   => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
+
             try {
                 const updatedLabel = await LabelModel.findByIdAndUpdate({_id: args.id}, args, {new: true});
                 return updatedLabel

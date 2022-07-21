@@ -1,13 +1,22 @@
 import { IComment, CommentModel, validateComment } from '../../schemas/comment.schemas';
 import Joi from 'joi';
+import { AuthenticationError } from 'apollo-server-express';
 
 export default {
     Query: {
-        getComments: async () => await CommentModel.find({}),
-        getComment: async (_:ParentNode, args: {id: String}) => await CommentModel.findById({_id: args.id}) 
+        getComments: async (context: {user: {id: string}}) => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
+            await CommentModel.find({})
+        },
+        getComment: async (_:ParentNode, args: {id: String}, context: {user: {id: string}}) => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
+            await CommentModel.findById({_id: args.id}) 
+        }
     },
     Mutation: {
-        addComment: async ( _ :ParentNode, args: IComment ) => {
+        addComment: async ( _ :ParentNode, args: IComment, context: {user: {id: string}}) => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
+
             // const err = await validateComment(args);
             // if (err.error) return err.error
 
@@ -20,7 +29,9 @@ export default {
             newComment.save()
             return newComment
         },
-        deleteComment : async (_:ParentNode, args: {id: String}) => {
+        deleteComment : async (_:ParentNode, args: {id: String}, context: {user: {id: string}}) => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
+
             try {
                 await CommentModel.findOneAndDelete({_id: args.id})
                 return JSON.stringify({message:`Instance "${args.id}" has been deleted successfully !`})
@@ -28,7 +39,9 @@ export default {
                 return JSON.stringify({message:` Instance "${args.id}" wasn't deleted !`})
             }
         },
-        updateComment: async (_:ParentNode, args: IComment) => {
+        updateComment: async (_:ParentNode, args: IComment, context: {user: {id: string}}) => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
+
             // const err = await validateComment(args);
             // if (err.error) return err.error
 

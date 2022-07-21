@@ -4,6 +4,7 @@ import { TaskModel } from '../../schemas/task.schemas';
 import Joi from 'joi';
 import { AuthenticationError } from 'apollo-server-express';
 import { retrieveUser } from '../../../utils/userInfos';
+import user from './user';
 
 export default {
     Query: {
@@ -11,7 +12,10 @@ export default {
             if(!context.user) throw new AuthenticationError('Invalid token');
             return await ProjectModel.find({})  
         } ,
-        getProject: async (_:ParentNode, args: {id: String}) => await ProjectModel.findById({_id: args.id}) 
+        getProject: async (_:ParentNode, args: {id: String}, context: {user: {id: string}}) => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
+            return await ProjectModel.findById({_id: args.id}) 
+        }
     },
     Mutation: {
         addProject: async ( _ :ParentNode, args: IProject ) => {
