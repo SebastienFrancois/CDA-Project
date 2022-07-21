@@ -5,12 +5,26 @@ export interface BasicButtonProps {
   content: string | JSX.Element;
   type?: 'button' | 'submit' | 'reset';
   onClick: (e: React.SyntheticEvent) => void;
+  variant?: 'secondary' | 'primary';
+  animationDisabled?: boolean;
 }
 
-const BasicButton: FC<BasicButtonProps> = ({ onClick, content, type = 'button' }) => (
+const BasicButton: FC<BasicButtonProps> = ({
+  onClick,
+  content,
+  type = 'button',
+  variant = 'primary',
+  animationDisabled = false,
+}) => (
   <button
     type={type}
-    className="bg-primary text-base text-white font-medium capitalize tracking-wide hover:bg-opacity-80 w-52 h-auto rounded p-3 hover:w-64 transition-all ease-in-out duration-300 "
+    className={`${
+      variant === 'secondary'
+        ? 'bg-secondary text-primary font-bold'
+        : 'bg-primary  text-white font-medium'
+    } text-base  capitalize tracking-wide hover:bg-opacity-80 h-auto rounded p-3 ${
+      animationDisabled ? 'w-28' : 'w-52 hover:w-64 transition-all ease-in-out duration-300'
+    }`}
     onClick={(e) => onClick(e)}
   >
     {content}

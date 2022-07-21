@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { FC } from 'react';
+import { EyeIcon, EyeOffIcon } from '@heroicons/react/solid';
+import React, { FC, useState } from 'react';
 // eslint-disable-next-line import/named
 import { UseFormRegister } from 'react-hook-form';
 import './InputBasic.scss';
@@ -23,6 +24,8 @@ const InputBasic: FC<InputBasicProps> = ({
   required = false,
   register,
 }) => {
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
   return (
     <div className="flex flex-col space-y-2">
       <label className="text-medium font-medium first-letter:capitalize text-slate-700">
@@ -42,13 +45,31 @@ const InputBasic: FC<InputBasicProps> = ({
           <span className="text-slate-400 text-right">0/500 characters</span>
         </>
       ) : (
-        <input
-          {...register(name)}
-          required={required}
-          type={type}
-          className=" bg-white h-auto rounded p-3 w-full drop-shadow-lg focus:outline-secondary text-medium"
-          placeholder={placeholder ? placeholder : ''}
-        />
+        <div className="flex">
+          <input
+            {...register(name)}
+            required={required}
+            type={type}
+            minLength={type === 'password' ? 8 : 0}
+            className=" bg-white h-auto rounded p-3 w-full drop-shadow-lg focus:outline-secondary text-medium"
+            placeholder={placeholder ? placeholder : ''}
+          />
+          {type === 'password' ? (
+            showPassword ? (
+              <EyeIcon
+                className=" z-10 w-4 -ml-8 cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+              />
+            ) : (
+              <EyeOffIcon
+                className=" z-10 w-4 -ml-8 cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+              />
+            )
+          ) : (
+            ''
+          )}
+        </div>
       )}
       {error && <span className="text-red-600 text-base">{error}</span>}
     </div>

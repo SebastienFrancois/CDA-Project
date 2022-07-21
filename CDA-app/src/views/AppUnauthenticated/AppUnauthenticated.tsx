@@ -5,8 +5,8 @@ import { Login } from '../Login/Login';
 interface AppUnauthenticatedProps {}
 
 const AppUnauthenticated: FC<AppUnauthenticatedProps> = () => (
-  <div className="AppUnauthenticated animate-fade-in-up">
-    <Login>Login</Login>
+  <div className="w-full h-screen bg-light-base flex justify-center items-center">
+    <Login />
   </div>
 );
 
