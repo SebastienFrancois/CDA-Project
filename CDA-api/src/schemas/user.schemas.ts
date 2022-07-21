@@ -8,6 +8,7 @@ export enum Role {
 }
 
 export interface IUser extends Document {
+    _id: String,
     email: string,
     username: string,
     password: string,
@@ -30,6 +31,7 @@ export interface IUser extends Document {
 }
 
 const UserSchema = new Schema<IUser>({
+  _id: {type: String},
   email: {type: String, unique: true, maxlength: 255},
   username: {type: String, maxlength: 255},
   password: {type: String, maxlength: 255},

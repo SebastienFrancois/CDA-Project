@@ -1,6 +1,5 @@
 import errorHandler from '../../../utils/errorHandler';
 import { ILabel, LabelModel, validateLabel } from '../../schemas/label.schemas';
-import Joi from 'joi';
 
 export default {
     Query: {
@@ -9,7 +8,7 @@ export default {
     },
     Mutation: {
         addLabel: async ( _ :ParentNode, args: ILabel ) => {
-            const err = await validateLabel(args);
+            const err = validateLabel(args);
             if (err.error) return err.error
 
             const newLabel = await LabelModel.create({

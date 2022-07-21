@@ -3,10 +3,10 @@ import { IUser } from "../src/schemas/user.schemas";
 
 export interface tokenPayload extends jwt.JwtPayload {
   data: { 
-    id: String,
-    username: String,
-    email: String,
-    preferred_language: String
+    id: string,
+    username: string,
+    email: string,
+    preferred_language: string
   }
 }
 
@@ -20,5 +20,10 @@ export const generateToken =  (user: IUser) => {
 }
 
 export const verifyToken = (token: string) => {
-    return jwt.verify(token, process.env.PRIVATE_KEY as string) as tokenPayload;
+  try {
+    const tokenPayload = jwt.verify(token, process.env.PRIVATE_KEY as string) as tokenPayload;
+    return tokenPayload 
+  } catch (error) {
+    return false;
+  }
 };

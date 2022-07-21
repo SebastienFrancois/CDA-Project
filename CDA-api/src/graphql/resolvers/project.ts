@@ -2,10 +2,15 @@
 import { IProject, ProjectModel, validateProject } from '../../schemas/project.schemas';
 import { TaskModel } from '../../schemas/task.schemas';
 import Joi from 'joi';
+import { AuthenticationError } from 'apollo-server-express';
+import { retrieveUser } from '../../../utils/userInfos';
 
 export default {
     Query: {
-        getProjects: async () => await ProjectModel.find({}),
+        getProjects: async (_:ParentNode, args: any, context: {user: {id: string}}) => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
+            return await ProjectModel.find({})  
+        } ,
         getProject: async (_:ParentNode, args: {id: String}) => await ProjectModel.findById({_id: args.id}) 
     },
     Mutation: {
