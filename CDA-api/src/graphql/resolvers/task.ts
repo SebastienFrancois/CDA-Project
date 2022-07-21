@@ -8,7 +8,7 @@ import { AuthenticationError } from 'apollo-server-express';
 
 export default {
     Query: {
-        getTasks: async (context: {user: {id: string}}) => {
+        getTasks: async ( _ :ParentNode, args: any,context: {user: {id: string}}) => {
             if(!context.user) throw new AuthenticationError('Invalid token');
             //verifie que l'utilisateur et bien assigné au project rattacher a cette tache.
             //if(project.team.!includes(context.user.id)) throw new AuthenticationError('Invalid role');

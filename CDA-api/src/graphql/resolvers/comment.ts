@@ -1,10 +1,11 @@
 import { IComment, CommentModel, validateComment } from '../../schemas/comment.schemas';
 import Joi from 'joi';
 import { AuthenticationError } from 'apollo-server-express';
+import { AnyArray } from 'mongoose';
 
 export default {
     Query: {
-        getComments: async (context: {user: {id: string}}) => {
+        getComments: async (_:ParentNode, args: any, context: {user: {id: string}}) => {
             if(!context.user) throw new AuthenticationError('Invalid token');
             await CommentModel.find({})
         },
