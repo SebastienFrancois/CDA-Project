@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { PROJECTS } from 'api/query';
 
@@ -23,6 +23,7 @@ const AppAuthenticated: FC<AppAuthenticatedProps> = () => {
           <Route path="/dashboard" element={<Dashboard projects={data} />} />
           <Route path="/create-project" element={<ProjectForm />} />
           <Route path="/update-project" element={<ProjectForm />} />
+          <Route path="*" element={<Navigate to="/dashboard" />} />
         </Route>
       </Routes>
     </div>
