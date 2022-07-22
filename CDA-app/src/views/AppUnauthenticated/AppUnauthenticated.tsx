@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import './AppUnauthenticated.scss';
 import { Login } from '../Login/Login';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import SignUp from '../SignUp/SignUp';
 
 interface AppUnauthenticatedProps {}
 
@@ -10,7 +11,7 @@ const AppUnauthenticated: FC<AppUnauthenticatedProps> = () => (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/forgot-password" element={<>Forgot Password</>} />
-      <Route path="/signup" element={<>Sign up</>} />
+      <Route path="/signup" element={<SignUp />} />
       <Route path="*" element={<Navigate to="/login" />} />
     </Routes>
   </div>

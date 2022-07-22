@@ -1,14 +1,14 @@
 import './Login.scss';
 import { USERS } from 'api/query';
 import { useMutation } from '@apollo/client';
-import Logo from '../../assets/png/SimplePlan.png';
+import Logo from '../../assets/png/logo.png';
 import { AuthContext } from 'contexts/AuthContext';
 import { Link } from 'react-router-dom';
 import React, { FC, useContext, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import SpinLoader from 'components/SpinLoader/SpinLoader';
 import InputBasic from 'components/InputBasic/InputBasic.lazy';
-import BasicButton from 'components/BasicButton/BasicButton.lazy';
+import BasicButton from 'components/BasicButton/BasicButton';
 
 type FormValues = {
   email: string;
@@ -32,18 +32,21 @@ export const Login: FC<LoginProps> = () => {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row justify-center w-2/3 sm:w-3/4 h-2/3 bg-primary p-8 space-y-4 sm:space-y-0 sm:space-x-4 rounded-md shadow-lg bg-opacity-70">
+    <div className="flex flex-col sm:flex-row justify-center w-2/3 sm:w-3/4 h-2/3 bg-primary p-8 space-y-4 sm:space-y-0 sm:space-x-4 rounded-md shadow-lg bg-opacity-70  overflow-hidden">
       {loading ? (
         <SpinLoader />
       ) : (
         <>
           <section
             id="logo"
-            className="flex justify-center bg-transparent h-1/3 sm:h-full sm:w-2/4 p-2"
+            className="flex justify-center items-center bg-transparent h-full w-full sm:h-full sm:w-2/4 p-2 animate-fade-slide-in"
           >
-            <img src={Logo} alt="logo" className="object-contain" />
+            <img src={Logo} alt="logo" className="lg:w-48 w-28" />
           </section>
-          <section id="login" className="flex flex-col justify-center h-2/3 sm:h-full sm:w-2/4">
+          <section
+            id="login"
+            className="flex flex-col justify-center h-2/3 sm:h-full sm:w-2/4 animate-fade-slide-in"
+          >
             <h1 className=" text-5xl text-secondary text-center font-bold">Welcome Back !</h1>
             <br />
             <form className="w-full mb-3" onSubmit={handleSubmit(onSubmit)}>
@@ -74,11 +77,11 @@ export const Login: FC<LoginProps> = () => {
                 className="flex flex-col-reverse lg:flex-row text-center grid-cols-2 gap-4 lg:gap-2 py-8 px-2"
               >
                 <div className="text-center w-full lg:text-start lg:w-2/3">
-                  <Link to="/" className="text-white font-medium hover:underline ">
+                  <Link to="/forgot-password" className="text-white font-medium hover:underline ">
                     Forgot your password ?
                   </Link>
                   <br />
-                  <Link to="/" className="text-white font-medium hover:underline ">
+                  <Link to="/signup" className="text-white font-medium hover:underline ">
                     No account ? Sign up!
                   </Link>
                 </div>

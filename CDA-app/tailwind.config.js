@@ -80,7 +80,7 @@ module.exports = {
         'fade-slide-in': {
           '0%': {
             opacity: '0',
-            transform: 'translateX(100px)',
+            transform: 'translateX(1000px)',
           },
           '100%': {
             opacity: '1',
@@ -131,7 +131,7 @@ module.exports = {
         'fade-out-down': 'fade-out-down 0.8s ease-out',
         'fade-in-up': 'fade-in-up 0.8s ease-out',
         'fade-out-up': 'fade-out-up 0.8s ease-out',
-        'fade-slide-in': 'fade-slide-in 0.8s ease-out',
+        'fade-slide-in': 'fade-slide-in 1s ease-out',
         'fade-slide-out': 'fade-slide-out 0.8s ease-out',
         'slide-in': 'slide-in 0.8s ease-out',
         'slide-out': 'slide-out 0.8s ease-out',
