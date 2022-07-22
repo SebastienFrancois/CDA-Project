@@ -12,6 +12,7 @@ export interface InputBasicProps {
   required?: boolean;
   placeholder?: string;
   error?: string;
+  style?: 'light';
   register: UseFormRegister<any>;
 }
 
@@ -23,12 +24,17 @@ const InputBasic: FC<InputBasicProps> = ({
   error,
   required = false,
   register,
+  style,
 }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   return (
     <div className="flex flex-col space-y-2">
-      <label className="text-medium font-medium first-letter:capitalize text-slate-700">
+      <label
+        className={`text-medium font-medium first-letter:capitalize ${
+          style === 'light' ? 'text-white' : 'text-slate-700'
+        }`}
+      >
         {label}
         {required ? ' *' : ''}
       </label>
@@ -49,7 +55,7 @@ const InputBasic: FC<InputBasicProps> = ({
           <input
             {...register(name)}
             required={required}
-            type={type}
+            type={showPassword ? 'text' : type}
             minLength={type === 'password' ? 8 : 0}
             className=" bg-white h-auto rounded p-3 w-full drop-shadow-lg focus:outline-secondary text-medium"
             placeholder={placeholder ? placeholder : ''}

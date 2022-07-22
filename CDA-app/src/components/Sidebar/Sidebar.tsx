@@ -1,7 +1,7 @@
+import './Sidebar.scss';
+import Logo from '../../assets/png/logo.png';
 import React, { FC, useContext } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import Logo from '../../assets/png/SimplePlan.png';
-import './Sidebar.scss';
 import { AuthContext } from 'contexts/AuthContext';
 
 export interface SidebarProps {
@@ -19,7 +19,7 @@ const Sidebar: FC<SidebarProps> = (props) => {
         <nav className="Sidebar bg-primary h-full flex flex-col justify-between p-3">
           <div>
             <img src={Logo} alt="LOGO" className="m-auto w-28 h-auto object-cover" />
-            <hr className="border-0 h-0.5 max-h-px bg-secondary" />
+            <hr className="border-0 h-0.5 max-h-px my-2 bg-secondary" />
             <div>
               <h2 className="text-secondary text-2xl font-bold my-4">
                 <NavLink to="/">Dashboard</NavLink>

@@ -55,6 +55,7 @@ export const Login: FC<LoginProps> = () => {
                 name="email"
                 placeholder="Email Address"
                 label="Email"
+                style="light"
                 required
                 register={register}
               />
@@ -64,6 +65,7 @@ export const Login: FC<LoginProps> = () => {
                 name="password"
                 placeholder="Secret Password"
                 label="Password"
+                style="light"
                 required
                 register={register}
               />

@@ -72,6 +72,7 @@ const SignUp = () => {
                     name="email"
                     placeholder="Email Address"
                     label="Email"
+                    style="light"
                     required
                     register={register}
                   />
@@ -80,6 +81,7 @@ const SignUp = () => {
                     name="username"
                     placeholder="Username"
                     label="Username"
+                    style="light"
                     required
                     register={register}
                   />
@@ -91,6 +93,7 @@ const SignUp = () => {
                     name="password"
                     placeholder="Secret Password"
                     label="Password"
+                    style="light"
                     required
                     register={register}
                   />
@@ -99,11 +102,12 @@ const SignUp = () => {
                     name="verifyPassword"
                     placeholder="Verify Password"
                     label="Verify password"
+                    style="light"
                     required
                     register={register}
                   />
-                  <p className="text-base text-white">
-                    * The password must contain at least 8 characters including a capital letter, a
+                  <p className=" text-sm text-white italic">
+                    ** The password must contain at least 8 characters including a capital letter, a
                     number and a special character
                   </p>
                 </div>
