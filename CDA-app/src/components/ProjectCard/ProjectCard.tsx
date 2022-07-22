@@ -14,6 +14,7 @@ interface StatusBadgeProps {
 
 export interface ProjectCardProps {
   data: IProject;
+  canEdit: boolean;
 }
 const colorStatus: { [key: string]: { text: string; bg: string; border: string } } = {
   'not started': { text: 'text-gray-600', bg: 'bg-gray-200', border: 'border-gray-500' },
@@ -38,7 +39,7 @@ const StatusBadge: FC<StatusBadgeProps> = ({ status }) => {
   );
 };
 
-const ProjectCard: FC<ProjectCardProps> = ({ data }) => {
+const ProjectCard: FC<ProjectCardProps> = ({ data, canEdit = false }) => {
   const [t] = useTranslation();
   const navigate = useNavigate();
   const { _id, name, status, description, dueDate } = data;
@@ -57,14 +58,18 @@ const ProjectCard: FC<ProjectCardProps> = ({ data }) => {
       className={`ProjectCard cursor-pointer bg-white w-48 h-36 flex justify-center items-center p-3 rounded-lg drop-shadow-xl border-2 flex-col hover:scale-105 transition-all ease-in-out ${colorStatus[status].border}`}
     >
       <div className="w-full flex justify-between">
-        <TrashIcon
-          className="w-4 h-auto opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer"
-          onClick={onDelete}
-        />
-        <PencilIcon
-          className="w-4 h-auto opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer"
-          onClick={onUpdate}
-        />
+        {canEdit && (
+          <>
+            <TrashIcon
+              className="w-4 h-auto opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer"
+              onClick={onDelete}
+            />
+            <PencilIcon
+              className="w-4 h-auto opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer"
+              onClick={onUpdate}
+            />
+          </>
+        )}
       </div>
       <h1 className="w-full text-left text-2xl my-1 truncate">{name}</h1>
       <div className="w-full flex justify-end">
