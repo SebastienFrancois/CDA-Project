@@ -1,6 +1,9 @@
 import { gql } from 'apollo-server-express';
 
 const typeDefs = gql`
+    """
+    Type for a user
+    """
    type User {
         _id: ID,
         email: String!,
@@ -9,10 +12,19 @@ const typeDefs = gql`
         picture: String,
         preferred_language: String
     }
+    """
+    Type for the response when a user registers or logs in
+    """
     type UserResponse {
+        code: Int!
+        success: Boolean!
+        message: String!
         token: String, 
         email: String
     }
+    """
+    Type for a project
+    """
     type Project {
         _id: ID
         name: String!
@@ -24,10 +36,16 @@ const typeDefs = gql`
         tasks: [Task]
         team: Team
     }
+    """
+    Type for a team
+    """
     type Team {
         projectManager: User
         developpers: [User]
     }
+    """
+    Type for a team
+    """
     type Task {
         _id: ID
         name: String!
@@ -39,23 +57,35 @@ const typeDefs = gql`
         labels: [Label]
         project: Project
     }
+    """
+    Type for a label
+    """
     type Label {
         _id: ID
         name: String
         color: String
     }
+    """
+    Type for a comment
+    """
     type Comment {
         _id: ID
         message: String
         sentAt: String
         task: Task
     }
+    """
+    Type for a notification
+    """
     type Notification {
         _id: ID,
         message: String!,
         createdAt: String,
         typeOfNotif: String,
     }
+    """
+    QUERY
+    """
     type Query {
         getUsers: [User],
         getTasks: [Task],
@@ -70,6 +100,9 @@ const typeDefs = gql`
         getNotifications: [Notification],
         getNotification(id: ID!): Notification,
     }
+    """
+    MUTATION
+    """
     type Mutation {
         addUser(email: String!, username: String!, password: String!, picture: String, preferred_language: String): UserResponse,
         addProject(name: String!, description: String, status: String,dueDate: String!): Project,
@@ -87,7 +120,7 @@ const typeDefs = gql`
         addNotification(message: String!, createdAt: String, typeOfNotif: String): Notification,
         deleteNotification(id: ID!): String!,
         updateNotification(id: ID!, message: String!, createdAt: String, typeOfNotif: String): Notification,
-        login(email: String!, password: String!): String,
+        login(email: String!, password: String!): UserResponse,
     }
 `
 export { typeDefs };

@@ -1,6 +1,7 @@
 import { IUser, UserModel, validateUser } from '../../schemas/user.schemas';
 import { hashPassword, verifyPassword } from '../../../utils/pwd';
 import { generateToken } from '../../../utils/token';
+import { ApolloError } from 'apollo-server-express';
 
 
 export default{
@@ -10,20 +11,27 @@ export default{
     },
     Mutation: {
         addUser: async ( _ :ParentNode, args: IUser ) => {
+            // validate with Joi
             const err = validateUser(args);
-            if (err.error) return err.error
+            if (err.error) return {
+                code: 400,
+                success: false,
+                message: err.error,
+                token: null,
+                email: null
+            }
 
+            // verify if users already exists first
             const userExist = await UserModel.findOne({email: args.email});
 
-            if (userExist){
-                console.log(userExist); 
-                return new Error('User already exist');
-            } 
+            if (userExist) throw new ApolloError("User already exists");
             
+            // hash password from user
             const hash = await hashPassword(args.password);
 
-            if (!hash) return new Error("Problem occured while hashing password")
+            if (!hash) throw new ApolloError('Hashing password not completed');
 
+            // try catch to save user, return UserResponse
             try {
                 const newUser: IUser = await UserModel.create({
                     username: args.username,
@@ -33,12 +41,22 @@ export default{
                     preferred_language: args.preferred_language,
                 });
                 await newUser.save()
-                return {token: generateToken(newUser), email: newUser.email}
-
+                return {
+                    code: 200,
+                    success: true,
+                    message: 'User created successfully',
+                    token: generateToken(newUser),
+                    email: newUser.email
+                }
             } catch (error: any) {
-                return new Error(error.message )
+                return {
+                    code: error.extensions.response.status,
+                    success: false,
+                    message: error.extensions.response.body,
+                    token: null,
+                    email: null
+                }
             }
-            
         },
         // deleteUser : async (_:ParentNode, args: {id: String}) => {
         //     try {
@@ -56,7 +74,7 @@ export default{
         //         return new Error(`Instance "${args.id}" wasn't updated !`)
         //     }
         // },
-        login: async (parent: ParentNode, { email, password }: { email: string, password: string }) => {
+        login: async (_: ParentNode, { email, password }: { email: string, password: string }) => {
             const currentUser = await UserModel.findOne({email});
             if (!currentUser) {
                 return new Error('Invalid email or password');
