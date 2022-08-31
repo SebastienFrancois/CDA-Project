@@ -4,8 +4,9 @@
   "description": "Morio Front End",
   "main": "index.js",
   "scripts": {
+    "start": "vite",
+    "build-dev": "tsc && vite build",
     "build": "vite build",
-    "dev": "vite serve",
     "preview": "vite preview",
     "test": "jest --coverage --watchAll --config=configs/jest.json",
     "lint": "eslint './src/**/*.{js,ts,tsx}'",

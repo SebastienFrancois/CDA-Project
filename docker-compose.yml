@@ -13,16 +13,31 @@ services:
       - ./CDA-api/utils:/app/utils
   app:
     build: ./CDA-app
-    environment:
-      - WDS_SOCKET_PORT=8080
-      - WATCHPACK_POLLING=true
-    ports:
-      - 8080:8080
-    command: yarn start
+    restart: always
+    # environment:
+    #   - WDS_SOCKET_PORT=8080
+    #   - WATCHPACK_POLLING=true
+    # ports:
+    #   - 8080:8080
+    env_file:
+      - .config
+      - ./app/.env
+    command: yarn run build
     volumes:
-      - ./CDA-app/src:/app/src
+      - ./CDA-app/dist:/app/dist
     depends_on: [api]
   mongodb:
     image: mongo
     volumes:
       - ./CDA-api/mongo:/data/mongo
+  nginx:
+    image: nginx:1.21.3
+    depends_on:
+      - api
+      - app
+    restart: always
+    ports:
+      - ${GATEWAY_PORT:-8000}:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      # - ./logs:/var/log/nginx
