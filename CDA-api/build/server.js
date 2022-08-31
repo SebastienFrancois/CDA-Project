@@ -8,11 +8,14 @@ const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const connect_1 = __importDefault(require("./utils/connect"));
-const errorHandler_1 = __importDefault(require("./utils/errorHandler"));
+// import errorHandler from './utils/errorHandler'
 const router_1 = __importDefault(require("./src/router"));
+const appolo_server_1 = require("./appolo-server");
 const app = (0, express_1.default)();
 // Database connection
 (0, connect_1.default)();
+// Start 
+(0, appolo_server_1.appoloLaunch)(app);
 const log = (req, res, next) => {
     console.log("You've just logged in !");
     next();
@@ -26,5 +29,5 @@ app.use((0, morgan_1.default)('dev'));
 // Routes
 app.use('/api', router_1.default);
 // Error handler
-app.use(errorHandler_1.default);
-app.listen(5000, () => console.log('Server started on 5000'));
+// app.use(errorHandler)
+app.listen(5000, () => console.log('Server started on localhost:5000'));

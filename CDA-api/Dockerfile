@@ -5,5 +5,5 @@ WORKDIR /app
 COPY package.json ./
 RUN npm i
 COPY . /app
-
-CMD npm run kiss
+RUN npm run build
+CMD npm run start-prod
