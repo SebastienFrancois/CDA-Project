@@ -1,4 +1,4 @@
-export const PORT = 5000
+export const PORT = process.env.SERVER_CLIENT
 
 type IEvironnementVariables = {
   serverURL: string

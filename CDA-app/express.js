@@ -1,7 +1,7 @@
 const express = require('express');
 
 const app = express();
-const portNumber = 8080;
+const portNumber = import.meta.env.SERVER_PORT;
 const sourceDir = 'dist';
 
 app.use(express.static(sourceDir));

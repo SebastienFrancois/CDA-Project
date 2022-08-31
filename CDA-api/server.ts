@@ -33,4 +33,4 @@ app.use('/api', Router)
 // Error handler
 // app.use(errorHandler)
 
-app.listen(5000, () => console.log('Server started on localhost:5000'))
+app.listen(process.env.SERVER_CLIENT, () => console.log('Server started on localhost:5000'))
