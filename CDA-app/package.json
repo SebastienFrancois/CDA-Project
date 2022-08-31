@@ -4,12 +4,10 @@
   "description": "Morio Front End",
   "main": "index.js",
   "scripts": {
-    "start": "yarn run start-dev",
-    "start-dev": "webpack serve  --config=configs/webpack/dev.js ",
-    "start-prod": "yarn run build && node express.js",
-    "build": "yarn run clean-dist && webpack --config=configs/webpack/prod.js",
+    "build": "vite build",
+    "dev": "vite serve",
+    "preview": "vite preview",
     "test": "jest --coverage --watchAll --config=configs/jest.json",
-    "clean-dist": "rimraf dist/*",
     "lint": "eslint './src/**/*.{js,ts,tsx}'",
     "lint-fix": "eslint './src/**/*.{js,ts,tsx}' --quiet --fix",
     "format": "npx prettier --write ./src"
@@ -26,7 +24,6 @@
     "core-js": "^3.21.1",
     "dayjs": "^1.11.0",
     "graphql": "^16.5.0",
-    "html-webpack-plugin": "^5.5.0",
     "i18next": "^21.6.14",
     "i18next-browser-languagedetector": "^6.1.4",
     "jwt-decode": "^3.1.2",
@@ -39,23 +36,21 @@
     "react-refresh": "^0.12.0",
     "react-router-dom": "^6.3.0",
     "react-twemoji": "^0.5.0",
+    "vite-tsconfig-paths": "^3.5.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",
     "@babel/plugin-transform-runtime": "^7.17.0",
-    "@babel/preset-env": "^7.16.11",
-    "@babel/preset-react": "^7.16.7",
     "@babel/preset-typescript": "^7.16.7",
-    "@svgr/webpack": "^6.2.1",
     "@types/jest": "^27.4.1",
     "@types/react": "^17.0.43",
     "@types/react-dom": "^17.0.14",
     "@types/react-twemoji": "^0.4.0",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
+    "@vitejs/plugin-react": "^2.0.1",
     "autoprefixer": "^10.4.4",
-    "babel-loader": "^8.2.3",
     "css-loader": "^6.7.1",
     "eslint": "^8.12.0",
     "eslint-config-airbnb": "19.0.4",
@@ -73,11 +68,9 @@
     "prettier": "^2.6.2",
     "sass": "^1.49.11",
     "sass-loader": "^12.6.0",
-    "style-loader": "^3.3.1",
     "tailwindcss": "^3.0.23",
     "typescript": "^4.6.3",
-    "webpack": "^5.71.0",
-    "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.7.4"
+    "vite": "^3.0.9",
+    "vite-plugin-html": "^3.2.0"
   }
 }
