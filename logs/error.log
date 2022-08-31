@@ -45,3 +45,4 @@
 2022/08/31 08:53:05 [error] 24#24: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 172.22.0.1, server: , request: "GET /graphql HTTP/1.1", upstream: "http://127.0.0.1:5000/graphql", host: "localhost:8000"
 2022/08/31 08:53:05 [error] 24#24: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 172.22.0.1, server: , request: "GET /graphql HTTP/1.1", upstream: "http://127.0.0.1:5000/graphql", host: "localhost:8000"
 2022/08/31 08:53:11 [error] 24#24: *6 no live upstreams while connecting to upstream, client: 172.22.0.1, server: , request: "GET /graphql HTTP/1.1", upstream: "http://localhost/graphql", host: "localhost:8000"
+2022/08/31 09:04:47 [error] 24#24: *9 rewrite or internal redirection cycle while internally redirecting to "/index.html", client: 172.22.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8000"

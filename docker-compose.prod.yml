@@ -14,10 +14,10 @@ services:
   app:
     build: ./CDA-app
     environment:
-      - WDS_SOCKET_PORT=3000
+      - WDS_SOCKET_PORT=8080
       - WATCHPACK_POLLING=true
     ports:
-      - 3000:8080
+      - 8080:8080
     command: yarn run start-prod
     volumes:
       - ./CDA-app/src:/app/src
@@ -36,4 +36,4 @@ services:
       - ${GATEWAY_PORT:-8000}:80
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./logs:/var/log/nginx
+      # - ./logs:/var/log/nginx

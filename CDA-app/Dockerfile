@@ -7,6 +7,4 @@ RUN npm i yarn
 RUN yarn install
 COPY . /app
 
-CMD yarn start
-
 
