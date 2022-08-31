@@ -7,7 +7,7 @@ services:
     env_file:
       - ./CDA-api/.env
     ports:
-      - 5000:5001
+      - 5001:5000
     volumes:
       - ./CDA-api/src:/app/src
       - ./CDA-api/utils:/app/utils
@@ -17,7 +17,7 @@ services:
       - WDS_SOCKET_PORT=8080
       - WATCHPACK_POLLING=true
     ports:
-      - 8080:8081
+      - 8081:8080
     command: yarn run start-prod
     volumes:
       - ./CDA-app/src:/app/src
