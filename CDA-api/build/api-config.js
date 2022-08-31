@@ -11,4 +11,8 @@ exports.environment = {
         serverURL: `http://localhost:${exports.PORT}/`,
         dbString: `mongodb+srv://avengers:${process.env.DB_PASS}@simpleplan.ye9gc.mongodb.net/simpleplan?retryWrites=true&w=majority`,
     },
+    test: {
+        serverURL: '',
+        dbString: 'mongodb://mongodb:27017/localTest',
+    }
 };

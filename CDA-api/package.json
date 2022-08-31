@@ -8,10 +8,10 @@
   "scripts": {
     "test": "jest",
     "test:i": "jest --runInBand",
-    "screw-u": "echo \"Error: no test specified\" && exit 1",
-    "doggy-style": "tsc -w",
-    "kiss": "nodemon server.ts",
-    "kiss:ass": "nodemon build/server.js"
+    "error": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start-dev": "nodemon server.ts",
+    "start-prod": "nodemon build/server.js"
   },
   "dependencies": {
     "apollo-server-express": "^3.6.7",
