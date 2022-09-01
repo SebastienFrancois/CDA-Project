@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/naming-convention */
 import React, { FC } from 'react';
 import { useMutation } from '@apollo/client';
@@ -14,7 +15,7 @@ interface StatusBadgeProps {
 
 export interface ProjectCardProps {
   data: IProject;
-  canEdit: boolean
+  canEdit: boolean;
 }
 const colorStatus: { [key: string]: { text: string; bg: string; border: string } } = {
   'not started': { text: 'text-gray-600', bg: 'bg-gray-200', border: 'border-gray-500' },
@@ -42,7 +43,7 @@ const StatusBadge: FC<StatusBadgeProps> = ({ status }) => {
 const ProjectCard: FC<ProjectCardProps> = ({ data, canEdit = false }) => {
   const [t] = useTranslation();
   const navigate = useNavigate();
-  const { _id, name, status, description, dueDate } = data;
+  const { _id, name, status, dueDate } = data;
   const [deleteProject] = useMutation(PROJECTS.delete);
   const onDelete = () => {
     const variables = { deleteProjectId: _id };
@@ -71,7 +72,9 @@ const ProjectCard: FC<ProjectCardProps> = ({ data, canEdit = false }) => {
           </>
         )}
       </div>
-      <h1 className="w-full text-left text-2xl my-1 truncate"><Link to={"/project/" + _id}>{name}</Link></h1>
+      <h1 className="w-full text-left text-2xl my-1 truncate">
+        <Link to={'/project/' + _id}>{name}</Link>
+      </h1>
       <div className="w-full flex justify-end">
         <StatusBadge status={status} />
       </div>
