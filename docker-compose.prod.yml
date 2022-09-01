@@ -2,6 +2,7 @@ services:
   api:
     build: ./CDA-api
     environment:
+      - NODE_ENV=production
       - WDS_SOCKET_PORT=5000
       - WATCHPACK_POLLING=true
     env_file:
@@ -20,10 +21,6 @@ services:
       - 8080:8080
     command: yarn run preview
     depends_on: [api]
-  mongodb:
-    image: mongo
-    volumes:
-      - ./CDA-api/mongo:/data/mongo
   nginx:
     image: nginx:1.21.3
     depends_on:

@@ -20,10 +20,6 @@ services:
       - 8081:8081
     command: yarn run staging-preview
     depends_on: [api]
-  mongodb:
-    image: mongo
-    volumes:
-      - ./CDA-api/mongo:/data/mongo
   nginx:
     image: nginx:1.21.3
     depends_on:
