@@ -6,7 +6,7 @@ import { PencilIcon, TrashIcon } from '@heroicons/react/solid';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import './ProjectCard.scss';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface StatusBadgeProps {
   status: Status;
@@ -14,7 +14,7 @@ interface StatusBadgeProps {
 
 export interface ProjectCardProps {
   data: IProject;
-  canEdit: boolean;
+  canEdit: boolean
 }
 const colorStatus: { [key: string]: { text: string; bg: string; border: string } } = {
   'not started': { text: 'text-gray-600', bg: 'bg-gray-200', border: 'border-gray-500' },
@@ -71,7 +71,7 @@ const ProjectCard: FC<ProjectCardProps> = ({ data, canEdit = false }) => {
           </>
         )}
       </div>
-      <h1 className="w-full text-left text-2xl my-1 truncate">{name}</h1>
+      <h1 className="w-full text-left text-2xl my-1 truncate"><Link to={{ pathname: "/project", search: "?id=" + _id}}>{name}</Link></h1>
       <div className="w-full flex justify-end">
         <StatusBadge status={status} />
       </div>
