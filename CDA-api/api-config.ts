@@ -1,4 +1,4 @@
-export const PORT = process.env.SERVER_CLIENT
+export const PORT = process.env.SERVER_PORT
 
 type IEvironnementVariables = {
   serverURL: string

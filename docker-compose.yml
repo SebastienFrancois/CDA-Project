@@ -13,18 +13,12 @@ services:
       - ./CDA-api/utils:/app/utils
   app:
     build: ./CDA-app
-    restart: always
-    # environment:
-    #   - WDS_SOCKET_PORT=8080
-    #   - WATCHPACK_POLLING=true
-    # ports:
-    #   - 8080:8080
-    env_file:
-      - .config
-      - ./app/.env
-    command: yarn run build
-    volumes:
-      - ./CDA-app/dist:/app/dist
+    environment:
+      - WDS_SOCKET_PORT=8080
+      - WATCHPACK_POLLING=true
+    ports:
+      - 8080:8080
+    command: yarn run preview
     depends_on: [api]
   mongodb:
     image: mongo

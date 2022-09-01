@@ -30,4 +30,4 @@ app.use((0, morgan_1.default)('dev'));
 app.use('/api', router_1.default);
 // Error handler
 // app.use(errorHandler)
-app.listen(5000, () => console.log('Server started on localhost:5000'));
+app.listen(process.env.SERVER_PORT, () => console.log('Server started on localhost:' + process.env.SERVER_PORT));

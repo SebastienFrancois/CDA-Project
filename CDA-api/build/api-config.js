@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.environment = exports.PORT = void 0;
-exports.PORT = 5000;
+exports.PORT = process.env.SERVER_PORT;
 exports.environment = {
     dev: {
         serverURL: `http://localhost:${exports.PORT}/`,
