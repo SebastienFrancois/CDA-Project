@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import './Sidebar.scss';
 import Logo from '../../assets/png/logo.png';
 import React, { FC, useContext } from 'react';
@@ -22,7 +23,7 @@ const Sidebar: FC<SidebarProps> = (props) => {
             <hr className="border-0 h-0.5 max-h-px my-2 bg-secondary" />
             <div>
               <h2 className="text-secondary text-2xl font-bold my-4">
-                <NavLink to="/">Dashboard</NavLink>
+                <NavLink to="./dashboard">Dashboard</NavLink>
               </h2>
             </div>
             <hr className="border-0 h-0.5 max-h-px bg-secondary" />

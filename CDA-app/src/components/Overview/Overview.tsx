@@ -1,13 +1,16 @@
 import React, { FC } from 'react';
 import './Overview.scss';
 
-export interface OverviewProps { project: { getProject: IProject}}
+export interface OverviewProps {
+  project: { getProject: IProject };
+}
 
-const Overview: FC<OverviewProps> = ({project}) => {
+const Overview: FC<OverviewProps> = ({ project }) => {
   return (
-  <div>
-    <h1>Overview {project?.getProject.name}</h1>
-  </div>
-)};
+    <div>
+      <h1>Overview {project?.getProject.name}</h1>
+    </div>
+  );
+};
 
 export default Overview;
