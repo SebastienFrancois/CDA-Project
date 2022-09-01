@@ -53,7 +53,7 @@ export const PROJECTS = {
         updatedAt
         team {
           developpers {
-            username
+            _id
           }
         }
       }
