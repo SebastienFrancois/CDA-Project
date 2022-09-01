@@ -71,7 +71,7 @@ const ProjectCard: FC<ProjectCardProps> = ({ data, canEdit = false }) => {
           </>
         )}
       </div>
-      <h1 className="w-full text-left text-2xl my-1 truncate"><Link to={{ pathname: "/project", search: "?id=" + _id}}>{name}</Link></h1>
+      <h1 className="w-full text-left text-2xl my-1 truncate"><Link to={"/project/" + _id}>{name}</Link></h1>
       <div className="w-full flex justify-end">
         <StatusBadge status={status} />
       </div>
