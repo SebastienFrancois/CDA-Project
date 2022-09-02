@@ -10,7 +10,7 @@ function App() {
   const { isLogged, onLogout } = React.useContext(AuthContext);
 
   const httpLink = createHttpLink({
-    uri: 'http://localhost:5000/graphql',
+    uri: import.meta.env.VITE_SERVER_URL,
   });
 
   const authLink = setContext((_, { headers }) => {
