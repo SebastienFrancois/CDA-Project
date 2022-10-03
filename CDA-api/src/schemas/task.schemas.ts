@@ -3,9 +3,9 @@ import { Schema, model, Document, Types } from 'mongoose';
 import Joi from 'joi';
 
 export enum Status {
-    not_started,
-    in_progress,
-    late,
+    backlog,
+    'in progress',
+    'in review',
     done,
 }
 
@@ -25,7 +25,7 @@ export interface ITask extends Document {
 const TaskSchema = new Schema<ITask>({
   name: {type: String, unique: true, maxlength: 255},
   description: {type: String, maxlength: 255},
-  status: {type: String, enum: ['not started','in progress','late', 'done', ], default: 'not started'},
+  status: {type: String, enum: ['backlog','in progress','in review', 'done', ], default: 'backlog'},
   dueDate: Date,
   labels: [{type: Types.ObjectId, ref:'labels'}],
   project: {type: Types.ObjectId, ref:'projects'}
