@@ -31,7 +31,7 @@ export const Project: FC<ProjectProps> = () => {
   ];
 
   return (
-    <div className="content w-full h-full">
+    <div className="content w-full h-full flex flex-col">
       <div className="header">{/* Navbar to add with project title */}</div>
       <div className="content-wrapper h-full">
         <div className="flex gap-5">

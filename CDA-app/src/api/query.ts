@@ -99,3 +99,15 @@ export const PROJECTS = {
     }
   `,
 };
+
+export const TASKS = {
+  update: gql`
+    mutation Mutation($updateTaskId: ID!, $status: String) {
+      updateTask(id: $updateTaskId, status: $status) {
+        _id
+        name
+        status
+      }
+    }
+  `,
+};
