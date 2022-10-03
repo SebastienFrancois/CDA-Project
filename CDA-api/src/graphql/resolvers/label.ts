@@ -6,11 +6,11 @@ export default {
     Query: {
         getLabels: async (_:ParentNode, args: any,context: {user: {id: string}}) => {
             if(!context.user) throw new AuthenticationError('Invalid token');
-            await LabelModel.find({})
+            return await LabelModel.find({})
         },
         getLabel: async (_:ParentNode, args: {id: String}, context: {user: {id: string}}) => {
             if(!context.user) throw new AuthenticationError('Invalid token');
-            await LabelModel.findById({_id: args.id})
+            return await LabelModel.findById({_id: args.id})
         }
     },
     Mutation: {
