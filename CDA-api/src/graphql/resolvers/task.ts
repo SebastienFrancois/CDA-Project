@@ -65,7 +65,6 @@ export default {
     Task: {
         labels: async (task: ITask, _: ParentNode) => {
             return task.labels.map(async (labelId : Types.ObjectId) => {
-                console.log(labelId);
                 return await LabelModel.findById({_id: labelId})
             })
         },
