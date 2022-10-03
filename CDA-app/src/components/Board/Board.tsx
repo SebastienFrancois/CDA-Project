@@ -16,7 +16,7 @@ const Board: FC<BoardProps> = ({ project }) => {
   //console.log(project.getProject.tasks);
 
   return (
-    <div className="w-full h-full grid grid-cols-4 gap-4">
+    <div className="board grid grid-cols-4 gap-4">
       {/* <h1>Board {project?.getProject.name}</h1> */}
       {typesColumn.map((type) => (
         <BoardColumn

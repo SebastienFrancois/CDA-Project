@@ -10,11 +10,11 @@ export interface ProjectTabsProps {
 
 const ProjectTabs: FC<ProjectTabsProps> = ({ title, id, activeTab, setActiveTab }) => (
   <div
-    className={
+    className={`rounded cursor-pointer p-3 ${
       id == activeTab
-        ? 'rounded p-3 bg-primary text-white cursor-pointer'
-        : 'rounded bg-gray-100 hover:bg-primary hover:text-white transition-all ease-in-out p-3 cursor-pointer'
-    }
+        ? 'bg-primary text-white'
+        : 'bg-gray-100 hover:bg-primary hover:text-white transition-all ease-in-out'
+    }`}
     onClick={() => setActiveTab(id)}
   >
     {title}

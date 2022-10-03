@@ -17,15 +17,20 @@
 *::after {
   border: none;
 } */
+html, body {
+  box-sizing: border-box;
+}
 
 html {
   @apply text-gray-700;
+
 }
 body {
   margin: 0;
   font-family: 'Dosis', 'Montserrat', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
 }
 
 code {

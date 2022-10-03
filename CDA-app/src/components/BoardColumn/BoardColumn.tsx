@@ -29,17 +29,19 @@ const BoardColumn: FC<BoardColumnProps> = ({
 
   return (
     <div
-      className={`layout-cards h-full ${isDragging ? 'layout-dragging' : ''}`}
+      className={`layout-cards ${isDragging ? 'layout-dragging' : ''}`}
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
-      <h2>{status}</h2>
-      {items.map(
-        (task) =>
-          status === task.status && (
-            <BoardItem task={task} key={task._id} handleDragging={handleDragging} />
-          ),
-      )}
+      <h2 className={`${status.replace(' ', '-')}`}>{status}</h2>
+      <div className="tasks-container">
+        {items.map(
+          (task) =>
+            status === task.status && (
+              <BoardItem task={task} key={task._id} handleDragging={handleDragging} />
+            ),
+        )}
+      </div>
     </div>
   );
 };
