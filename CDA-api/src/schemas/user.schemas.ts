@@ -1,5 +1,5 @@
 import Joi, { boolean } from 'joi';
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Document, Types } from 'mongoose';
 
 export enum Role {
     ADMIN,
@@ -28,6 +28,10 @@ export interface IUser extends Document {
     },
     picture?: string,
     preferred_language: string,
+    project_asignements?: {
+      projectManager?: {projectId: Types.ObjectId}[],
+      developper?: {projectId: Types.ObjectId}[],
+    } 
 }
 
 const UserSchema = new Schema<IUser>({
@@ -49,7 +53,11 @@ const UserSchema = new Schema<IUser>({
       }
   },
   picture: {type: String, maxlength: 255},
-  preferred_language: {type: String, maxlength: 255, default: "fr"}
+  preferred_language: {type: String, maxlength: 255, default: "fr"},
+  project_asignements: {
+    projectManager:[{type: Schema.Types.ObjectId, ref:'Project'}],
+    developper: [{type: Schema.Types.ObjectId, ref:'Project'}]
+  }
 })
 
 export const UserModel = model<IUser>('User', UserSchema)

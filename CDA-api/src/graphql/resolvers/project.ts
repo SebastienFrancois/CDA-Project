@@ -3,6 +3,7 @@ import { IProject, ProjectModel, validateProject } from '../../schemas/project.s
 import { TaskModel } from '../../schemas/task.schemas';
 import { ApolloError, AuthenticationError } from 'apollo-server-express';
 import { Types } from 'mongoose';
+import { UserModel } from '../../schemas/user.schemas';
 
 export default {
     Query: {
@@ -19,10 +20,11 @@ export default {
             // if user has another role, send only the projects where he/she is on the team
             if (projects.length > 0 ) {
                 projects = projects.filter(project =>  {
-                     const devs = project.team.developpers;
-                     const pm = project.team.projectManager;
-                     return devs && devs.includes(context.user.id) ||  pm === context.user.id;
-                 })
+                     const isDev = project.developpers && project.developpers.includes(context.user.id) 
+                     const isPm = project?.projectManager?.toString() === context.user.id.toString()
+                     return  isDev || isPm;
+                })
+                projects.forEach(project => project?.projectManager?.toString() === context.user.id.toString())
              }
             return projects;
         } ,
@@ -37,18 +39,20 @@ export default {
             // if problem with token stored in context
             if (!context.user) throw new AuthenticationError('Invalid token');
 
-            // get errors from Joi
-            const err = await validateProject(args);
-            if (err.error) return err.error;
+            // // get errors from Joi
+            // const err = await validateProject(args);
+            // if (err.error) return err.error;
 
             // if User is not an admin, he/she can't add a project
-            if (context.user.role != "ADMIN") return new ApolloError("Not authorized");
+            // if (context.user.role != "ADMIN") return new ApolloError("Not authorized");
 
             const newProject = await ProjectModel.create({
                             name: args.name,
                             description: args.description,
                             status: args.status,
-                            dueDate: args.dueDate
+                            dueDate: args.dueDate,
+                            projectManager: args.projectManager,
+                            developpers: args.developpers,
                         })
             newProject.save()
             return newProject;
@@ -83,6 +87,15 @@ export default {
         tasks: async (project: IProject, _:ParentNode) => {
             const result = await TaskModel.find({project: project._id})
             return result
-        }
-    }
-}
+        },
+        projectManager: async (project: IProject, _:ParentNode) => {
+            const manager = await UserModel.findById(project?.projectManager)
+            return manager
+        },
+        developpers: async (project: IProject, _:ParentNode) => {
+            const devs = project?.developpers?.map(async (id : Types.ObjectId) => {
+                return await UserModel.findById({_id: id})
+            })
+            return devs
+        },
+}}

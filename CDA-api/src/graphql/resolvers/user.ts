@@ -30,7 +30,7 @@ export default{
                     email: args.email,
                     password: hash,
                     picture: args.picture,
-                    preferred_language: args.preferred_language,
+                    preferred_language: args.preferred_language
                 });
                 await newUser.save()
                 return {token: generateToken(newUser), email: newUser.email}

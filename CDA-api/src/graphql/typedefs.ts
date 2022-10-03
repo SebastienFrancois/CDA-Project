@@ -22,9 +22,6 @@ const typeDefs = gql`
         createdAt: String
         updatedAt: String
         tasks: [Task]
-        team: Team
-    }
-    type Team {
         projectManager: User
         developpers: [User]
     }
@@ -72,9 +69,9 @@ const typeDefs = gql`
     }
     type Mutation {
         addUser(email: String!, username: String!, password: String!, picture: String, preferred_language: String): UserResponse,
-        addProject(name: String!, description: String, status: String,dueDate: String!): Project,
+        addProject(name: String!, description: String, status: String,dueDate: String!, projectManager: String, developpers: [String] ): Project,
         deleteProject(id: ID!): String!,
-        updateProject(id: ID!, name: String, description: String, status: String, dueDate: String): Project,
+        updateProject(id: ID!, name: String, description: String, status: String, dueDate: String,  projectManager: String, developpers: [String]): Project,
         addLabel(name: String, color: String): Label,
         deleteLabel(id: ID!): String!,
         updateLabel(id: ID!, name: String, color: String): Label,

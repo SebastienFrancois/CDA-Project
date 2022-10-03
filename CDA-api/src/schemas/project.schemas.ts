@@ -16,10 +16,8 @@ export interface IProject extends Document {
     createdAt: Date,
     updatedAt: Date,
     tasks?: [Types.ObjectId],
-    team: {
-      projectManager?: Types.ObjectId,
-      developpers?: [Types.ObjectId],
-    }
+    projectManager?: Types.ObjectId | undefined,
+    developpers?: [Types.ObjectId] | undefined,
 }
 
 const ProjectSchema = new Schema<IProject>({
@@ -28,10 +26,8 @@ const ProjectSchema = new Schema<IProject>({
   status: {type: String, enum: ['not started','in progress','late', 'done', ], default: 'not started'},
   dueDate: Date,
   tasks: [{type: Schema.Types.ObjectId, ref:'Task'}],
-  team: {
-    projectManager: {type: Schema.Types.ObjectId, ref:'User'},
-    developpers: [{type: Schema.Types.ObjectId, ref:'User'}]
-  }
+  projectManager: {type: Schema.Types.ObjectId, ref:'user'},
+  developpers: [{type: Schema.Types.ObjectId, ref:'user'}]
 }, {timestamps: true})
 
 export const ProjectModel = model<IProject>('Project', ProjectSchema)
