@@ -3,10 +3,6 @@ import './TaskCard.scss';
 
 interface TaskCardProps {}
 
-const TaskCard: FC<TaskCardProps> = () => (
-  <div className="TaskCard">
-    TaskCard Component
-  </div>
-);
+const TaskCard: FC<TaskCardProps> = () => <div className="TaskCard">TaskCard Component</div>;
 
 export default TaskCard;
