@@ -3,10 +3,10 @@ import { Schema, model, Document, Types } from 'mongoose';
 import Joi from 'joi';
 
 export enum Status {
-    not_started,
-    in_progress,
-    late,
-    done,
+  backlog,
+  'in progress',
+  'in review',
+  done,
 }
 
 export interface ITask extends Document {
