@@ -8,9 +8,25 @@ interface IProject {
   dueDate: Date;
   createdAt: Date;
   updatedAt: Date;
-  tasks?: [string];
+  tasks?: ITask[];
   team: {
     projectManager?: string;
     developpers?: [string];
   };
+}
+
+type TaskStatus = 'backlog' | 'in progress' | 'in review' | 'done';
+
+interface ITask {
+  _id: string;
+  name: string;
+  description: string;
+  status?: TaskStatus;
+  dueDate: Date;
+  createdAt: Date;
+  updatedAt: Date;
+  labels: [Types.ObjectId];
+  // assignTo: [Types.ObjectId],
+  project: Types.ObjectId | undefined;
+  // comments: [Types.ObjectId]
 }

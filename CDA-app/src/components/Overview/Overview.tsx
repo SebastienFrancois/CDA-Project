@@ -9,6 +9,7 @@ const Overview: FC<OverviewProps> = ({ project }) => {
   return (
     <div>
       <h1>Overview {project?.getProject.name}</h1>
+      <p>TBD</p>
     </div>
   );
 };

@@ -1,0 +1,18 @@
+.layout-cards {
+  border: 2px solid #ffffff8c;
+  border-radius: 5px;
+  transition: all 0.3s linear;
+}
+
+.layout-cards > h2 {
+  border-radius: 5px;
+  text-align: center;
+  padding: 1rem 0;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+// .layout-dragging {
+//   background: #ffffff17;
+//   border: 2px dashed #ffffff8c;
+// }

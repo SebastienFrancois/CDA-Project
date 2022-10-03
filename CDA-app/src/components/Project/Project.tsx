@@ -31,9 +31,9 @@ export const Project: FC<ProjectProps> = () => {
   ];
 
   return (
-    <div className="content">
-      <div className="header">{/* Navbar to add */}</div>
-      <div className="content-wrapper">
+    <div className="content w-full h-full">
+      <div className="header">{/* Navbar to add with project title */}</div>
+      <div className="content-wrapper h-full">
         <div className="flex gap-5">
           {listTab.map((el, key) => (
             <ProjectTabs
@@ -45,12 +45,12 @@ export const Project: FC<ProjectProps> = () => {
             />
           ))}
         </div>
-        <div>
+        <>
           {activeTab === 'tab0' && !loading ? <Overview project={data} /> : ''}
           {activeTab === 'tab1' && !loading ? <TasksList project={data} /> : ''}
           {activeTab === 'tab2' && !loading ? <Board project={data} /> : ''}
           {activeTab === 'tab3' && !loading ? <Graphs project={data} /> : ''}
-        </div>
+        </>
       </div>
     </div>
   );
