@@ -1,15 +1,27 @@
-import { IUser, UserModel, validateUser } from '../../schemas/user.schemas';
-import { hashPassword, verifyPassword } from '../../../utils/pwd';
+import { TUser } from '../../../appolo-server';
 import { generateToken } from '../../../utils/token';
-
+import hasPermissions from '../../../utils/userInfos';
+import { AuthenticationError } from 'apollo-server-errors';
+import { hashPassword, verifyPassword } from '../../../utils/pwd';
+import { IUser, UserModel, validateUser } from '../../schemas/user.schemas';
 
 export default{
     Query: {
-        getUsers: async () => await UserModel.find({}),
+        getUsers: async (_:ParentNode, __: any, context: {user: TUser}) =>{
+            if(!context.user) throw new AuthenticationError('Invalid token');
+
+            if(!hasPermissions(context.user, 'getUsers'))  throw new AuthenticationError("Not authorized");
+
+            return await UserModel.find({})
+        },
         getUser: async (_:ParentNode, args: {id: String}) => await UserModel.findById({_id: args.id}) 
     },
     Mutation: {
-        addUser: async ( _ :ParentNode, args: IUser ) => {
+        addUser: async ( _ :ParentNode, args: IUser, context: {user: TUser} ) => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
+
+            if(!hasPermissions(context.user, 'addUser'))  throw new AuthenticationError("Not authorized");
+            
             const err = validateUser(args);
             if (err.error) return err.error
 
@@ -40,6 +52,8 @@ export default{
             }
             
         },
+        // TODO: deleteUser + updateUserInfosAsUser + updateUserInfosAsAdmin + changePassword + retrievePassword
+
         // deleteUser : async (_:ParentNode, args: {id: String}) => {
         //     try {
         //         await UserModel.findOneAndDelete({_id: args.id})
