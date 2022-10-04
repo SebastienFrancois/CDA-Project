@@ -13,7 +13,6 @@ export default {
 
             // fetch all the projects
             let projects = await ProjectModel.find({});
-
             // if user has a role ADMIN, send all the projects
             if (context.user.role == "ADMIN") return projects;
 
@@ -25,8 +24,10 @@ export default {
                      return  isDev || isPm;
                 })
                 projects.forEach(project => project?.projectManager?.toString() === context.user.id.toString())
-             }
+            }
+
             return projects;
+            
         } ,
         getProject: async (_:ParentNode, args: {id: string}, context: {user: {id: Types.ObjectId}}) => {
             // if problem with token stored in context
@@ -39,12 +40,12 @@ export default {
             // if problem with token stored in context
             if (!context.user) throw new AuthenticationError('Invalid token');
 
-            // // get errors from Joi
-            // const err = await validateProject(args);
-            // if (err.error) return err.error;
+            // get errors from Joi
+            const err = await validateProject(args);
+            if (err.error) return err.error;
 
             // if User is not an admin, he/she can't add a project
-            // if (context.user.role != "ADMIN") return new ApolloError("Not authorized");
+            if (context.user.role != "ADMIN") return new ApolloError("Not authorized");
 
             const newProject = await ProjectModel.create({
                             name: args.name,
