@@ -4,8 +4,10 @@ import { typeDefs } from './src/graphql/typedefs'
 import resolvers from './src/graphql/resolvers/index';
 import { verifyToken } from './utils/token';
 
-type TContext = {
-  user: {id: string, email: string, username:string, preferred_language: string, role: string} | null
+export type TUser = {id: string, email: string, username:string, preferred_language: string, role: string}
+
+export type TContext = {
+  user: TUser | null
 }
 
 const server = new ApolloServer({ typeDefs, resolvers, csrfPrevention: true, context: ({ req }) => {
