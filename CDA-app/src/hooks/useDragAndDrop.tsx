@@ -15,6 +15,7 @@ export const useDragAndDrop = (initialState: ITask[] = []) => {
 
     if (card && card.status !== status) {
       // Create a deep copy from card because card is not "writable" on line 14
+      // eslint-disable-next-line prefer-const
       let newCard = { ...card };
       newCard.status = status;
       card = newCard;

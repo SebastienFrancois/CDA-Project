@@ -1,1 +1,14 @@
-.TaskCard {}
+.TaskCard {
+    box-shadow: -3px 7px 10px rgba(0, 0, 0, 0.2);
+    border: 3px solid #D8D8E9;
+    border-radius: 10px;
+}
+
+.pill {
+    width: fit-content;
+    padding: .15rem .75rem;
+    font-size: .75rem;
+    font-weight: bold;
+    border-radius: 20px;
+    text-transform: uppercase;
+}

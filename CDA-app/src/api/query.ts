@@ -42,6 +42,9 @@ export const PROJECTS = {
           _id
           name
           description
+          dueDate
+          createdAt
+          updatedAt
           status
           labels {
             _id
