@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import './TaskCardModal.scss';
 import IconCalendar from './../../assets/png/icon-calendar.png';
 import TaskCardChat from './../TaskCardChat/TaskCardChat';
+import { PencilIcon, XIcon } from '@heroicons/react/solid';
 
 interface TaskCardModalProps {
   isShowing: boolean;
@@ -24,16 +25,16 @@ const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) =>
               task {task.status}
             </p>
           </div>
-          <button
-            type="button"
-            className="modal-close-button self-start"
-            onClick={(e) => {
-              e.stopPropagation();
-              hide();
-            }}
-          >
-            <span>&times;</span>
-          </button>
+          <div className="flex w-16 justify-between self-start">
+            <PencilIcon
+              className="w-2/6 opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer"
+              // onClick={update}
+            />
+            <XIcon
+              className="w-2/6 opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer"
+              onClick={hide}
+            />
+          </div>
         </div>
         <div className="mt-6">
           <p className="font-bold">Task&#39;s description</p>
