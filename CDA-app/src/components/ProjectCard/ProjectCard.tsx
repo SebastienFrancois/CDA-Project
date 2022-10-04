@@ -72,17 +72,17 @@ const ProjectCard: FC<ProjectCardProps> = ({ data, canEdit = false }) => {
           </>
         )}
       </div>
-      <h1 className="w-full text-left text-2xl my-1 truncate">
-        <Link to={'/project/' + _id}>{name}</Link>
-      </h1>
-      <div className="w-full flex justify-end">
-        <StatusBadge status={status} />
-      </div>
-      <div className="w-full text-right">
-        <p className="text-sm first-letter:capitalize">{`${
-          status !== 'archived' ? t('project:due') : t('project:archived')
-        } : ${dayjs(Number(dueDate)).format('DD/MM/YYYY')}`}</p>
-      </div>
+      <Link className="w-full" to={'/project/' + _id}>
+        <h1 className="w-full text-left text-2xl my-1 truncate">{name}</h1>
+        <div className="w-full flex justify-end">
+          <StatusBadge status={status} />
+        </div>
+        <div className="w-full text-right">
+          <p className="text-sm first-letter:capitalize">{`${
+            status !== 'archived' ? t('project:due') : t('project:archived')
+          } : ${dayjs(Number(dueDate)).format('DD/MM/YYYY')}`}</p>
+        </div>
+      </Link>
     </div>
   );
 };
