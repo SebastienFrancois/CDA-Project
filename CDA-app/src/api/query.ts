@@ -51,10 +51,21 @@ export const PROJECTS = {
         }
         createdAt
         updatedAt
-        team {
-          developpers {
-            _id
-          }
+        projectManager {
+          _id
+          email
+          username
+          password
+          picture
+          preferred_language
+        }
+        developpers {
+          _id
+          email
+          username
+          password
+          picture
+          preferred_language
         }
       }
     }
