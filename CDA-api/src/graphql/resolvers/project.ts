@@ -4,44 +4,60 @@ import { TaskModel } from '../../schemas/task.schemas';
 import { ApolloError, AuthenticationError } from 'apollo-server-express';
 import { Types } from 'mongoose';
 import { UserModel } from '../../schemas/user.schemas';
-
+import hasPermissions from '../../../utils/userInfos';
+import { TUser } from '../../../appolo-server';
 export default {
     Query: {
-        getProjects: async (_:ParentNode, __: any, context: {user: {id: Types.ObjectId, role: string}}) => {
-            // if problem with token stored in context
-            if (!context.user) throw new AuthenticationError('Invalid token');
+        getProjects: async (_:ParentNode, __: any, context: {user: TUser}) => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
+
+            if(!hasPermissions(context.user, 'getProjects'))  throw new AuthenticationError("Not authorized");
 
             // fetch all the projects
             let projects = await ProjectModel.find({});
+            if(!projects) return [];
+            
             // if user has a role ADMIN, send all the projects
             if (context.user.role == "ADMIN") return projects;
 
             // if user has another role, send only the projects where he/she is on the team
             if (projects.length > 0 ) {
-                projects = projects.filter(project =>  {
-                     const isDev = project.developpers && project.developpers.includes(context.user.id) 
+                return projects.filter(project =>  {
+                     const isDev = project.developpers && project.developpers.includes(context.user.id as unknown as Types.ObjectId) 
                      const isPm = project?.projectManager?.toString() === context.user.id.toString()
                      return  isDev || isPm;
                 })
-                projects.forEach(project => project?.projectManager?.toString() === context.user.id.toString())
             }
-
-            return projects;
             
         } ,
-        getProject: async (_:ParentNode, args: {id: string}, context: {user: {id: Types.ObjectId}}) => {
-            // if problem with token stored in context
-            if (!context.user) throw new AuthenticationError('Invalid token');
-            return await ProjectModel.findById({_id: args.id})
+        getProject: async (_:ParentNode, args: {id: string}, context: {user: TUser}) => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
+
+            if(!hasPermissions(context.user, 'getProject'))  throw new AuthenticationError("Not authorized");
+
+            const project = await ProjectModel.findById({_id: args.id});
+
+            if(!project) throw new Error('Project not found !')
+
+            if (context.user.role == "ADMIN") return project
+
+            const isDev = project?.developpers && project?.developpers.includes(context.user.id as unknown as Types.ObjectId) 
+            const isPm = project?.projectManager?.toString() === context.user.id.toString()
+            const partOfteam =  isDev || isPm;
+
+            if(!partOfteam) throw new AuthenticationError("Not authorized");
+
+            return project
         } 
     },
     Mutation: {
-        addProject: async ( _ :ParentNode, args: IProject, context: {user: {id: Types.ObjectId, role: string}}) => {
-            // if problem with token stored in context
-            if (!context.user) throw new AuthenticationError('Invalid token');
+        addProject: async ( _ :ParentNode, args: IProject, context: {user: TUser}) => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
+
+            if(!hasPermissions(context.user, 'addProject'))  throw new AuthenticationError("Not authorized");
 
             // get errors from Joi
-            const err = await validateProject(args);
+            const err = validateProject(args);
             if (err.error) return err.error;
 
             // if User is not an admin, he/she can't add a project
@@ -58,9 +74,10 @@ export default {
             newProject.save()
             return newProject;
         },
-        deleteProject : async (_:ParentNode, args: {id: string}, context: {user: {id: Types.ObjectId, role: string}}) => {
-            // if problem with token stored in context
-            if (!context.user) throw new AuthenticationError('Invalid token');
+        deleteProject : async (_:ParentNode, args: {id: string}, context: {user: TUser}) => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
+
+            if(!hasPermissions(context.user, 'deleteProject'))  throw new AuthenticationError("Not authorized");
 
             // if User is not an admin, he/she can't delete a project
             if (context.user.role != "ADMIN") return new ApolloError("Not authorized");
@@ -72,9 +89,10 @@ export default {
                 return JSON.stringify({message:` Instance "${args.id}" wasn't deleted !`})
             }
         },
-        updateProject: async (_:ParentNode, args: IProject, context: {user: {id: Types.ObjectId, role: string}}) => {
-            // if problem with token stored in context
-            if (!context.user) throw new AuthenticationError('Invalid token');
+        updateProject: async (_:ParentNode, args: IProject, context: {user: TUser}) => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
+
+            if(!hasPermissions(context.user, 'updateProject'))  throw new AuthenticationError("Not authorized");
 
             try {
                 const newProject = await ProjectModel.findByIdAndUpdate({_id: args.id}, args, {new: true});
