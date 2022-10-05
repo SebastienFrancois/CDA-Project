@@ -4,6 +4,7 @@ import hasPermissions from '../../../utils/userInfos';
 import { AuthenticationError } from 'apollo-server-errors';
 import { hashPassword, verifyPassword } from '../../../utils/pwd';
 import { IUser, UserModel, validateUser } from '../../schemas/user.schemas';
+import sendMail from '../../emails/emailFactory';
 
 export default{
     Query: {
@@ -122,7 +123,23 @@ export default{
                 return new Error(`User "${args.id}" wasn't deleted !`)
             }
         },
-        // TODO: retrievePassword
+        retrievePassword : async (_:ParentNode, args: {email: string, new_password: string }) => {
+            if(!args.email) throw new AuthenticationError('Invalid request');
+
+            const user = await UserModel.findOne({email: args.email}) 
+            if(!user) throw new AuthenticationError("User does not exist !")
+            
+            const token = generateToken(user);
+
+            console.log(`Send email to user.email with new token <a href=${process?.env.APP_URL}/reset_password?token=${token} target='_blank'>Changer votre mot de passe</a>`)
+            try {
+                sendMail({to: args.email, subject:'Reinitialisation de mot de passe', text:'Suivez ce lien =>', html:`<a href=${process?.env.APP_URL}/reset_password?token=${token} target='_blank'>Changer votre mot de passe</a>`})
+            } catch (error) {
+                return {success: false}
+            }
+            
+            return { success: true }
+        },
         
     },
 }

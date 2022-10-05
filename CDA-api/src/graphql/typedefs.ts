@@ -53,6 +53,9 @@ const typeDefs = gql`
         createdAt: String,
         typeOfNotif: String,
     }
+    type RetrievePasswordResponse{
+        success : Boolean!,
+    }
     type Query {
         getUsers: [User],
         getTasks: [Task],
@@ -88,6 +91,7 @@ const typeDefs = gql`
         updateUserInfosAsAdmin(id: ID!, email: String, username: String, password: String, picture: String, preferred_language: String, role: String) : User,
         updateUserInfosAsUser(id: ID!, email: String, username: String, password: String, picture: String, preferred_language: String) : User,
         deleteUser(id: ID!): String!,
+        retrievePassword(email: String!, new_password: String!): RetrievePasswordResponse,
     }
 `
 export { typeDefs };
