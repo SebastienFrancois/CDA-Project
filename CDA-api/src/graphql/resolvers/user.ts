@@ -88,7 +88,10 @@ export default{
             }
         },
         updateUserInfosAsUser: async (_:ParentNode, args: IUser, context: {user: TUser}) => { 
+
             if(!context.user) throw new AuthenticationError('Invalid token');
+
+            if(context.user.id !== args.id) throw new AuthenticationError("Not authorized ! Only profile owner can modify user related infos !");
 
             if(!hasPermissions(context.user, 'updateUserInfosAsUser'))  throw new AuthenticationError("Not authorized");
 
@@ -109,7 +112,7 @@ export default{
         },
         deleteUser : async (_:ParentNode, args: {id: String}, context: {user: TUser}) => {
             if(!context.user) throw new AuthenticationError('Invalid token');
-
+            
             if(!hasPermissions(context.user, 'deleteUser'))  throw new AuthenticationError("Not authorized");
 
             try {
