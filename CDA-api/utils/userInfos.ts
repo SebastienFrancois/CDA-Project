@@ -38,7 +38,10 @@ export type TMutations =
         'updateComment' |
         'addNotification' |
         'deleteNotification' |
-        'updateNotification';
+        'updateNotification'|
+        'updateUserInfoAsAdmin'|
+        'updateUserInfosAsUser'|
+        'deleteUser'
 
 type TPermissionItem = TQuerys | TMutations
 
@@ -72,13 +75,19 @@ const permissions: { [key: string]: TPermissionItem[]} = {
                 'updateNotification',
                 'updateProject',
                 'updateTask',
+                'updateUserInfoAsAdmin',
+                'updateUserInfosAsUser',
+                'deleteUser',
         ],
-        CO: ['getUsers','getUser','getProjects', 'getProject', 'addProject', 'updateProject', 'deleteProject', 'getTasks','getTask', 'addTask','updateTask', 'deleteTask', 'addComment', 'updateComment','deleteComment'],
-        DEV: ['getProjects', 'getProject', 'getTasks','getTask', 'addTask','updateTask','getComments', 'getComment', 'addComment', 'updateComment'],
+        CO: ['getUsers','getUser','getProjects', 'getProject', 'addProject', 'updateProject', 'deleteProject', 'getTasks','getTask', 'addTask','updateTask', 'deleteTask', 'addComment', 'updateComment','deleteComment', 'updateUserInfosAsUser'],
+        DEV: ['getUsers','getUser','getProjects', 'getProject', 'getTasks','getTask', 'addTask','updateTask','getComments', 'getComment', 'addComment', 'updateComment', 'updateUserInfosAsUser'],
 }
 
 const hasPermissions = (user: TUser, action: TMutations | TQuerys) => {
         const { role } = user;
+
+        if(!role) return false;
+       
         const result :boolean = permissions[role].includes(action)
         return result
 }

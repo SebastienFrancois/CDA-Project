@@ -5,9 +5,9 @@ const typeDefs = gql`
         _id: ID,
         email: String!,
         username: String!,
-        password: String!,
         picture: String,
-        preferred_language: String
+        preferred_language: String,
+        role: String,
     }
     type UserResponse {
         token: String, 
@@ -68,7 +68,7 @@ const typeDefs = gql`
         getNotification(id: ID!): Notification,
     }
     type Mutation {
-        addUser(email: String!, username: String!, password: String!, picture: String, preferred_language: String): UserResponse,
+        addUser(email: String!, username: String!, password: String!, picture: String, preferred_language: String, role: String!): UserResponse,
         addProject(name: String!, description: String, status: String,dueDate: String!, projectManager: String, developpers: [String] ): Project,
         deleteProject(id: ID!): String!,
         updateProject(id: ID!, name: String, description: String, status: String, dueDate: String,  projectManager: String, developpers: [String]): Project,
@@ -85,6 +85,9 @@ const typeDefs = gql`
         deleteNotification(id: ID!): String!,
         updateNotification(id: ID!, message: String!, createdAt: String, typeOfNotif: String): Notification,
         login(email: String!, password: String!): String,
+        updateUserInfosAsAdmin(id: ID!, email: String, username: String, password: String, picture: String, preferred_language: String, role: String) : User,
+        updateUserInfosAsUser(id: ID!, email: String, username: String, password: String, picture: String, preferred_language: String) : User,
+        deleteUser(id: ID!): String!,
     }
 `
 export { typeDefs };

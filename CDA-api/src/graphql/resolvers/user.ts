@@ -42,7 +42,8 @@ export default{
                     email: args.email,
                     password: hash,
                     picture: args.picture,
-                    preferred_language: args.preferred_language
+                    preferred_language: args.preferred_language,
+                    role: args.role
                 });
                 await newUser.save()
                 return {token: generateToken(newUser), email: newUser.email}
@@ -52,36 +53,73 @@ export default{
             }
             
         },
-        // TODO: deleteUser + updateUserInfosAsUser + updateUserInfosAsAdmin + changePassword + retrievePassword
-
-        // deleteUser : async (_:ParentNode, args: {id: String}) => {
-        //     try {
-        //         await UserModel.findOneAndDelete({_id: args.id})
-        //         return JSON.stringify({message:`User "${args.id}" has been deleted successfully !`})
-        //     } catch (error) {
-        //         return new Error(`User "${args.id}" wasn't deleted !`)
-        //     }
-        // },
-        // updateUser: async (_:ParentNode, args: IUser) => { 
-        //     try {
-        //         const newUser = await UserModel.findByIdAndUpdate({_id: args.id}, args, {new: true});
-        //         return newUser
-        //     } catch (error) {
-        //         return new Error(`Instance "${args.id}" wasn't updated !`)
-        //     }
-        // },
         login: async (parent: ParentNode, { email, password }: { email: string, password: string }) => {
             const currentUser = await UserModel.findOne({email});
             if (!currentUser) {
                 return new Error('Invalid email or password');
             }
             const isValid = await verifyPassword(password, currentUser.password);
-
+            
             if (!isValid) {
                 return new Error('Invalid email or password');
             }
             
             return generateToken(currentUser);
-          }
+        },
+        updateUserInfosAsAdmin: async (_:ParentNode, args: IUser, context: {user: TUser}) => { 
+            if(!context.user) throw new AuthenticationError('Invalid token');
+
+            if(!hasPermissions(context.user, 'updateUserInfoAsAdmin'))  throw new AuthenticationError("Not authorized");
+
+            if(args.password) {
+                const hash = await hashPassword(args.password);
+    
+                if (!hash) return new Error("Problem occured while hashing password")
+
+                args.password = hash
+            }
+
+
+            try {
+                const newUser = await UserModel.findByIdAndUpdate({_id: args.id}, args, {new: true});
+                return newUser
+            } catch (error) {
+                return new Error(`Instance "${args.id}" wasn't updated !`)
+            }
+        },
+        updateUserInfosAsUser: async (_:ParentNode, args: IUser, context: {user: TUser}) => { 
+            if(!context.user) throw new AuthenticationError('Invalid token');
+
+            if(!hasPermissions(context.user, 'updateUserInfosAsUser'))  throw new AuthenticationError("Not authorized");
+
+            if(args.password) {
+                const hash = await hashPassword(args.password);
+    
+                if (!hash) return new Error("Problem occured while hashing password")
+
+                args.password = hash
+            }
+
+            try {
+                const newUser = await UserModel.findByIdAndUpdate({_id: args.id}, args, {new: true});
+                return newUser
+            } catch (error) {
+                return new Error(`Instance "${args.id}" wasn't updated !`)
+            }
+        },
+        deleteUser : async (_:ParentNode, args: {id: String}, context: {user: TUser}) => {
+            if(!context.user) throw new AuthenticationError('Invalid token');
+
+            if(!hasPermissions(context.user, 'deleteUser'))  throw new AuthenticationError("Not authorized");
+
+            try {
+                await UserModel.findOneAndDelete({_id: args.id})
+                return JSON.stringify({message:`User "${args.id}" has been deleted successfully !`})
+            } catch (error) {
+                return new Error(`User "${args.id}" wasn't deleted !`)
+            }
+        },
+        // TODO: retrievePassword
+        
     },
 }

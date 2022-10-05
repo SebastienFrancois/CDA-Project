@@ -75,8 +75,8 @@ describe("User permissions", () => {
         }
 
         it('should not authorize user to update is own userInfos only',  () => {
-            expect(hasPermissions(userContext.user, 'getUsers')).toBeFalsy();
-            expect(hasPermissions(userContext.user, 'getUser')).toBeFalsy();
+            expect(hasPermissions(userContext.user, 'getUsers')).toBeTruthy();
+            expect(hasPermissions(userContext.user, 'getUser')).toBeTruthy();
             expect(hasPermissions(userContext.user, 'addUser')).toBeFalsy();
         })
 
