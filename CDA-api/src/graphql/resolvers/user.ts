@@ -123,7 +123,7 @@ export default{
                 return new Error(`User "${args.id}" wasn't deleted !`)
             }
         },
-        retrievePassword : async (_:ParentNode, args: {email: string, new_password: string }) => {
+        retrievePassword : async (_:ParentNode, args: {email: string }) => {
             if(!args.email) throw new AuthenticationError('Invalid request');
 
             const user = await UserModel.findOne({email: args.email}) 
