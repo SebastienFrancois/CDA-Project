@@ -4,7 +4,7 @@
   left: 50%;
   transform: translate(-30%, -50%);
   width: 600px;
-  height: 85vh;
+  height: 88vh;
   background-color: white;
   box-shadow: -3px 7px 10px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
@@ -51,4 +51,25 @@
 .done{
     background-color: rgb(87, 87, 158);
     color: white;
+}
+
+.cta-modify {
+  padding-inline: .5rem;
+  background-color: #E8F8C1;
+  border-radius: 5px;
+  color: black;
+}
+.cta-cancel {
+  padding-inline: .5rem;
+  background-color: #F7C2B6;
+  border-radius: 5px;
+  color: black;
+}
+
+.input-modify {
+  border-bottom: 1px solid #a1a1a1;
+}
+.input-modify:focus {
+  border-bottom: 1px solid rgb(80, 80, 80);
+  outline: none;
 }

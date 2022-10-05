@@ -25,8 +25,14 @@ interface ITask {
   dueDate: Date;
   createdAt: Date;
   updatedAt: Date;
-  labels: [Types.ObjectId];
+  labels: [ILabel];
   // assignTo: [Types.ObjectId],
-  project: Types.ObjectId | undefined;
+  project: string | undefined;
   // comments: [Types.ObjectId]
+}
+
+interface ILabel {
+  _id: string;
+  name: string;
+  color: string;
 }

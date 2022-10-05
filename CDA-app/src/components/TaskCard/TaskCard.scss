@@ -5,6 +5,9 @@
 }
 
 .pill {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: fit-content;
     padding: .15rem .75rem;
     font-size: .75rem;

@@ -1,9 +1,19 @@
-import React, { FC } from 'react';
+import React, { FC, useState, useContext, MouseEvent } from 'react';
 import dayjs from 'dayjs';
-import './TaskCardModal.scss';
-import IconCalendar from './../../assets/png/icon-calendar.png';
+
+import { useMutation } from '@apollo/client';
+import { TASKS } from './../../api/query';
+
 import TaskCardChat from './../TaskCardChat/TaskCardChat';
-import { PencilIcon, XIcon } from '@heroicons/react/solid';
+import AddButton from '../AddButton/AddButton';
+import { XIcon, CheckIcon } from '@heroicons/react/solid';
+
+import { AuthContext } from './../../contexts/AuthContext';
+
+import './TaskCardModal.scss';
+
+import IconCalendar from './../../assets/png/icon-calendar.png';
+import ModalLabel from './../ModalLabel/ModalLabel';
 
 interface TaskCardModalProps {
   isShowing: boolean;
@@ -11,34 +21,146 @@ interface TaskCardModalProps {
   task: ITask;
 }
 
-const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) =>
-  isShowing ? (
+const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) => {
+  const { currentUser } = useContext(AuthContext);
+
+  const isAdmin = currentUser?.role === 'ADMIN';
+
+  const [updateTask] = useMutation(TASKS.update);
+
+  const [taskName, setTaskName] = useState(task.name);
+  const [isUpdatingTaskName, setIsUpdatingTaskName] = useState(false);
+  const [taskStatus, setTaskStatus] = useState(task.status);
+  const [isUpdatingTaskStatus, setIsUpdatingTaskStatus] = useState(false);
+  const [taskDescription, setTaskDescription] = useState(task.description);
+  const [isUpdatingTaskDescription, setIsUpdatingTaskDescription] = useState(false);
+  const [taskDueDate, setTaskDueDate] = useState(task.dueDate);
+  const [isUpdatingTaskDueDate, setIsUpdatingTaskDueDate] = useState(false);
+
+  const [showLabelModal, setShowLabelModal] = useState(false); // show/hide modal Labels
+  const [labelsToUpdate, setLabelsToUpdate] = useState(task.labels.map((label) => label._id)); // id to update according to user's choice
+
+  function handleUpdateTask(e: MouseEvent) {
+    e.stopPropagation();
+    updateTask({
+      variables: {
+        updateTaskId: task._id,
+        name: taskName,
+        status: taskStatus,
+        description: taskDescription,
+        dueDate: taskDueDate,
+        labels: labelsToUpdate,
+      },
+      refetchQueries: 'active',
+    });
+    setIsUpdatingTaskName(false);
+    setIsUpdatingTaskStatus(false);
+    setIsUpdatingTaskDescription(false);
+    setIsUpdatingTaskDueDate(false);
+  }
+
+  return isShowing ? (
     <div className="modal-overlay">
       <div className="TaskCardModal flex flex-col px-10 py-6 content-around">
-        <div className="flex justify-between items-center mb-8">
-          <p className="modal-title text-3xl basis-1/2">{task.name}</p>
-          <div className="flex self flex-wrap">
-            <p
-              className={`pill font-bold uppercase ${task.status?.replace(' ', '-')}`}
-              // style={{ color: label.color, background: `${label.color}33` }}
-            >
-              task {task.status}
-            </p>
+        <div className="flex justify-between items-center mb-6">
+          <div onClick={() => setIsUpdatingTaskName(true)}>
+            {isUpdatingTaskName ? (
+              <div className="flex flex-col">
+                <input
+                  type="text"
+                  value={taskName}
+                  className="text-3xl italic input-modify"
+                  onChange={(e) => {
+                    setTaskName(e.target.value);
+                  }}
+                />
+                <div className="flex gap-4 mt-2 self-end">
+                  <button className="cta-modify" onClick={(e) => handleUpdateTask(e)}>
+                    <CheckIcon className="w-6 opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer" />
+                  </button>
+                  <button
+                    className="cta-cancel"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setTaskName(task.name);
+                      setIsUpdatingTaskName(false);
+                    }}
+                  >
+                    <XIcon className="w-6 opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer" />
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <p className="modal-title text-3xl basis-1/2">{taskName}</p>
+            )}
           </div>
-          <div className="flex w-16 justify-between self-start">
-            <PencilIcon
-              className="w-2/6 opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer"
-              // onClick={update}
-            />
-            <XIcon
-              className="w-2/6 opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer"
-              onClick={hide}
-            />
+          <div className="flex self flex-wrap" onClick={() => setIsUpdatingTaskStatus(true)}>
+            {isUpdatingTaskStatus ? (
+              <div className="flex flex-col">
+                <select value={taskStatus} onChange={(e) => setTaskStatus(e.target.value)}>
+                  <option value="backlog">Backlog</option>
+                  <option value="in progress">In Progress</option>
+                  <option value="in review">In Review</option>
+                  <option value="done">Done</option>
+                </select>
+                <div className="flex gap-4 mt-2 self-end">
+                  <button className="cta-modify" onClick={(e) => handleUpdateTask(e)}>
+                    <CheckIcon className="w-6 opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer" />
+                  </button>
+                  <button
+                    className="cta-cancel"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsUpdatingTaskStatus(false);
+                    }}
+                  >
+                    <XIcon className="w-6 opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer" />
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <p className={`pill font-bold uppercase ${task.status?.replace(' ', '-')}`}>
+                task {taskStatus}
+              </p>
+            )}
           </div>
+          <XIcon
+            className="w-8 opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer"
+            onClick={hide}
+          />
         </div>
         <div className="mt-6">
           <p className="font-bold">Task&#39;s description</p>
-          <p>{task.description}</p>
+          <div onClick={() => setIsUpdatingTaskDescription(true)}>
+            {isUpdatingTaskDescription ? (
+              <div className="flex gap-4 items-start">
+                <textarea
+                  className="w-3/4 resize-none italic border-b border-gray-400 outline-none"
+                  value={taskDescription}
+                  onChange={(e) => {
+                    setTaskDescription(e.target.value);
+                  }}
+                ></textarea>
+                <div className="flex gap-4">
+                  <button className="cta-modify" onClick={(e) => handleUpdateTask(e)}>
+                    <CheckIcon className="w-6 opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer" />
+                  </button>
+                  <button
+                    className="cta-cancel"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setTaskDescription(task.description);
+                      setIsUpdatingTaskDescription(false);
+                    }}
+                  >
+                    <XIcon className="w-6 opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer" />
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <p>{taskDescription}</p>
+            )}
+          </div>
         </div>
         <div className="mt-6">
           <p className="font-bold">Assign to</p>
@@ -46,7 +168,7 @@ const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) =>
         </div>
         <div className="mt-6">
           <p className="font-bold">Add labels</p>
-          <div className="flex gap-2 flex-wrap mt-2">
+          <div className="flex gap-2 flex-wrap mt-2 items-center">
             {task.labels.length > 0 &&
               task.labels.map((label, i) => (
                 <p
@@ -57,20 +179,72 @@ const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) =>
                   {label.name}
                 </p>
               ))}
+
+            {isAdmin && (
+              <div className="relative">
+                <AddButton
+                  size="small"
+                  onClick={() => {
+                    setShowLabelModal(!showLabelModal);
+                  }}
+                />
+                <ModalLabel
+                  isShowingModal={showLabelModal}
+                  hide={() => setShowLabelModal(!showLabelModal)}
+                  labelsToUpdate={labelsToUpdate}
+                  setLabelsToUpdate={(array: string[]) => setLabelsToUpdate(array)}
+                  handleUpdateTask={(e: MouseEvent) => handleUpdateTask(e)}
+                />
+              </div>
+            )}
           </div>
         </div>
-        <div className="flex mt-6 w-2/4 items-center justify-between">
-          <div className="flex w-3/4">
-            <p className="font-bold">Due date :</p>
-            <p className="ml-2">{dayjs(Number(task.dueDate)).format('DD/MM/YYYY')}</p>
+        {isUpdatingTaskDueDate ? (
+          <div className="flex gap-10">
+            <div className="flex mt-6 items-center">
+              <div className="flex">
+                <p className="font-bold">Due date :</p>
+                <input
+                  type="date"
+                  value={dayjs(Number(taskDueDate)).format('YYYY/MM/DD').replaceAll('/', '-')}
+                  className="ml-2"
+                  onChange={(e) => {
+                    setTaskDueDate(new Date(e.target.value));
+                  }}
+                />
+              </div>
+            </div>
+            <div className="flex gap-4 mt-2 self-end">
+              <button className="cta-modify" onClick={(e) => handleUpdateTask(e)}>
+                <CheckIcon className="w-6 opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer" />
+              </button>
+              <button
+                className="cta-cancel"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setTaskDueDate(task.dueDate);
+                  setIsUpdatingTaskDueDate(false);
+                }}
+              >
+                <XIcon className="w-6 opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer" />
+              </button>
+            </div>
           </div>
-          <div>
-            <img src={IconCalendar} alt="icon calendar" width={14} height={14} />
+        ) : (
+          <div className="flex mt-6 w-2/4 items-center justify-between">
+            <div className="flex w-3/4">
+              <p className="font-bold">Due date :</p>
+              <p className="ml-2">{dayjs(Number(taskDueDate)).format('DD/MM/YYYY')}</p>
+            </div>
+            <div onClick={() => setIsUpdatingTaskDueDate(true)}>
+              <img src={IconCalendar} alt="icon calendar" width={14} height={14} />
+            </div>
           </div>
-        </div>
+        )}
         <TaskCardChat />
       </div>
     </div>
   ) : null;
+};
 
 export default TaskCardModal;
