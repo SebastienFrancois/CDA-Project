@@ -131,7 +131,6 @@ export default{
             
             const token = generateToken(user);
 
-            console.log(`Send email to user.email with new token <a href=${process?.env.APP_URL}/reset_password?token=${token} target='_blank'>Changer votre mot de passe</a>`)
             try {
                 sendMail({to: args.email, subject:'Reinitialisation de mot de passe', text:'Suivez ce lien =>', html:`<a href=${process?.env.APP_URL}/reset_password?token=${token} target='_blank'>Changer votre mot de passe</a>`})
             } catch (error) {

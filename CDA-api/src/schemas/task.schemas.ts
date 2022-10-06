@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import { Schema, model, Document, Types } from 'mongoose';
 import Joi from 'joi';
 

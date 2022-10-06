@@ -79,6 +79,7 @@ export const validateUser = (user: IUser) => {
       }),
       picture: Joi.string(),
       preferred_language: Joi.string(),
+      role: Joi.string(),
     });
     return schema.validate(user, {abortEarly:false});
   };
