@@ -115,6 +115,22 @@ export const PROJECTS = {
 };
 
 export const TASKS = {
+  get: gql`
+    query Query {
+      getTasks {
+        _id
+        name
+        description
+        status
+        dueDate
+        labels {
+          _id
+          name
+          color
+        }
+      }
+    }
+  `,
   update: gql`
     mutation Mutation(
       $updateTaskId: ID!

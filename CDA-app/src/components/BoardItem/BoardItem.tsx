@@ -17,6 +17,7 @@ const BoardItem: FC<BoardItemProps> = ({ task, handleDragging }) => {
   };
 
   const handleDragEnd = () => handleDragging(false);
+
   return (
     <>
       <TaskCardModal isShowing={isShowing} hide={toggle} task={task} />

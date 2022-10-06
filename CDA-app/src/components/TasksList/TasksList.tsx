@@ -1,21 +1,19 @@
 import TasksListRow from '../TasksListRow/TasksListRow';
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import './TasksList.scss';
-
-export interface TasksListProps {
-  project: { getProject: IProject };
-}
+import { ProjectContext } from './../../contexts/ProjectContext';
 
 const typesColumn: TaskStatus[] = ['backlog', 'in progress', 'in review', 'done'];
 
-const TasksList: FC<TasksListProps> = ({ project }) => {
+const TasksList: FC = () => {
+  const { project } = useContext(ProjectContext);
   return (
     <div className="mt-6">
       {typesColumn.map((type) => (
         <TasksListRow
           key={type}
           status={type}
-          items={project.getProject.tasks}
+          items={project?.tasks}
           // isDragging={isDragging}
           // handleDragging={handleDragging}
           // handleUpdateList={handleUpdateList}

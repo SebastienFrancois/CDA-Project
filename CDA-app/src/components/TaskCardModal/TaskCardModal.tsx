@@ -1,8 +1,8 @@
-import React, { FC, useState, useContext, MouseEvent } from 'react';
+import React, { FC, useState, useContext, MouseEvent, useEffect } from 'react';
 import dayjs from 'dayjs';
 
-import { useMutation } from '@apollo/client';
-import { TASKS } from './../../api/query';
+import { useMutation, useQuery } from '@apollo/client';
+import { PROJECTS, TASKS } from './../../api/query';
 
 import TaskCardChat from './../TaskCardChat/TaskCardChat';
 import AddButton from '../AddButton/AddButton';
@@ -14,6 +14,7 @@ import './TaskCardModal.scss';
 
 import IconCalendar from './../../assets/png/icon-calendar.png';
 import ModalLabel from './../ModalLabel/ModalLabel';
+import { ProjectContext } from 'contexts/ProjectContext';
 
 interface TaskCardModalProps {
   isShowing: boolean;
@@ -23,11 +24,13 @@ interface TaskCardModalProps {
 
 const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) => {
   const { currentUser } = useContext(AuthContext);
+  const { project, setProject } = useContext(ProjectContext);
 
   const isAdmin = currentUser?.role === 'ADMIN';
 
   const [updateTask] = useMutation(TASKS.update);
 
+  // states for inputs
   const [taskName, setTaskName] = useState(task.name);
   const [isUpdatingTaskName, setIsUpdatingTaskName] = useState(false);
   const [taskStatus, setTaskStatus] = useState(task.status);
@@ -40,8 +43,8 @@ const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) => {
   const [showLabelModal, setShowLabelModal] = useState(false); // show/hide modal Labels
   const [labelsToUpdate, setLabelsToUpdate] = useState(task.labels.map((label) => label._id)); // id to update according to user's choice
 
-  function handleUpdateTask(e: MouseEvent) {
-    e.stopPropagation();
+  // function to update a task
+  async function handleUpdateTask() {
     updateTask({
       variables: {
         updateTaskId: task._id,
@@ -53,12 +56,32 @@ const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) => {
       },
       refetchQueries: 'active',
     });
+    // changes boolean to hide the inputs
     setIsUpdatingTaskName(false);
     setIsUpdatingTaskStatus(false);
     setIsUpdatingTaskDescription(false);
     setIsUpdatingTaskDueDate(false);
   }
 
+  // function to change state of labels on a task depending if a label is checked or not
+  const handleSetLabelsToUpdate = (e: MouseEvent) => {
+    //if checked add id to labelstoupdate
+    if (e.target.checked && !labelsToUpdate.includes(e.target.value)) {
+      setLabelsToUpdate([...labelsToUpdate, e.target.value]);
+    }
+
+    //if checked false remove labeltoupdate
+    if (!e.target.checked) {
+      setLabelsToUpdate(labelsToUpdate.filter((labelId) => labelId !== e.target.value));
+    }
+  };
+
+  useEffect(() => {
+    console.log("fired modal")
+    handleUpdateTask();
+  }, [labelsToUpdate]);
+
+  // modal to display a task
   return isShowing ? (
     <div className="modal-overlay">
       <div className="TaskCardModal flex flex-col px-10 py-6 content-around">
@@ -75,7 +98,13 @@ const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) => {
                   }}
                 />
                 <div className="flex gap-4 mt-2 self-end">
-                  <button className="cta-modify" onClick={(e) => handleUpdateTask(e)}>
+                  <button
+                    className="cta-modify"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleUpdateTask();
+                    }}
+                  >
                     <CheckIcon className="w-6 opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer" />
                   </button>
                   <button
@@ -104,7 +133,13 @@ const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) => {
                   <option value="done">Done</option>
                 </select>
                 <div className="flex gap-4 mt-2 self-end">
-                  <button className="cta-modify" onClick={(e) => handleUpdateTask(e)}>
+                  <button
+                    className="cta-modify"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleUpdateTask();
+                    }}
+                  >
                     <CheckIcon className="w-6 opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer" />
                   </button>
                   <button
@@ -142,7 +177,13 @@ const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) => {
                   }}
                 ></textarea>
                 <div className="flex gap-4">
-                  <button className="cta-modify" onClick={(e) => handleUpdateTask(e)}>
+                  <button
+                    className="cta-modify"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleUpdateTask();
+                    }}
+                  >
                     <CheckIcon className="w-6 opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer" />
                   </button>
                   <button
@@ -192,8 +233,9 @@ const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) => {
                   isShowingModal={showLabelModal}
                   hide={() => setShowLabelModal(!showLabelModal)}
                   labelsToUpdate={labelsToUpdate}
-                  setLabelsToUpdate={(array: string[]) => setLabelsToUpdate(array)}
-                  handleUpdateTask={(e: MouseEvent) => handleUpdateTask(e)}
+                  setLabelsToUpdate={(e: any) => handleSetLabelsToUpdate(e)}
+                  handleUpdateTask={() => handleUpdateTask}
+                  task={task}
                 />
               </div>
             )}
@@ -215,7 +257,7 @@ const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) => {
               </div>
             </div>
             <div className="flex gap-4 mt-2 self-end">
-              <button className="cta-modify" onClick={(e) => handleUpdateTask(e)}>
+              <button className="cta-modify" onClick={() => handleUpdateTask()}>
                 <CheckIcon className="w-6 opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer" />
               </button>
               <button

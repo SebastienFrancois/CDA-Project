@@ -1,5 +1,4 @@
 import React, { ReactChild } from 'react';
-import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
 interface AuthContextInterface {

@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import React, { FC, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { PROJECTS } from 'api/query';
@@ -9,12 +9,14 @@ import Overview from 'components/Overview/Overview.lazy';
 import TasksList from 'components/TasksList/TasksList.lazy';
 import Board from 'components/Board/Board.lazy';
 import Graphs from 'components/Graphs/Graphs.lazy';
+import { ProjectContext } from 'contexts/ProjectContext';
 
 interface ProjectProps {}
 export const Project: FC<ProjectProps> = () => {
+  const { setProject } = useContext(ProjectContext);
   const { id } = useParams();
 
-  const { loading, data } = useQuery(PROJECTS.getOne, {
+  const { loading, data, refetch } = useQuery(PROJECTS.getOne, {
     variables: { getProjectId: id },
   });
 
@@ -29,6 +31,13 @@ export const Project: FC<ProjectProps> = () => {
     { title: 'Board' },
     { title: 'Graphs' },
   ];
+
+  useEffect(() => {
+    refetch().then(res => console.log("refetch", res));
+    if (!loading) {
+      setProject(data.getProject);
+    }
+  }, [loading, data, setProject]);
 
   return (
     <div className="content w-full h-full flex flex-col">
@@ -46,10 +55,10 @@ export const Project: FC<ProjectProps> = () => {
           ))}
         </div>
         <>
-          {activeTab === 'tab0' && !loading ? <Overview project={data} /> : ''}
-          {activeTab === 'tab1' && !loading ? <TasksList project={data} /> : ''}
-          {activeTab === 'tab2' && !loading ? <Board project={data} /> : ''}
-          {activeTab === 'tab3' && !loading ? <Graphs project={data} /> : ''}
+          {activeTab === 'tab0' && !loading ? <Overview /> : ''}
+          {activeTab === 'tab1' && !loading ? <TasksList /> : ''}
+          {activeTab === 'tab2' && !loading ? <Board /> : ''}
+          {activeTab === 'tab3' && !loading ? <Graphs /> : ''}
         </>
       </div>
     </div>

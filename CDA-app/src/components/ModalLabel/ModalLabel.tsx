@@ -1,7 +1,7 @@
 import { CheckIcon, XIcon } from '@heroicons/react/solid';
-import React, { FC, useState, MouseEvent } from 'react';
+import React, { FC, useState, MouseEvent, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { LABELS } from './../../api/query';
+import { LABELS, TASKS } from './../../api/query';
 import './ModalLabel.scss';
 
 interface ModalLabelProps {
@@ -10,6 +10,7 @@ interface ModalLabelProps {
   labelsToUpdate: string[];
   setLabelsToUpdate: any;
   handleUpdateTask: any;
+  task: ITask;
 }
 
 const ModalLabel: FC<ModalLabelProps> = ({
@@ -18,8 +19,9 @@ const ModalLabel: FC<ModalLabelProps> = ({
   labelsToUpdate,
   setLabelsToUpdate,
   handleUpdateTask, //++++ ne fonctionneuh pas!!!!!!!!
+  task,
 }) => {
-  const { loading, error, data } = useQuery(LABELS.get);
+  const { loading, data } = useQuery(LABELS.get);
   const [addLabel] = useMutation(LABELS.add);
 
   let labels = [];
@@ -30,6 +32,7 @@ const ModalLabel: FC<ModalLabelProps> = ({
   const [labelName, setLabelName] = useState('');
   const [labelColor, setLabelColor] = useState('');
 
+  // function that add a new label in BDD
   function handleNewLabel(e: MouseEvent) {
     e.stopPropagation();
     addLabel({
@@ -40,9 +43,10 @@ const ModalLabel: FC<ModalLabelProps> = ({
       refetchQueries: 'active',
     })
       .then((res) => setLabelsToUpdate([...labelsToUpdate, res.data.addLabel._id]))
-      .then(handleUpdateTask(e));
+      .then(handleUpdateTask);
   }
 
+  // modal that displays all the labels and the form to add a new one
   return isShowingModal ? (
     <div className="modalLabel absolute p-4">
       <div>
@@ -53,16 +57,19 @@ const ModalLabel: FC<ModalLabelProps> = ({
             labels.map((label: ILabel) => (
               <div key={label.name}>
                 <input
-                  hidden={true}
+                  // hidden={true}
                   type="checkbox"
                   name={label.name}
+                  value={label._id}
                   id={label.name}
-                  checked={labelsToUpdate.some((l) => l._id === label._id)}
-                  onChange={() => setLabelsToUpdate} //ajouter ou enlever l'id du label
+                  checked={labelsToUpdate.includes(label._id)}
+                  onChange={(e) => {
+                    setLabelsToUpdate(e);
+                  }} //ajouter ou enlever l'id du label
                 />
                 <label
                   htmlFor={label.name}
-                  className={labelsToUpdate.some((l) => l._id === label._id) ? 'font-bold' : ''}
+                  className={labelsToUpdate.includes(label._id) ? 'font-bold' : ''}
                 >
                   {label.name}
                 </label>
