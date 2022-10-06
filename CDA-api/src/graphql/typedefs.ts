@@ -45,6 +45,7 @@ const typeDefs = gql`
         _id: ID
         message: String
         sentAt: String
+        sentBy: User
         task: Task
     }
     type Notification {
@@ -58,12 +59,12 @@ const typeDefs = gql`
     }
     type Query {
         getUsers: [User],
-        getTasks: [Task],
+        getTasks(project_id: ID!): [Task],
         getLabels: [Label],
         getUser(id: ID): User,
         getProjects: [Project],
         getTask(id: ID!): Task,
-        getComments: [Comment],
+        getComments(task_id: ID!): [Comment],
         getLabel(id: ID!): Label,
         getProject(id: ID!): Project,
         getComment(id: ID!): Comment,
@@ -71,27 +72,27 @@ const typeDefs = gql`
         getNotification(id: ID!): Notification,
     }
     type Mutation {
-        addUser(email: String!, username: String!, password: String!, picture: String, preferred_language: String, role: String!): UserResponse,
-        addProject(name: String!, description: String, status: String,dueDate: String!, projectManager: String, developpers: [String] ): Project,
-        deleteProject(id: ID!): String!,
-        updateProject(id: ID!, name: String, description: String, status: String, dueDate: String,  projectManager: String, developpers: [String]): Project,
-        addLabel(name: String, color: String): Label,
-        deleteLabel(id: ID!): String!,
-        updateLabel(id: ID!, name: String, color: String): Label,
-        addTask(name: String!, description: String, status: String, dueDate: String!, labels: [String], project: String!): Task,
-        deleteTask(id: ID!): String!,
-        updateTask(id: ID!, name: String, description: String, status: String, dueDate: String, labels: [String], project: String): Task,
         addComment(message: String!, task: String!): Comment,
-        deleteComment(id: ID!): String!,
-        updateComment(id: ID!, message: String!): Comment,
+        addLabel(name: String, color: String): Label,
         addNotification(message: String!, createdAt: String, typeOfNotif: String): Notification,
+        addProject(name: String!, description: String, status: String,dueDate: String!, projectManager: String, developpers: [String] ): Project,
+        addTask(name: String!, description: String, status: String, dueDate: String!, labels: [String], project: String!): Task,
+        addUser(email: String!, username: String!, password: String!, picture: String, preferred_language: String, role: String!): UserResponse,
+        deleteComment(id: ID!): String!,
+        deleteLabel(id: ID!): String!,
         deleteNotification(id: ID!): String!,
-        updateNotification(id: ID!, message: String!, createdAt: String, typeOfNotif: String): Notification,
+        deleteProject(id: ID!): String!,
+        deleteTask(id: ID!): String!,
+        deleteUser(id: ID!): String!,
         login(email: String!, password: String!): String,
+        retrievePassword(email: String!): RetrievePasswordResponse,
+        updateComment(id: ID!, message: String!): Comment,
+        updateLabel(id: ID!, name: String, color: String): Label,
+        updateNotification(id: ID!, message: String!, createdAt: String, typeOfNotif: String): Notification,
+        updateProject(id: ID!, name: String, description: String, status: String, dueDate: String,  projectManager: String, developpers: [String]): Project,
+        updateTask(id: ID!, name: String, description: String, status: String, dueDate: String, labels: [String], project: String): Task,
         updateUserInfosAsAdmin(id: ID!, email: String, username: String, password: String, picture: String, preferred_language: String, role: String) : User,
         updateUserInfosAsUser(id: ID!, email: String, username: String, password: String, picture: String, preferred_language: String) : User,
-        deleteUser(id: ID!): String!,
-        retrievePassword(email: String!): RetrievePasswordResponse,
     }
 `
 export { typeDefs };

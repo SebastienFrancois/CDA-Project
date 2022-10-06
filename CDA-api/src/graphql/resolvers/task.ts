@@ -3,7 +3,6 @@ import { Types } from 'mongoose';
 import { LabelModel } from '../../schemas/label.schemas';
 import { ProjectModel } from '../../schemas/project.schemas';
 import { ITask, TaskModel, validateTask } from '../../schemas/task.schemas';
-import Joi from 'joi';
 import { AuthenticationError } from 'apollo-server-express';
 import { TUser } from '../../../appolo-server';
 import hasPermissions from '../../../utils/userInfos';
@@ -13,34 +12,25 @@ export default {
         getTasks: async ( _ :ParentNode, args: any, context: {user: TUser}) => {
             if(!context.user) throw new AuthenticationError('Invalid token');
 
-            if(context.user.role !== "admin"){
-                return (await TaskModel.find({})).filter( async (task) => {
-                    const project = await ProjectModel.findById({_id:task.project})
-                    const isPm =  project?.projectManager?.toString() === context.user.id.toString()
-                    const isDev = project?.developpers && project?.developpers.includes(context.user.id as unknown as Types.ObjectId) 
-                    return isDev || isPm
-                })
-            }
+            const tasks = await TaskModel.find({project: args.project_id})
+            if(!tasks) return [];
 
-            return await TaskModel.find({})
+             // if user has a role ADMIN, send all the projects
+             if (context.user.role == "ADMIN") return tasks;
+
+            return tasks
         },   
         getTask: async (_:ParentNode, args: {id: String},  context: {user: TUser}) => {
             if(!context.user) throw new AuthenticationError('Invalid token');
 
             if(!hasPermissions(context.user, 'getTask'))  throw new AuthenticationError("Not authorized");
-            //verifie que l'utilisateur et bien assigné au project rattacher a cette tache.
-            //if(project.team.!includes(context.user.id)) throw new AuthenticationError('Invalid role');
+   
             const task = await TaskModel.findById({_id: args.id});
 
             if(!task) throw new Error('Task not found !')
 
             if(context.user.role !== "admin"){
-                const project = await ProjectModel.findById({_id:task.project})
-                const isPm =  project?.projectManager?.toString() === context.user.id.toString()
-                const isDev = project?.developpers && project?.developpers.includes(context.user.id as unknown as Types.ObjectId) 
-                const partOfteam =  isDev || isPm;
-
-                if(!partOfteam) throw new AuthenticationError("Not authorized");
+                await verifyIfIsTeamMember(task.project , context.user)
             }
 
             return task
@@ -51,10 +41,12 @@ export default {
             if(!context.user) throw new AuthenticationError('Invalid token');
 
             if(!hasPermissions(context.user, 'addTask'))  throw new AuthenticationError("Not authorized");
-            // verifier permission chef de projet ??
 
             // const err = await validateTask(args);
             // if (err.error) return err.error
+            if(context.user.role !== "admin"){
+                await verifyIfIsTeamMember(args.project , context.user)
+            }
 
             const newTask = await TaskModel.create({
                 name: args.name,
@@ -71,10 +63,17 @@ export default {
             if(!context.user) throw new AuthenticationError('Invalid token');
 
             if(!hasPermissions(context.user, 'deleteTask'))  throw new AuthenticationError("Not authorized");
-            // verifier permission chef de projet ??
+
+            const task = await TaskModel.findById({_id: args.id});
+            
+            if(!task) throw new Error('Task not found !')
+
+            if(context.user.role !== "admin"){
+                await verifyIfIsTeamMember(task?.project , context.user)
+            }
 
             try {
-                await TaskModel.findOneAndDelete({_id: args.id})
+                await task?.delete()
                 return JSON.stringify({message:`Instance "${args.id}" has been deleted successfully !`})
             } catch (error) {
                 return JSON.stringify({message:` Instance "${args.id}" wasn't deleted !`})
@@ -84,6 +83,15 @@ export default {
             if(!context.user) throw new AuthenticationError('Invalid token');
 
             if(!hasPermissions(context.user, 'updateTask'))  throw new AuthenticationError("Not authorized");
+
+            const task = await TaskModel.findById({_id: args.id});
+            
+            if(!task) throw new Error('Task not found !')
+
+            if(context.user.role !== "admin"){
+                await verifyIfIsTeamMember(task?.project , context.user)
+            }
+
             try {
                 const updatedTask = await TaskModel.findByIdAndUpdate({_id: args.id}, args, {new: true});
                 return updatedTask
@@ -102,4 +110,13 @@ export default {
             return await ProjectModel.findById(task.project)
         }
     }
+}
+
+async function verifyIfIsTeamMember(project_id : Types.ObjectId | undefined, user: TUser){
+    const project = await ProjectModel.findById({_id: project_id})
+    const isPm =  project?.projectManager?.toString() === user.id.toString()
+    const isDev = project?.developpers && project?.developpers.includes(user.id as unknown as Types.ObjectId) 
+    const partOfteam =  isDev || isPm;
+
+    if(!partOfteam) throw new AuthenticationError("Not authorized");
 }
