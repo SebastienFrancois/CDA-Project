@@ -58,7 +58,6 @@ export const PROJECTS = {
           _id
           email
           username
-          password
           picture
           preferred_language
         }
@@ -66,7 +65,6 @@ export const PROJECTS = {
           _id
           email
           username
-          password
           picture
           preferred_language
         }

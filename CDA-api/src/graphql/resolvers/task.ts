@@ -29,7 +29,7 @@ export default {
 
             if(!task) throw new Error('Task not found !')
 
-            if(context.user.role !== "admin"){
+            if(context.user.role !== "ADMIN"){
                 await verifyIfIsTeamMember(task.project , context.user)
             }
 
@@ -44,7 +44,7 @@ export default {
 
             // const err = await validateTask(args);
             // if (err.error) return err.error
-            if(context.user.role !== "admin"){
+            if(context.user.role !== "ADMIN"){
                 await verifyIfIsTeamMember(args.project , context.user)
             }
 
@@ -68,7 +68,7 @@ export default {
             
             if(!task) throw new Error('Task not found !')
 
-            if(context.user.role !== "admin"){
+            if(context.user.role !== "ADMIN"){
                 await verifyIfIsTeamMember(task?.project , context.user)
             }
 
@@ -88,7 +88,7 @@ export default {
             
             if(!task) throw new Error('Task not found !')
 
-            if(context.user.role !== "admin"){
+            if(context.user.role !== "ADMIN"){
                 await verifyIfIsTeamMember(task?.project , context.user)
             }
 

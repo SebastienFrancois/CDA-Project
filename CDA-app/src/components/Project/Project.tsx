@@ -33,10 +33,11 @@ export const Project: FC<ProjectProps> = () => {
   ];
 
   useEffect(() => {
-    refetch().then(res => console.log("refetch", res));
     if (!loading) {
       setProject(data.getProject);
+      console.log(data)
     }
+    refetch().then(res => console.log("refetch", res));
   }, [loading, data, setProject]);
 
   return (
