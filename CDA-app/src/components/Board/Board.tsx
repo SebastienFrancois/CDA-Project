@@ -18,7 +18,7 @@ const Board: FC = () => {
   }, [project]);
 
   return (
-    <div className="board grid grid-cols-4 gap-4">
+    <div className="board flex gap-4">
       {typesColumn.map((type) => (
         <BoardColumn
           key={type}

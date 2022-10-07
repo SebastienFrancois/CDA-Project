@@ -6,7 +6,7 @@ interface TaskCardChatProps {}
 const TaskCardChat: FC<TaskCardChatProps> = () => {
   return (
     <div className="TaskCardChat mt-8">
-      <div className="commentBox h-3/6 overflow-y-scroll flex flex-col gap-4">
+      <div className="commentBox overflow-y-scroll flex flex-col gap-4">
         <div className="flex flex-col w-3/4">
           <div className="comment-not-user">
             <p className="comment-user-title mb-2">Benjamin - CTO</p>

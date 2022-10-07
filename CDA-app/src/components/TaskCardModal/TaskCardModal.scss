@@ -4,10 +4,13 @@
   left: 50%;
   transform: translate(-30%, -50%);
   width: 600px;
-  height: 88vh;
+  max-height: 88vh;
+  height: fit-content;
+  min-height: 650px;
   background-color: white;
   box-shadow: -3px 7px 10px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
+  overflow: auto;
 }
 
 .modal-title {
