@@ -16,7 +16,7 @@ const Sidebar: FC<SidebarProps> = (props) => {
 
   return (
     <>
-      <div className="w-2/12 h-full">
+      <div className="lg:w-2/12 md:w-2/6 h-full">
         <nav className="Sidebar bg-primary h-full flex flex-col justify-between p-3">
           <div>
             <img src={Logo} alt="LOGO" className="m-auto w-28 h-auto object-cover" />

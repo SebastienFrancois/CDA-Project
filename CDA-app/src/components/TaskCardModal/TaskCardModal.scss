@@ -76,3 +76,9 @@
   border-bottom: 1px solid rgb(80, 80, 80);
   outline: none;
 }
+
+@media screen and (max-width: 1023px) {
+  .TaskCardModal {
+    transform: translate(-50%, -50%);
+  }
+}

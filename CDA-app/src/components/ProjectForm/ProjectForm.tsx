@@ -51,13 +51,13 @@ const ProjectForm: FC<ProjectFormProps> = () => {
         refetchQueries: 'active',
       })
         .then(() => {
-          navigate('/');
+          navigate('/dashboard');
         })
         .catch((err) => alert(JSON.stringify(err)));
     }
     return addProject({ variables: formState, refetchQueries: 'active' })
       .then(() => {
-        navigate('/');
+        navigate('/dashboard');
       })
       .catch((err) => setgError(err.message));
   };

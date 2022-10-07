@@ -113,7 +113,7 @@ const ModalLabel: FC<ModalLabelProps> = ({
             />
             <p>{labelColor}</p>
           </div>
-          <div className="flex gap-4 mt-2 justify-end">
+          <div className="flex flex-row-reverse gap-4 mt-2 justify-start">
             <button className="cta-modify" onClick={(e) => handleNewLabel(e)}>
               <CheckIcon className="w-6 opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer" />
             </button>

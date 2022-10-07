@@ -97,7 +97,7 @@ const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) => {
                     setTaskName(e.target.value);
                   }}
                 />
-                <div className="flex gap-4 mt-2 self-end">
+                <div className="flex flex-row-reverse gap-4 mt-2 self-end">
                   <button
                     className="cta-modify"
                     onClick={(e) => {
@@ -132,7 +132,7 @@ const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) => {
                   <option value="in review">In Review</option>
                   <option value="done">Done</option>
                 </select>
-                <div className="flex gap-4 mt-2 self-end">
+                <div className="flex flex-row-reverse gap-4 mt-2 self-end">
                   <button
                     className="cta-modify"
                     onClick={(e) => {
@@ -176,7 +176,7 @@ const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) => {
                     setTaskDescription(e.target.value);
                   }}
                 ></textarea>
-                <div className="flex gap-4">
+                <div className="flex flex-row-reverse gap-4">
                   <button
                     className="cta-modify"
                     onClick={(e) => {
@@ -256,7 +256,7 @@ const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) => {
                 />
               </div>
             </div>
-            <div className="flex gap-4 mt-2 self-end">
+            <div className="flex flex-row-reverse gap-4 mt-2 self-end">
               <button className="cta-modify" onClick={() => handleUpdateTask()}>
                 <CheckIcon className="w-6 opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer" />
               </button>
