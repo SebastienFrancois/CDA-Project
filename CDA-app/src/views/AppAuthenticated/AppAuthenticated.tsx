@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { PROJECTS } from 'api/query';
+import { PROJECTS } from './../../api/query';
 
 import ProjectForm from 'components/ProjectForm/ProjectForm.lazy';
 import Dashboard from 'components/Dashboard/Dashboard.lazy';

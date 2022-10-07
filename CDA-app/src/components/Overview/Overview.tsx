@@ -1,14 +1,12 @@
-import React, { FC } from 'react';
+import { ProjectContext } from './../../contexts/ProjectContext';
+import React, { FC, useContext } from 'react';
 import './Overview.scss';
 
-export interface OverviewProps {
-  project: { getProject: IProject };
-}
-
-const Overview: FC<OverviewProps> = ({ project }) => {
+const Overview: FC = () => {
+  const { project } = useContext(ProjectContext);
   return (
     <div>
-      <h1>Overview {project?.getProject.name}</h1>
+      <h1>Overview {project?.name}</h1>
       <p>TBD</p>
     </div>
   );

@@ -1,0 +1,75 @@
+.TaskCardModal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-30%, -50%);
+  width: 600px;
+  height: 88vh;
+  background-color: white;
+  box-shadow: -3px 7px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.modal-title {
+    color: #57579E;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1040;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.modal-close-button {
+  font-weight: 700;
+  color: #000;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  // margin-top: -1.5rem;
+}
+.modal-close-button > span {
+  font-size: 2rem;
+}
+
+.backlog{
+    background-color: rgb(231, 245, 193);
+}
+
+.in-progress{
+    background-color: rgb(239, 228, 241);
+}
+
+.in-review{
+    background-color: rgb(241, 193, 182);
+}
+
+.done{
+    background-color: rgb(87, 87, 158);
+    color: white;
+}
+
+.cta-modify {
+  padding-inline: .5rem;
+  background-color: #E8F8C1;
+  border-radius: 5px;
+  color: black;
+}
+.cta-cancel {
+  padding-inline: .5rem;
+  background-color: #F7C2B6;
+  border-radius: 5px;
+  color: black;
+}
+
+.input-modify {
+  border-bottom: 1px solid #a1a1a1;
+}
+.input-modify:focus {
+  border-bottom: 1px solid rgb(80, 80, 80);
+  outline: none;
+}

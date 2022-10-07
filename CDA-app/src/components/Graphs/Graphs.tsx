@@ -1,14 +1,13 @@
-import React, { FC } from 'react';
+import { ProjectContext } from './../../contexts/ProjectContext';
+import React, { FC, useContext } from 'react';
 import './Graphs.scss';
 
-export interface GraphsProps {
-  project: { getProject: IProject };
-}
+const Graphs: FC = () => {
+  const { project } = useContext(ProjectContext);
 
-const Graphs: FC<GraphsProps> = ({ project }) => {
   return (
     <div>
-      <h1>Graphs {project?.getProject.name}</h1>
+      <h1>Graphs {project?.name}</h1>
     </div>
   );
 };

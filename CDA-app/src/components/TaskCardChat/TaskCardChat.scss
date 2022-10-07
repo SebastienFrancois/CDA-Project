@@ -1,0 +1,39 @@
+.TaskCardChat {
+    height: 500px;
+}
+
+.commentBox {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    padding: 1rem;
+}
+
+.comment-not-user, .comment-user {
+    padding: .5rem;
+    border-radius: 5px;
+}
+.comment-not-user {
+    background: rgba(216, 216, 233, 0.2);
+}
+
+.comment-user {
+    background: #D8D8E9;
+}
+
+.comment-not-user .comment-user-title, .comment-user .comment-user-title {
+    color: #57579E;
+}
+
+.commentInput {
+    box-shadow: inset 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    resize: none;
+}
+
+.chatButton {
+    border-radius: 5px;
+    background-color: #57579e;
+    color: white;
+    font-weight: bold;
+    padding: .5rem 1rem;
+}

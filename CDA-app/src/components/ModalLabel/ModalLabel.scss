@@ -1,0 +1,23 @@
+.modalLabel {
+    top: calc(100% + .3rem);
+    left: 0;
+    background: hsl(11, 80%, 92%);
+    box-shadow: -3px 7px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    color: rgb(87, 87, 87);
+}
+
+.title-select {
+    padding-bottom: .5rem;
+}
+
+.modalLabel hr {
+    border-color: rgb(87, 87, 87);
+}
+
+.labelColorSelect {
+    background-color: white;
+    color: black;
+    padding: 0.25rem;
+  }
+  

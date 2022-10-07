@@ -52,7 +52,7 @@ const Sidebar: FC<SidebarProps> = (props) => {
             <hr className="border-0 h-0.5 max-h-px bg-secondary" />
             <div>
               <h2 className="text-secondary text-2xl font-bold my-4">
-                <a href="#">Admnistration</a>
+                <a href="#">Administration</a>
               </h2>
             </div>
           </div>
