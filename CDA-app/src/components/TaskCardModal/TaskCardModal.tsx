@@ -32,7 +32,7 @@ const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) => {
 
   // states for inputs
   const [taskName, setTaskName] = useState(task.name);
-  const [isUpdatingTaskName, setIsUpdatingTaskName] = useState(false);
+  const [isUpdatingTaskName, setIsUpdatingTaskName] = useState(true);
   const [taskStatus, setTaskStatus] = useState(task.status);
   const [isUpdatingTaskStatus, setIsUpdatingTaskStatus] = useState(false);
   const [taskDescription, setTaskDescription] = useState(task.description);
@@ -77,9 +77,16 @@ const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) => {
   };
 
   useEffect(() => {
-    console.log("fired modal")
+    console.log('fired modal');
     handleUpdateTask();
   }, [labelsToUpdate]);
+
+  useEffect(() => {
+    //guard if description is empty show textarea
+    setIsUpdatingTaskDescription(!task.description);
+  }, []);
+
+  console.log({ isUpdatingTaskDescription });
 
   // modal to display a task
   return isShowing ? (
