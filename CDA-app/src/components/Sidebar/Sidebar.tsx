@@ -2,7 +2,7 @@
 import './Sidebar.scss';
 import Logo from '../../assets/png/logo.png';
 import React, { FC, useContext } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 import { AuthContext } from 'contexts/AuthContext';
 
 export interface SidebarProps {
@@ -12,7 +12,7 @@ export interface SidebarProps {
 }
 
 const Sidebar: FC<SidebarProps> = (props) => {
-  const { onLogout } = useContext(AuthContext);
+  const { currentUser, onLogout } = useContext(AuthContext);
 
   return (
     <>
@@ -34,9 +34,9 @@ const Sidebar: FC<SidebarProps> = (props) => {
                   ? props.projects.getProjects.map((project) => {
                       return (
                         <li className="my-2" key={project._id}>
-                          <a className="text-white text-lg" href="#">
+                          <Link className="text-white text-lg" to={`/project/${project._id}`}>
                             {project.name}
-                          </a>
+                          </Link>
                         </li>
                       );
                     })
@@ -49,12 +49,16 @@ const Sidebar: FC<SidebarProps> = (props) => {
                 <a href="#">Users</a>
               </h2>
             </div>
-            <hr className="border-0 h-0.5 max-h-px bg-secondary" />
-            <div>
-              <h2 className="text-secondary text-2xl font-bold my-4">
-                <a href="#">Administration</a>
-              </h2>
-            </div>
+            {currentUser.role === 'ADMIN' && (
+              <>
+                <hr className="border-0 h-0.5 max-h-px bg-secondary" />
+                <div>
+                  <h2 className="text-secondary text-2xl font-bold my-4">
+                    <a href="#">Administration</a>
+                  </h2>
+                </div>
+              </>
+            )}
           </div>
           <div>
             <a href="#" className="text-white" onClick={onLogout}>

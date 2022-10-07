@@ -21,3 +21,15 @@
     padding: 0.25rem;
   }
   
+.modalLabel fieldset {
+    border-color: white;
+    border-radius: 10px;
+}
+.checkbox-list {
+    max-height: 200px;
+    overflow: auto;
+    padding-left: .5rem;
+}
+.checkbox-list label {
+    margin-left: .5rem;
+}
