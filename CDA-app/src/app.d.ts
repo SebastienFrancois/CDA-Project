@@ -40,5 +40,6 @@ interface IUser {
   username: string;
   email: string;
   picture?: string;
-  prefered_language?: string;
+  preferred_language?: string;
+  role?: string;
 }

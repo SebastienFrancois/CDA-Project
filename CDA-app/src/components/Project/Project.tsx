@@ -39,6 +39,7 @@ export const Project: FC<ProjectProps> = () => {
       console.log(data);
     }
     refetch().then((res) => console.log('refetch', res));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, data, setProject]);
 
   return (

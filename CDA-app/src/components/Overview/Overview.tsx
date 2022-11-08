@@ -1,14 +1,33 @@
 import { ProjectContext } from './../../contexts/ProjectContext';
+import { AuthContext } from './../../contexts/AuthContext';
 import React, { FC, useContext } from 'react';
+import { PencilIcon } from '@heroicons/react/solid';
+import { Link, useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import './Overview.scss';
 
 const Overview: FC = () => {
   const { project } = useContext(ProjectContext);
+  const { currentUser } = useContext(AuthContext);
+
+  const isAdmin = currentUser?.role === 'ADMIN';
+  const navigate = useNavigate();
+
+  const onUpdate = () => {
+    navigate('/update-project', { state: { item: project, update: true } });
+  };
 
   return (
     <div className="content">
-      <h1 className="project-overview-title my-4">Project informations</h1>
+      <div className="flex gap-3">
+        <h1 className="project-overview-title my-4">Project informations</h1>
+        {isAdmin && (
+          <PencilIcon
+            className="w-6 h-auto opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer"
+            onClick={onUpdate}
+          />
+        )}
+      </div>
       <div className="flex gap-4">
         <div className="flex flex-col gap-4 w-1/3">
           <div className="TaskCard">
@@ -34,15 +53,17 @@ const Overview: FC = () => {
         </div>
         <div className="TaskCard flex flex-col gap-2 w-1/3">
           <div>
-            <p>
-              <p className="project-overview-pre text-2xl pb-2">Project Manager:</p>
-              <p>{project?.projectManager?.username}</p>
-            </p>
+            <p className="project-overview-pre text-2xl pb-2">Project Manager:</p>
+            <p className="capitalize">{project?.projectManager?.username}</p>
           </div>
           <div>
             <p className="project-overview-pre text-2xl pb-2">Developpers:</p>
             {project?.developpers?.length &&
-              project?.developpers.map((dev) => <p key={dev._id}>{dev.username}</p>)}
+              project?.developpers.map((dev) => (
+                <p className="capitalize" key={dev._id}>
+                  {dev.username}
+                </p>
+              ))}
           </div>
         </div>
       </div>
