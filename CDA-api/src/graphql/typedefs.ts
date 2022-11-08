@@ -35,6 +35,7 @@ const typeDefs = gql`
         updatedAt: String
         labels: [Label]
         project: Project
+        assignTo: [User]
     }
     type Label {
         _id: ID
@@ -76,7 +77,7 @@ const typeDefs = gql`
         addLabel(name: String, color: String): Label,
         addNotification(message: String!, createdAt: String, typeOfNotif: String): Notification,
         addProject(name: String!, description: String, status: String,dueDate: String!, projectManager: String, developpers: [String] ): Project,
-        addTask(name: String!, description: String, status: String, dueDate: String!, labels: [String], project: String!): Task,
+        addTask(name: String!, description: String, status: String, dueDate: String!, labels: [String], project: String!, assignTo: [String]): Task,
         addUser(email: String!, username: String!, password: String!, picture: String, preferred_language: String, role: String!): UserResponse,
         deleteComment(id: ID!): String!,
         deleteLabel(id: ID!): String!,
@@ -90,7 +91,7 @@ const typeDefs = gql`
         updateLabel(id: ID!, name: String, color: String): Label,
         updateNotification(id: ID!, message: String!, createdAt: String, typeOfNotif: String): Notification,
         updateProject(id: ID!, name: String, description: String, status: String, dueDate: String,  projectManager: String, developpers: [String]): Project,
-        updateTask(id: ID!, name: String, description: String, status: String, dueDate: String, labels: [String], project: String): Task,
+        updateTask(id: ID!, name: String, description: String, status: String, dueDate: String, labels: [String], project: String, assignTo:[String]): Task,
         updateUserInfosAsAdmin(id: ID!, email: String, username: String, password: String, picture: String, preferred_language: String, role: String) : User,
         updateUserInfosAsUser(id: ID!, email: String, username: String, password: String, picture: String, preferred_language: String) : User,
     }

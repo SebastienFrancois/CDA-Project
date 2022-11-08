@@ -6,6 +6,7 @@ import { ITask, TaskModel, validateTask } from '../../schemas/task.schemas';
 import { AuthenticationError } from 'apollo-server-express';
 import { TUser } from '../../../appolo-server';
 import hasPermissions from '../../../utils/userInfos';
+import { UserModel } from '../../schemas/user.schemas';
 
 export default {
     Query: {
@@ -108,6 +109,14 @@ export default {
         },
         project: async (task: ITask, _: ParentNode) => {
             return await ProjectModel.findById(task.project)
+        },
+        assignTo: async (task: ITask, _: ParentNode) => {
+            const assignements = task?.assignTo?.map(async (id: Types.ObjectId) => {
+                const user = await UserModel.findById({_id: id});
+                return user
+            })
+
+            return assignements;
         }
     }
 }
