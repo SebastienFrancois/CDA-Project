@@ -3,7 +3,7 @@ import Joi from 'joi';
 
 export interface IComment extends Document {
     message: String,
-    sentAt: Date,
+    sentAt?: Date,
     sentBy: Types.ObjectId  | undefined,
     task: Types.ObjectId | undefined,
 }

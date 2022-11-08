@@ -79,7 +79,7 @@ const permissions: { [key: string]: TPermissionItem[]} = {
                 'updateUserInfosAsUser',
                 'deleteUser',
         ],
-        CO: ['getUsers','getUser','getProjects', 'getProject', 'addProject', 'updateProject', 'deleteProject', 'getTasks','getTask', 'addTask','updateTask', 'deleteTask', 'addComment', 'updateComment','deleteComment', 'updateUserInfosAsUser'],
+        CO: ['getUsers','getUser','getProjects', 'getProject', 'addProject', 'updateProject', 'deleteProject', 'getTasks','getTask', 'addTask','updateTask', 'deleteTask', 'getComments', 'getComment','addComment', 'updateComment','deleteComment', 'updateUserInfosAsUser'],
         DEV: ['getUsers','getUser','getProjects', 'getProject', 'getTasks','getTask', 'addTask','updateTask','getComments', 'getComment', 'addComment', 'updateComment', 'updateUserInfosAsUser'],
 }
 

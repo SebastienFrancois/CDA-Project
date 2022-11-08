@@ -27,5 +27,8 @@ export default {
   },
   Project: {
     ...projectResolvers.Project
+  },
+  Comment: {
+    ...commentResolvers.Comment
   }
 };
