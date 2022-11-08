@@ -55,7 +55,8 @@ export default {
                 status: args.status,
                 dueDate: args.dueDate,
                 labels: args.labels,
-                project: args.project
+                project: args.project,
+                assignTo: args.assignTo,
             })
             newTask.save()
             return newTask
