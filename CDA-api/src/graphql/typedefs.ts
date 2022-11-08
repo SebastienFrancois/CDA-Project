@@ -65,7 +65,7 @@ const typeDefs = gql`
         getUser(id: ID): User,
         getProjects: [Project],
         getTask(id: ID!): Task,
-        getComments: [Comment],
+        getComments(task_id: ID!) : [Comment],
         getLabel(id: ID!): Label,
         getProject(id: ID!): Project,
         getComment(id: ID!): Comment,
@@ -73,7 +73,7 @@ const typeDefs = gql`
         getNotification(id: ID!): Notification,
     }
     type Mutation {
-        addComment(message: String!, task: String!, sentBy: String!): Comment,
+        addComment(message: String!, task: String!): Comment,
         addLabel(name: String, color: String): Label,
         addNotification(message: String!, createdAt: String, typeOfNotif: String): Notification,
         addProject(name: String!, description: String, status: String,dueDate: String!, projectManager: String, developpers: [String] ): Project,

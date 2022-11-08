@@ -12,7 +12,10 @@ export default {
             if(!context.user) throw new AuthenticationError('Invalid token');
             if(!hasPermissions(context.user, 'getComments'))  throw new AuthenticationError("Not authorized");
 
-            return await CommentModel.find({})
+            const comments = await CommentModel.find({task: args.task_id})
+            if(!comments) return [];
+
+            return comments
         },
         getComment: async (_:ParentNode, args: {id: String}, context: {user: TUser}) => {
             if(!context.user) throw new AuthenticationError('Invalid token');
