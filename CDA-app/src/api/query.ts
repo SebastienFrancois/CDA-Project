@@ -292,7 +292,7 @@ export const TASKS = {
 
 export const LABELS = {
   getOne: gql`
-    query Query($getLabelId: ID!) {
+    query GetLabel($getLabelId: ID!) {
       getLabel(id: $getLabelId) {
         _id
         name
@@ -301,7 +301,7 @@ export const LABELS = {
     }
   `,
   get: gql`
-    query Query {
+    query GetLabels {
       getLabels {
         _id
         name

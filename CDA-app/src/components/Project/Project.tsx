@@ -8,20 +8,24 @@ import './Project.scss';
 import ProjectTabs from 'components/ProjectTabs/ProjectTabs.lazy';
 import Overview from 'components/Overview/Overview.lazy';
 import TasksList from 'components/TasksList/TasksList.lazy';
+import AddTaskModal from 'components/AddTaskModal/AddTaskModal';
 import Board from 'components/Board/Board.lazy';
 import Graphs from 'components/Graphs/Graphs.lazy';
 import { ProjectContext } from 'contexts/ProjectContext';
+import useModal from '../../hooks/useModal';
 
 interface ProjectProps {}
 export const Project: FC<ProjectProps> = () => {
   const { setProject } = useContext(ProjectContext);
   const { id } = useParams();
+  const { isShowing, toggle } = useModal();
 
   const { loading, data, refetch } = useQuery(PROJECTS.getOne, {
     variables: { getProjectId: id },
   });
 
   const [activeTab, setActiveTab] = useState('tab0');
+
   const handleClick = (tabId: string) => {
     setActiveTab(tabId);
   };
@@ -43,28 +47,41 @@ export const Project: FC<ProjectProps> = () => {
   }, [loading, data, setProject]);
 
   return (
-    <div className="content w-full h-full flex flex-col">
-      <div className="header">{/* Navbar to add with project title */}</div>
-      <div className="content-wrapper h-full">
-        <div className="flex gap-5">
-          {listTab.map((el, key) => (
-            <ProjectTabs
-              key={key}
-              title={el.title}
-              id={'tab' + key}
-              activeTab={activeTab}
-              setActiveTab={handleClick}
-            />
-          ))}
+    <>
+      <AddTaskModal isShowing={isShowing} hide={toggle} />
+      <div className="content w-full h-full flex flex-col">
+        <div className="header">{/* Navbar to add with project title */}</div>
+        <div className="content-wrapper h-full">
+          <div className="flex justify-between">
+            <div className="flex gap-5">
+              {listTab.map((el, key) => (
+                <ProjectTabs
+                  key={key}
+                  title={el.title}
+                  id={'tab' + key}
+                  activeTab={activeTab}
+                  setActiveTab={handleClick}
+                />
+              ))}
+            </div>
+            <div className="mr-4">
+              <button
+                className="text-shadow rounded cursor-pointer p-3 rounded cursor-pointer p-3 bg-secondary text-black font-semibold hover:bg-primary hover:text-white transition-all ease-in-out"
+                onClick={toggle}
+              >
+                Add task
+              </button>
+            </div>
+          </div>
+          <>
+            {activeTab === 'tab0' && !loading ? <Overview /> : ''}
+            {activeTab === 'tab1' && !loading ? <TasksList /> : ''}
+            {activeTab === 'tab2' && !loading ? <Board /> : ''}
+            {activeTab === 'tab3' && !loading ? <Graphs /> : ''}
+          </>
         </div>
-        <>
-          {activeTab === 'tab0' && !loading ? <Overview /> : ''}
-          {activeTab === 'tab1' && !loading ? <TasksList /> : ''}
-          {activeTab === 'tab2' && !loading ? <Board /> : ''}
-          {activeTab === 'tab3' && !loading ? <Graphs /> : ''}
-        </>
       </div>
-    </div>
+    </>
   );
 };
 
