@@ -43,3 +43,10 @@ interface IUser {
   preferred_language?: string;
   role?: string;
 }
+
+interface IComment {
+  _id: string;
+  message: string;
+  sentAt: Date;
+  sentBy: IUser;
+}

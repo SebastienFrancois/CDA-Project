@@ -3,16 +3,14 @@ import React, { FC, useState } from 'react';
 // eslint-disable-next-line import/named
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import HeaderMain from './../../components/HeaderMain/HeaderMain';
 import './ProjectForm.scss';
 import InputBasic from './../../components/InputBasic/InputBasic';
 import BasicButton from './../../components/BasicButton/BasicButton';
-import { PROJECTS } from './../../api/query';
+import { PROJECTS, USERS } from './../../api/query';
 import dayjs from 'dayjs';
 import DevCheckbox from '../../components/DevCheckbox/DevCheckbox';
-import { useQuery } from '@apollo/client';
-import { USERS } from './../../api/query';
 import ManagerSelect from './../../components/ManagerSelect/ManagerSelect';
 
 interface ProjectFormProps {}
