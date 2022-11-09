@@ -9,10 +9,8 @@ interface IProject {
   createdAt: Date;
   updatedAt: Date;
   tasks?: ITask[];
-  team: {
-    projectManager?: string;
-    developpers?: [string];
-  };
+  projectManager?: IUser;
+  developpers?: [IUser];
 }
 
 type TaskStatus = 'backlog' | 'in progress' | 'in review' | 'done';
@@ -35,4 +33,13 @@ interface ILabel {
   _id: string;
   name: string;
   color: string;
+}
+
+interface IUser {
+  _id: string;
+  username: string;
+  email: string;
+  picture?: string;
+  preferred_language?: string;
+  role?: string;
 }

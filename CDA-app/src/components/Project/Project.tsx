@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable import/no-unresolved */
 import React, { FC, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -35,9 +36,10 @@ export const Project: FC<ProjectProps> = () => {
   useEffect(() => {
     if (!loading) {
       setProject(data.getProject);
-      console.log(data)
+      console.log(data);
     }
-    refetch().then(res => console.log("refetch", res));
+    refetch().then((res) => console.log('refetch', res));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, data, setProject]);
 
   return (

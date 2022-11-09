@@ -1,1 +1,19 @@
-.Overview {}
+.TaskCard {
+    box-shadow: -3px 7px 10px rgba(0, 0, 0, 0.2);
+    border: 3px solid #D8D8E9;
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+}
+.project-overview-title {
+    color: #57579E;
+    font-size: 2rem;
+    text-transform: capitalize;
+    font-weight: bold;
+}
+.project-overview-status {
+    text-transform: capitalize;
+}
+// .project-overview-pre {
+//     font-weight: 600;
+// }

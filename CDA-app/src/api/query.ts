@@ -14,6 +14,18 @@ export const USERS = {
       }
     }
   `,
+  get: gql`
+    query users {
+      getUsers {
+        _id
+        email
+        username
+        picture
+        preferred_language
+        role
+      }
+    }
+  `,
 };
 
 export const PROJECTS = {
@@ -27,6 +39,20 @@ export const PROJECTS = {
         dueDate
         createdAt
         updatedAt
+        projectManager {
+          _id
+          email
+          username
+          picture
+          preferred_language
+        }
+        developpers {
+          _id
+          email
+          username
+          picture
+          preferred_language
+        }
       }
     }
   `,
@@ -72,13 +98,31 @@ export const PROJECTS = {
     }
   `,
   add: gql`
-    mutation AddProject($name: String!, $description: String!, $dueDate: String!) {
-      addProject(name: $name, description: $description, dueDate: $dueDate) {
+    mutation AddProject(
+      $name: String!
+      $description: String!
+      $dueDate: String!
+      $projectManager: String
+      $developpers: [String]
+    ) {
+      addProject(
+        name: $name
+        description: $description
+        dueDate: $dueDate
+        projectManager: $projectManager
+        developpers: $developpers
+      ) {
         _id
         name
         description
         status
         dueDate
+        projectManager {
+          _id
+        }
+        developpers {
+          _id
+        }
       }
     }
   `,
@@ -94,6 +138,8 @@ export const PROJECTS = {
       $description: String
       $status: String
       $dueDate: String
+      $projectManager: String
+      $developpers: [String]
     ) {
       updateProject(
         id: $updateProjectId
@@ -101,12 +147,20 @@ export const PROJECTS = {
         description: $description
         status: $status
         dueDate: $dueDate
+        projectManager: $projectManager
+        developpers: $developpers
       ) {
         _id
         name
         description
         status
         dueDate
+        projectManager {
+          _id
+        }
+        developpers {
+          _id
+        }
       }
     }
   `,
