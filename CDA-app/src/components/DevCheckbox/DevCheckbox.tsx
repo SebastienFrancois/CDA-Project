@@ -21,12 +21,13 @@ const DevCheckbox: FC<IProps> = ({ data, developpers, setDeveloppers }) => {
       ]);
     }
   };
-
+  console.log(data);
   return (
     data && (
       <div className="scroll-smooth bg-white grow rounded p-3 w-full drop-shadow-lg focus:outline-secondary text-medium flex flex-col gap-3">
         {data?.getUsers?.length &&
           data.getUsers.map((user: IUser) => {
+            console.log(user._id);
             return (
               <label
                 htmlFor={user._id}

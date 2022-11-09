@@ -77,6 +77,11 @@ export const PROJECTS = {
             name
             color
           }
+          assignTo {
+            _id
+            username
+            email
+          }
         }
         createdAt
         updatedAt
@@ -180,6 +185,34 @@ export const TASKS = {
           name
           color
         }
+        assignTo {
+          _id
+          username
+          email
+        }
+      }
+    }
+  `,
+  getOne: gql`
+    query Query($getTaskId: ID!) {
+      getTask(id: $getTaskId) {
+        _id
+        assignTo {
+          _id
+          username
+          email
+        }
+        createdAt
+        description
+        dueDate
+        labels {
+          _id
+          name
+          color
+        }
+        name
+        status
+        updatedAt
       }
     }
   `,
@@ -191,6 +224,7 @@ export const TASKS = {
       $description: String
       $dueDate: String
       $labels: [String]
+      $assignTo: [String]
     ) {
       updateTask(
         id: $updateTaskId
@@ -199,10 +233,58 @@ export const TASKS = {
         description: $description
         dueDate: $dueDate
         labels: $labels
+        assignTo: $assignTo
       ) {
         _id
         name
+        description
         status
+        dueDate
+        createdAt
+        updatedAt
+        labels {
+          _id
+          name
+          color
+        }
+        assignTo {
+          _id
+        }
+      }
+    }
+  `,
+  add: gql`
+    mutation Mutation(
+      $status: String
+      $name: String
+      $description: String
+      $dueDate: String
+      $labels: [String]
+      $assignTo: [String]
+    ) {
+      addTask(
+        status: $status
+        name: $name
+        description: $description
+        dueDate: $dueDate
+        labels: $labels
+        assignTo: $assignTo
+      ) {
+        _id
+        name
+        description
+        status
+        dueDate
+        createdAt
+        updatedAt
+        labels {
+          _id
+          name
+          color
+        }
+        assignTo {
+          _id
+        }
       }
     }
   `,
