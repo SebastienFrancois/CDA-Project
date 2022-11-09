@@ -24,7 +24,7 @@ interface ITask {
   createdAt: Date;
   updatedAt: Date;
   labels: [ILabel];
-  // assignTo: [Types.ObjectId],
+  assignTo: [string];
   project: string | undefined;
   // comments: [Types.ObjectId]
 }

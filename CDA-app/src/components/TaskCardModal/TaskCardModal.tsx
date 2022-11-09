@@ -1,8 +1,9 @@
-import React, { FC, useState, useContext, MouseEvent, useEffect } from 'react';
+/* eslint-disable no-console */
+import React, { FC, useState, useContext, ChangeEvent, useEffect } from 'react';
 import dayjs from 'dayjs';
 
 import { useMutation, useQuery } from '@apollo/client';
-import { PROJECTS, TASKS } from './../../api/query';
+import { PROJECTS, TASKS, USERS } from './../../api/query';
 
 import TaskCardChat from './../TaskCardChat/TaskCardChat';
 import AddButton from '../AddButton/AddButton';
@@ -14,7 +15,8 @@ import './TaskCardModal.scss';
 
 import IconCalendar from './../../assets/png/icon-calendar.png';
 import ModalLabel from './../ModalLabel/ModalLabel';
-import { ProjectContext } from 'contexts/ProjectContext';
+import { ProjectContext } from './../../contexts/ProjectContext';
+import AvatarList from './../../components/AvatarList/AvatarList';
 
 interface TaskCardModalProps {
   isShowing: boolean;
@@ -25,6 +27,7 @@ interface TaskCardModalProps {
 const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) => {
   const { currentUser } = useContext(AuthContext);
   const { project, setProject } = useContext(ProjectContext);
+  const { data } = useQuery(USERS.get);
 
   const isAdmin = currentUser?.role === 'ADMIN';
 
@@ -39,6 +42,10 @@ const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) => {
   const [isUpdatingTaskDescription, setIsUpdatingTaskDescription] = useState(false);
   const [taskDueDate, setTaskDueDate] = useState(task.dueDate);
   const [isUpdatingTaskDueDate, setIsUpdatingTaskDueDate] = useState(false);
+  const [developpers, setDeveloppers] = useState<string[]>(
+    task.assignTo.length ? task.assignTo.map((dev: any) => dev._id) : [],
+  );
+  const [updateDev, setUpdateDev] = useState(false);
 
   const [showLabelModal, setShowLabelModal] = useState(false); // show/hide modal Labels
   const [labelsToUpdate, setLabelsToUpdate] = useState(task.labels.map((label) => label._id)); // id to update according to user's choice
@@ -53,6 +60,7 @@ const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) => {
         description: taskDescription,
         dueDate: taskDueDate,
         labels: labelsToUpdate,
+        assignTo: developpers,
       },
       refetchQueries: 'active',
     });
@@ -61,10 +69,11 @@ const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) => {
     setIsUpdatingTaskStatus(false);
     setIsUpdatingTaskDescription(false);
     setIsUpdatingTaskDueDate(false);
+    setUpdateDev(false);
   }
 
   // function to change state of labels on a task depending if a label is checked or not
-  const handleSetLabelsToUpdate = (e: MouseEvent) => {
+  const handleSetLabelsToUpdate = (e: ChangeEvent<HTMLInputElement>) => {
     //if checked add id to labelstoupdate
     if (e.target.checked && !labelsToUpdate.includes(e.target.value)) {
       setLabelsToUpdate([...labelsToUpdate, e.target.value]);
@@ -212,7 +221,35 @@ const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) => {
         </div>
         <div className="mt-6">
           <p className="font-bold">Assign to</p>
-          <p>pioupiou et pioupiou</p>
+          <AvatarList
+            allUsers={data}
+            developpers={developpers}
+            setDeveloppers={setDeveloppers}
+            updateDev={updateDev}
+            setUpdateDev={setUpdateDev}
+          />
+          {updateDev && (
+            <div className="flex flex-row-reverse gap-4 mt-2 self-end">
+              <button
+                className="cta-modify"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleUpdateTask();
+                }}
+              >
+                <CheckIcon className="w-6 opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer" />
+              </button>
+              <button
+                className="cta-cancel"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setUpdateDev(false);
+                }}
+              >
+                <XIcon className="w-6 opacity-60 hover:opacity-100 transition-all ease-in-out cursor-pointer" />
+              </button>
+            </div>
+          )}
         </div>
         <div className="mt-6">
           <p className="font-bold">Add labels</p>
