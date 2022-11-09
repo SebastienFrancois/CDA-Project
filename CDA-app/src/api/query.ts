@@ -254,7 +254,7 @@ export const TASKS = {
     }
   `,
   add: gql`
-    mutation Mutation(
+    mutation AddTask(
       $status: String
       $name: String
       $description: String
@@ -330,6 +330,73 @@ export const LABELS = {
         name
         color
       }
+    }
+  `,
+};
+
+export const COMMENTS = {
+  get: gql`
+    query GetComments($taskId: ID!) {
+      getComments(task_id: $taskId) {
+        _id
+        message
+        sentAt
+        sentBy {
+          _id
+          email
+          picture
+          username
+          role
+        }
+      }
+    }
+  `,
+  getOne: gql`
+    query GetComment($getCommentId: ID!) {
+      getComment(id: $getCommentId) {
+        _id
+        message
+        sentAt
+        sentBy {
+          _id
+          email
+          username
+          role
+        }
+      }
+    }
+  `,
+  add: gql`
+    mutation AddComment($message: String!, $task: String!) {
+      addComment(message: $message, task: $task) {
+        _id
+        message
+        sentAt
+        sentBy {
+          _id
+        }
+      }
+    }
+  `,
+  update: gql`
+    mutation UpdateComment($updateCommentId: ID!, $message: String!) {
+      updateComment(id: $updateCommentId, message: $message) {
+        _id
+        message
+        sentAt
+        sentBy {
+          _id
+          email
+          username
+          picture
+          role
+        }
+      }
+    }
+  `,
+  delete: gql`
+    mutation DeleteComment($deleteCommentId: ID!) {
+      deleteComment(id: $deleteCommentId)
     }
   `,
 };

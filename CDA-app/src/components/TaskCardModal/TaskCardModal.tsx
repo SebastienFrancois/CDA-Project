@@ -327,7 +327,7 @@ const TaskCardModal: FC<TaskCardModalProps> = ({ isShowing, hide, task }) => {
             </div>
           </div>
         )}
-        <TaskCardChat />
+        <TaskCardChat taskId={task._id} />
       </div>
     </div>
   ) : null;
