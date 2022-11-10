@@ -1,5 +1,6 @@
 import useModal from '../../hooks/useModal';
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
+import { AuthContext } from '../../contexts/AuthContext';
 import dayjs from 'dayjs';
 import './TaskCard.scss';
 import TaskCardModal from '../TaskCardModal/TaskCardModal';
@@ -9,6 +10,7 @@ interface TaskCardProps {
 }
 
 const TaskCard: FC<TaskCardProps> = ({ task }) => {
+  const { currentUser } = useContext(AuthContext);
   const { isShowing, toggle } = useModal();
 
   return (
@@ -29,7 +31,10 @@ const TaskCard: FC<TaskCardProps> = ({ task }) => {
             ))}
         </div>
         <div className="flex justify-center">pioupiou</div>
-        <p>modifié par pioupiou le {dayjs(Number(task.updatedAt)).format('DD/MM/YYYY')}</p>
+        <p>
+          modifié par <span className="capitalize">{currentUser?.username}</span> le&nbsp;
+          {dayjs(Number(task.updatedAt)).format('DD/MM/YYYY')}
+        </p>
       </div>
     </>
   );

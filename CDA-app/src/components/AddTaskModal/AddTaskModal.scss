@@ -36,15 +36,10 @@
   text-transform: uppercase;
 }
 
-.AddTaskModal input[type='checkbox'] {
+.labels-checkbox input[type='checkbox'] {
   display: none;
-  // opacity: 0;
 }
 
-.AddTaskModal input[type='checkbox']:checked + label {
-  border: 2.5px solid #57579e;
-}
-
-.addTaskBtn {
-    background-color: #48bb78;
+.labels-checkbox input[type='checkbox']:checked + label {
+  box-shadow: inset 0 0 0 2px #57579e;
 }

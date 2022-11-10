@@ -48,7 +48,7 @@ export const Project: FC<ProjectProps> = () => {
 
   return (
     <>
-      <AddTaskModal isShowing={isShowing} hide={toggle} />
+      <AddTaskModal isShowing={isShowing} hide={toggle} projectId={id} />
       <div className="content w-full h-full flex flex-col">
         <div className="header">{/* Navbar to add with project title */}</div>
         <div className="content-wrapper h-full">
