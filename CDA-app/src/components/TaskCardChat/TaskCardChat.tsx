@@ -4,7 +4,7 @@ import { COMMENTS } from './../../api/query';
 import { useQuery, useMutation } from '@apollo/client';
 import dayjs from 'dayjs';
 import { AuthContext } from '../../contexts/AuthContext';
-import { TrashIcon, PencilIcon, XIcon, CheckIcon } from '@heroicons/react/solid';
+import { TrashIcon, PencilIcon } from '@heroicons/react/solid';
 
 import './TaskCardChat.scss';
 
@@ -68,9 +68,11 @@ const TaskCardChat: FC<TaskCardChatProps> = ({ taskId }) => {
                 className={`flex flex-col w-3/4 ${currentUser?.id == userId ? 'self-end' : ''}`}
                 key={_id}
               >
-                <div className="comment-not-user">
+                <div
+                  className={`${currentUser?.id == userId ? 'comment-user' : 'comment-not-user'}`}
+                >
                   <div className="comment-user-title mb-2 flex items-center justify-between">
-                    <p>
+                    <p className="capitalize">
                       {username} - {role}
                     </p>
                     {(currentUser?.role == 'ADMIN' || currentUser?.id == userId) && (

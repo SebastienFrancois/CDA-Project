@@ -2,7 +2,7 @@ import { ProjectContext } from './../../contexts/ProjectContext';
 import { AuthContext } from './../../contexts/AuthContext';
 import React, { FC, useContext } from 'react';
 import { PencilIcon } from '@heroicons/react/solid';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import './Overview.scss';
 

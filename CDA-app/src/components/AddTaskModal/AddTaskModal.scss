@@ -1,0 +1,45 @@
+.AddTaskModal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-30%, -50%);
+  width: 600px;
+  max-height: 88vh;
+  height: fit-content;
+  min-height: 650px;
+  background-color: white;
+  box-shadow: -3px 7px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  overflow: auto;
+}
+
+.modal-title {
+  color: #57579e;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1040;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.pill {
+  width: fit-content;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+.labels-checkbox input[type='checkbox'] {
+  display: none;
+}
+
+.labels-checkbox input[type='checkbox']:checked + label {
+  box-shadow: inset 0 0 0 2px #57579e;
+}

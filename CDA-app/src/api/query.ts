@@ -256,11 +256,12 @@ export const TASKS = {
   add: gql`
     mutation AddTask(
       $status: String
-      $name: String
+      $name: String!
       $description: String
-      $dueDate: String
+      $dueDate: String!
       $labels: [String]
       $assignTo: [String]
+      $project: String!
     ) {
       addTask(
         status: $status
@@ -269,6 +270,7 @@ export const TASKS = {
         dueDate: $dueDate
         labels: $labels
         assignTo: $assignTo
+        project: $project
       ) {
         _id
         name
@@ -292,7 +294,7 @@ export const TASKS = {
 
 export const LABELS = {
   getOne: gql`
-    query Query($getLabelId: ID!) {
+    query GetLabel($getLabelId: ID!) {
       getLabel(id: $getLabelId) {
         _id
         name
@@ -301,7 +303,7 @@ export const LABELS = {
     }
   `,
   get: gql`
-    query Query {
+    query GetLabels {
       getLabels {
         _id
         name
