@@ -47,6 +47,8 @@ export const validateProject = (project: IProject) => {
     dueDate: Joi.date().required().messages({
       'any.required': `"dueDate" ne peut etre vide`
     }),
+    projectManager: Joi.string(),
+    developpers: Joi.array().items(Joi.string()),
   });
   return schema.validate(project, {abortEarly:false});
 };

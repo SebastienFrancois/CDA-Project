@@ -19,7 +19,7 @@ type FormValues = {
   name: string;
   description: string;
   dueDate: string | number;
-  manager?: string;
+  projectManager?: string;
   developpers?: string[];
 };
 export interface LocationParams<R> {
@@ -41,7 +41,7 @@ const ProjectForm: FC<ProjectFormProps> = () => {
     update && item ? item?.developpers.map((dev: any) => dev._id) : null,
   );
 
-  const [manager, setManager] = useState(update && item ? item?.projectManager._id : null);
+  const [manager, setManager] = useState(update && item ? item.projectManager._id : null);
 
   const { register, handleSubmit } = useForm<FormValues>({
     defaultValues:
@@ -50,7 +50,7 @@ const ProjectForm: FC<ProjectFormProps> = () => {
             name: item.name,
             description: item.description,
             dueDate: dayjs(Number(item.dueDate)).format('YYYY-MM-DD'),
-            manager: item.manager,
+            projectManager: item.manager,
             developpers: item.developpers,
           }
         : {},
